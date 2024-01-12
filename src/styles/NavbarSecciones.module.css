@@ -1,0 +1,25 @@
+
+
+@media (min-width : 1px) {
+    #contenedorNav {
+        width: 100% !important;
+    }
+}
+
+@media (min-width : 1280px) {
+    #contenedorNav {
+        width: 75% !important;
+    }
+}
+
+@media (min-width : 1366px){
+    #contenedorNav {
+        width: 80% !important;
+    }
+}
+
+@media (min-width : 1660px){
+    #contenedorNav {
+        width: 50% !important;
+    }
+}

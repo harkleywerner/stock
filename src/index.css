@@ -1,8 +1,92 @@
-*{
-    color: #555;
+@font-face {
+    font-family: brother;
+    src: url("../fonts/Brother\ DEMO.ttf");
+}
+
+* {
     font-weight: 600;
+    font-family: brother;
+    transition: 0.2s all;
+    letter-spacing: 1.5px;
+    scroll-behavior: smooth;
+}
+
+img {
+    cursor: pointer;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.hover-rosa:hover {
+    color: rgb(238, 44, 130) !important;
+}
+
+body {
+    background-color: #4BB9B7;
+    max-height: 100vh;
+    height: 100vh;
 }
 
 li {
     cursor: pointer;
+}
+
+.color-rosa {
+    color: #E84A7A;
+}
+
+
+.fondo-verde {
+    background: #57BDC6
+}
+
+.transition:hover {
+    transform: translateY(-5%);
+    opacity: 1 !important;
+}
+
+
+
+/*SCROLLBAR*/
+
+.scrollbar {
+    overflow-y: overlay;
+}
+
+  
+.scrollbar::-webkit-scrollbar {
+    width: 0.5em;
+    height: 0.5em;
+    background-color: #e7e7e7;
+}
+
+.scrollbar::-webkit-scrollbar:vertical {
+
+    width: 8px;
+}
+
+.scrollbar {
+    overflow: auto;
+}
+
+.scrollbar::-webkit-scrollbar-button:increment,
+.scrollbar::-webkit-scrollbar-button {
+    display: none;
+
+}
+
+.scrollbar::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: #814937;
+    border-radius: 20px;
+    border: 2px solid transparent;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    border-radius: 10px;
 }
