@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
 import styles from "@/styles/NavBarSecciones.module.css"
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
 
 const navItems = [
@@ -12,10 +12,13 @@ const navItems = [
 ]
 
 const NavItemImg = ({ src, id, height = 35 }) => {
+
+
+
     return (
         <NavLink
             className="d-flex justify-content-center"
-            to={`/stock/${id}`}>
+            to={`/sis/stock/${id}`}>
             <Nav.Item
                 id={styles[id]}
                 height={height}

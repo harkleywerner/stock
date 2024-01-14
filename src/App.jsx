@@ -3,18 +3,30 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { Suspense, lazy } from 'react';
-import { Sucursales } from './screens/Sucursales';
 
-
+const ContenedorDeStock = lazy(() => import('./containers/SistemaDeStock/ContenedorDeStock/ContenedorDeStock'))
+const Sucursales = lazy(() => import('./screens/Sucursales'))
 const Stock = lazy(() => import("./screens/SistemaDeStock"))
+
 const router = createBrowserRouter([
   {
-    path: "/stock",
+    path: "/sis",
     element: <SuspenseLoadingComponent> <Stock /> </SuspenseLoadingComponent>,
-  },
-  {
-    path: "stock/:seccion",
-    element: <SuspenseLoadingComponent> <Stock /> </SuspenseLoadingComponent>,
+    children: [
+      {
+        path: "gestion",
+        element: <p>asdsad</p>
+      },
+      {
+        path: "stock",
+        element: <SuspenseLoadingComponent> <ContenedorDeStock /> </SuspenseLoadingComponent>,
+      },
+
+      {
+        path: "stock/:seccion",
+        element: <SuspenseLoadingComponent> <ContenedorDeStock /> </SuspenseLoadingComponent>,
+      },
+    ]
   },
   {
     path: "/",
@@ -22,8 +34,9 @@ const router = createBrowserRouter([
   },
   {
     path: "sucursales",
-    element: <Sucursales />
-  }
+    element: <SuspenseLoadingComponent><Sucursales /></SuspenseLoadingComponent>
+  },
+
 ])
 
 function App() {

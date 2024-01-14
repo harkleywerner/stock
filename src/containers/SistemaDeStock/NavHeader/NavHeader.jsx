@@ -4,7 +4,6 @@ import { DropwDownUsuario } from "./DropwDownUsuario"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { Link } from "react-router-dom"
 
-
 export const NavHeader = () => {
 
   return (
@@ -22,10 +21,10 @@ export const NavHeader = () => {
         direction="horizontal"
         gap={3}
         className=" justify-content-center align-items-center">
-        <Link to={"/stock"}>
+        <Link to={"/sis/stock"}>
           <i className="fa-solid fa-warehouse text-white fs-2 m-0 cursor-pointer hover-rosa transition"></i>
         </Link>
-        <Link to={"/gestionarstock"}>
+        <Link to={"/sis/gestion"}>
           <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-2 fa-boxes-packing"></i>
         </Link>
         <i className="fa-solid fa-wifi text-white fs-2 m-0 cursor-pointer   hover-rosa transition"></i>

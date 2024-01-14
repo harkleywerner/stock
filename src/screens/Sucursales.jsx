@@ -30,7 +30,7 @@ const listadoDeSucursales = [
 
 
 
-export const Sucursales = () => {
+ const Sucursales = () => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -64,3 +64,5 @@ export const Sucursales = () => {
         </Container>
     );
 };
+
+export default Sucursales
