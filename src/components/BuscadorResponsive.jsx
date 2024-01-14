@@ -9,40 +9,27 @@ export const BuscadorResponsive = ({ texto }) => {
     const verificar = mostrar ? "w-100 position-absolute p-1 " : "p-0"
 
     useEffect(() => {
-        const cheackearClickExterior = (e) => {
-
-            if (e.target.id == "lupa-contenedor") {
-                alternarMostrar(true)
-            }
-
-            if (e.target.tagName !== "INPUT" && e.target.id !== "lupa-contenedor") {
-                alternarMostrar(false)
-            }
-        }
 
         const checkeoView = (e) => {
+       
             if (mostrar && e.target.innerWidth >= 768) {
                 alternarMostrar(false)
             }
 
         }
-
         window.addEventListener("resize", checkeoView)
-
-        window.addEventListener("click", cheackearClickExterior)
         
         return () => {
-            window.removeEventListener("click", cheackearClickExterior)
             window.removeEventListener("resize", checkeoView)
         }
-    }, [])
+    }, [mostrar])
 
     return (
         <div
             style={{ background: "#57BDC6", right: "0%" }}
             className={`${verificar} d-flex align-items-center `}>
             <div
-                className="w-100 position-relative mx-1" >
+                className="w-100 position-relative " >
 
                 {
                     !mostrar && <i

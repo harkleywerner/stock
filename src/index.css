@@ -1,6 +1,12 @@
 @font-face {
     font-family: brother;
     src: url("../fonts/Brother\ DEMO.ttf");
+
+}
+
+@font-face {
+    font-family: brother2;
+    src: url("../fonts/07-brother1816-regular.otf");
 }
 
 * {
@@ -9,6 +15,14 @@
     transition: 0.2s all;
     letter-spacing: 1.5px;
     scroll-behavior: smooth;
+}
+
+.font {
+    font-family: brother2 !important;
+}
+
+.zoom:active {
+    transform: scale(1.1);
 }
 
 img {
@@ -47,15 +61,13 @@ li {
     opacity: 1 !important;
 }
 
-
-
 /*SCROLLBAR*/
 
 .scrollbar {
     overflow-y: overlay;
 }
 
-  
+
 .scrollbar::-webkit-scrollbar {
     width: 0.5em;
     height: 0.5em;

@@ -1,6 +1,7 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
-import styles from "../Styles/NavBarSecciones.module.css"
+import styles from "@/styles/NavBarSecciones.module.css"
 import { NavLink } from "react-router-dom"
+import { DropDownSucursal } from "@/components/DropDownSucursal"
 
 const navItems = [
     { id: "cremas", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/Cremas-Title.svg" },
@@ -12,7 +13,9 @@ const navItems = [
 
 const NavItemImg = ({ src, id, height = 35 }) => {
     return (
-        <NavLink className="d-flex justify-content-center" to={`?s=${id}`}>
+        <NavLink
+            className="d-flex justify-content-center"
+            to={`/stock/${id}`}>
             <Nav.Item
                 id={styles[id]}
                 height={height}
@@ -30,11 +33,16 @@ export const NavBarSecciones = () => {
     return (
         <Navbar
             expand="lg"
-            className="d-flex justify-content-center p-0 ">
+            className="d-flex justify-content-center align-items-center position-relative p-0 ">
             <Container id={styles.contenedorNav} fluid className="m-0 shadow  fondo-verde  py-3">
-                <Navbar.Toggle
-                    aria-controls="basic-navbar-nav"
-                    className="bg-none border-0 bg-white" />
+                <div className="d-flex justify-content-between d-lg-none w-100">
+                    <Navbar.Toggle
+                        aria-controls="basic-navbar-nav"
+                        className="bg-none z-1 border-0 bg-white" />
+
+                    <DropDownSucursal />
+                </div>
+
                 <Navbar.Collapse
                     id="basic-navbar-nav">
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100">
@@ -45,6 +53,7 @@ export const NavBarSecciones = () => {
 
                     </Nav>
                 </Navbar.Collapse>
+
             </Container>
         </Navbar>
     )

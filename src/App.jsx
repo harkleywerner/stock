@@ -3,17 +3,26 @@ import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { Suspense, lazy } from 'react';
+import { Sucursales } from './screens/Sucursales';
 
 
-const Stock = lazy(() => import("./screens/Stock"))
+const Stock = lazy(() => import("./screens/SistemaDeStock"))
 const router = createBrowserRouter([
   {
     path: "/stock",
-    element: <SuspenseLoadingComponent> <Stock /> </SuspenseLoadingComponent>
+    element: <SuspenseLoadingComponent> <Stock /> </SuspenseLoadingComponent>,
+  },
+  {
+    path: "stock/:seccion",
+    element: <SuspenseLoadingComponent> <Stock /> </SuspenseLoadingComponent>,
   },
   {
     path: "/",
-    loader: () => redirect("/stock")
+    loader: () => redirect("/sucursales")
+  },
+  {
+    path: "sucursales",
+    element: <Sucursales />
   }
 ])
 

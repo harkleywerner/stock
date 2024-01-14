@@ -4,8 +4,8 @@ export const useAlternarComponentes = () => {
 
     const [mostrar, setMostrar] = useState()
 
-    const alternarMostrar = useCallback(() => {
-        setMostrar(prev => !prev)
+    const alternarMostrar = useCallback((estado) => {
+        setMostrar(prev => estado == undefined || typeof estado == "object" ? !prev : estado)
     }, [])
 
     return {

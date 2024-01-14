@@ -16,6 +16,10 @@ export const useForm = (intialInput = {}) => {
         evento.preventDefault()
     }
 
+
+   const restablecerFormulario = () => {
+          setForm(intialInput)
+    } 
     
 
     return {
@@ -23,5 +27,6 @@ export const useForm = (intialInput = {}) => {
         changeForm,
         form,
         setForm,
+        restablecerFormulario
     }
 }

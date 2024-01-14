@@ -21,9 +21,10 @@ const BuscadorInput = memo(({ texto = "", }) => {
 
         const timeoutSearch = setTimeout(() => {
 
-            if (buscador.length == 0) return setSearch("")
-
             search.delete("search")
+
+            if (buscador.length == 0) return setSearch(`${search.toString()}`)
+
             search.append("search", form.buscador)
             setSearch(`?${search.toString()}`);
             setTyping(false)
@@ -37,7 +38,7 @@ const BuscadorInput = memo(({ texto = "", }) => {
     return (
         <div
             className="rounded-5 p-1 border border-2"
-            style={{ background: "traparent" }}>
+            style={{ background: "trasparent" }}>
             <InputGroup className="cursor-pointer">
                 <InputGroup.Text
                     style={{ background: "transparent" }}
@@ -48,7 +49,7 @@ const BuscadorInput = memo(({ texto = "", }) => {
                     type="search"
                     value={isTyping ? buscador : searching}
                     name="buscador"
-                    className={` border-0 d-sm-inline fw-medium fs-4`}
+                    className={` font border-0 d-sm-inline text-white fw-medium fs-5`}
                     style={{ boxShadow: "none", background: "transparent" }}
                     onChange={changeForm}
                     placeholder={`Buscar ${texto}`}
