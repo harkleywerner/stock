@@ -1,6 +1,6 @@
 import * as React from "react"
 const IconSucural = (props) => (
-  <svg height={160} width={150} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" {...props}>
+  <svg height={120} width={120} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" {...props}>
     <g id="SVGRepo_iconCarrier">
       <defs>
         <style>{".cls-8{fill:#576065}"}</style>

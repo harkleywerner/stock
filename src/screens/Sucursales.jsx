@@ -19,7 +19,7 @@ const InterfazDeLogeo = lazy(() => retrasar(import("../containers/Sucursales/Int
 
 const listadoDeSucursales = [
     { id: 1, nombre: "25 de mayo 226" },
-    { id: 2, nombre: "Salta 398" },
+    { id: 2, nombre: "Salta 398 343434343344334" },
     { id: 3, nombre: "25 de mayo 226" },
     { id: 4, nombre: "25 de mayo 226" },
     { id: 5, nombre: "25 de mayo 226" },
@@ -37,7 +37,7 @@ const listadoDeSucursales = [
     const { insertarParametros, parametros } = useEstablecerParametros()
 
     return (
-        <Container fluid className=" vh-100 overflow-hidden">
+        <Container fluid className=" vh-100 overflow-hidden p-0">
             <SuspenseLoadingComponent
                 texto="Cargando sucursal">
                 {

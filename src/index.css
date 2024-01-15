@@ -17,6 +17,11 @@
     scroll-behavior: smooth;
 }
 
+
+.shadow-i {
+    transform: translateY(-5%);
+}
+
 .font {
     font-family: brother2 !important;
 }

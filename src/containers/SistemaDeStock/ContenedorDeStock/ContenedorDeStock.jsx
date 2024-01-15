@@ -33,7 +33,7 @@ const ContenedorDeStock = () => {
     const [contador, setContador] = useState({})
 
     return (
-        <Container fluid className="p-0 m-0">
+        <Container fluid className="p-0  m-0">
             <Row className="m-0">
                 <NavBarSecciones />
             </Row>

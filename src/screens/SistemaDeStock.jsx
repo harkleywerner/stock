@@ -21,7 +21,7 @@ import { useEffect } from "react";
 
             <Row
                 as={"main"}
-                className='h-100 m-0 flex-grow-1 mt-2 overflow-hidden'>
+                className='h-100 m-0 flex-grow-1 overflow-hidden'>
                <Outlet/>
             </Row>
 

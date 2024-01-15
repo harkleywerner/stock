@@ -2,6 +2,7 @@ import { Container, Nav, Navbar } from "react-bootstrap"
 import styles from "@/styles/NavBarSecciones.module.css"
 import { NavLink, useLocation } from "react-router-dom"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
+import { memo } from "react"
 
 const navItems = [
     { id: "cremas", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/Cremas-Title.svg" },
@@ -11,22 +12,39 @@ const navItems = [
     { id: "tortas", src: "https://i.ibb.co/HNH0My7/test.png", height: 42 }
 ]
 
-const NavItemImg = ({ src, id, height = 35 }) => {
 
 
+const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
 
     return (
         <NavLink
-            className="d-flex justify-content-center"
+            className="d-flex shadow-i justify-content-center"
             to={`/sis/stock/${id}`}>
             <Nav.Item
                 id={styles[id]}
                 height={height}
                 decoding="async"
-                className="transition mt-2 mt-lg-0"
+                className="transition  mt-2 mt-lg-0"
                 as={"img"}
                 src={src} />
         </NavLink>
+
+    )
+})
+
+const NavItems = () => {
+
+    const { pathname } = useLocation()
+
+    const splitPath = pathname.split("/")[3]
+
+    return (
+
+        <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100">
+            {
+                navItems.map(item => <NavItemImg key={item.id} rutaActual={splitPath == item.id} {...item} />)
+            }
+        </Nav>
 
     )
 }
@@ -48,13 +66,7 @@ export const NavBarSecciones = () => {
 
                 <Navbar.Collapse
                     id="basic-navbar-nav">
-                    <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100">
-
-                        {
-                            navItems.map(item => <NavItemImg key={item.id} {...item} />)
-                        }
-
-                    </Nav>
+                    <NavItems />
                 </Navbar.Collapse>
 
             </Container>
