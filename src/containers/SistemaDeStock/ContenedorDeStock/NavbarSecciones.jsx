@@ -12,13 +12,12 @@ const navItems = [
     { id: "tortas", src: "https://i.ibb.co/HNH0My7/test.png", height: 42 }
 ]
 
-
-
 const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
 
     return (
         <NavLink
-            className="d-flex shadow-i justify-content-center"
+        style={{ transform: rutaActual && "translateY(19px)" }}
+            className="d-flex justify-content-center"
             to={`/sis/stock/${id}`}>
             <Nav.Item
                 id={styles[id]}
@@ -63,7 +62,6 @@ export const NavBarSecciones = () => {
 
                     <DropDownSucursal />
                 </div>
-
                 <Navbar.Collapse
                     id="basic-navbar-nav">
                     <NavItems />

@@ -20,7 +20,7 @@ export const CardDeSucursales = memo(({ insertarParametros, objecto, alternarMos
             to={`?s=${nombre}&id=${id}`}>
             <Card
                 onClick={onClick}
-                className="rounded-4  cursor-pointer shadow transition m-3 m-md-4 m-xxl-5"
+                className="rounded-4  cursor-pointer shadow border-0 transition m-3 m-md-4 m-xxl-5"
                 style={{ width: "min-content", minWidth: "13.5rem", maxWidth: "13.5rem", maxHeight: "20rem" }}>
 
                 <Card.Title

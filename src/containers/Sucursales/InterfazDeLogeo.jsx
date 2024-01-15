@@ -1,13 +1,13 @@
 import { useForm } from "@/hooks//useForm";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
 
     const [search] = useSearchParams()
     const { changeForm, form } = useForm({ password: "" })
     const nombre = search.get("s")
-
+    const id = search.get("id")
     return (
         <Modal
             show={mostrar}
@@ -39,12 +39,14 @@ const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
                     className="w-100 transition fs-4 border-0">
                     Ingresar
                 </Button>
+                <Link to={`/sis/stock/?id=${id}`}>
                 <Button
                     variant="none"
                     className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
                     <span className="mx-1 fw-normal">Ingresar como invitado</span>
                     <i className="fa-solid fs-4 fa-user-clock"></i>
                 </Button>
+                </Link>
             </Modal.Footer>
         </Modal>
     );

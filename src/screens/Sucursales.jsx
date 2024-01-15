@@ -5,7 +5,7 @@ import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent
 import { lazy } from "react";
 import { useEstablecerParametros } from "../hooks/useEstablecerParametros";
 
-const retrasar = (impor, seconds = 0) => {
+const retrasar = (impor, seconds = 3) => {
 
     return new Promise((res, rej) => {
         setTimeout(() => {
@@ -27,9 +27,6 @@ const listadoDeSucursales = [
     { id: 7, nombre: "25 de mayo 226" },
 
 ]
-
-
-
  const Sucursales = () => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
