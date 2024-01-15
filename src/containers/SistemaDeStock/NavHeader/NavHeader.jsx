@@ -9,7 +9,7 @@ export const NavHeader = () => {
   return (
     <header
       style={{ minHeight: "70px" }}
-      className='d-flex justify-content-between shadow w-100 position-relative fondo-verde align-items-center'>
+      className='d-flex justify-content-between shadow w-100  fondo-verde align-items-center'>
 
       <img
         className='mt-1 d-none d-sm-block'
@@ -21,10 +21,10 @@ export const NavHeader = () => {
         direction="horizontal"
         gap={3}
         className=" justify-content-center align-items-center">
-        <Link to={"/sis/stock"}>
+        <Link to={"/stock"}>
           <i className="fa-solid fa-warehouse text-white fs-2 m-0 cursor-pointer hover-rosa transition"></i>
         </Link>
-        <Link to={"/sis/gestion"}>
+        <Link to={"/gestion"}>
           <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-2 fa-boxes-packing"></i>
         </Link>
         <i className="fa-solid fa-wifi text-white fs-2 m-0 cursor-pointer   hover-rosa transition"></i>

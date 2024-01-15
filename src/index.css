@@ -18,8 +18,13 @@
 }
 
 
-.shadow-i {
-    transform: translateY(-5%);
+.bg-hoverdark:hover {
+    filter: brightness(0.9);
+
+}
+
+.bg-hover:hover {
+    background-color: #f1f0f0
 }
 
 .font {
@@ -76,7 +81,7 @@ li {
 .scrollbar::-webkit-scrollbar {
     width: 0.5em;
     height: 0.5em;
-    background-color: #e7e7e7;
+    background-color: #e7e7e700;
 }
 
 .scrollbar::-webkit-scrollbar:vertical {

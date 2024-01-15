@@ -2,10 +2,7 @@ import { Container, Row } from "react-bootstrap";
 import { NavHeader } from "../containers/SistemaDeStock/NavHeader/NavHeader";
 import { Outlet } from "react-router-dom";
 
-
- const SistemaDeStock = () => {
-    console.log("f")
-
+const SistemaDeStock = () => {
     return (
         <Container fluid className='p-0 overflow-hidden d-flex flex-column vh-100'>
 
@@ -15,7 +12,7 @@ import { Outlet } from "react-router-dom";
             <Row
                 as={"main"}
                 className='h-100 m-0 flex-grow-1 overflow-hidden'>
-               {/* <Outlet/> */}
+               <Outlet />
             </Row>
 
         </Container>

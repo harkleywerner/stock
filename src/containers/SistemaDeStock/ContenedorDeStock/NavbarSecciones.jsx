@@ -18,7 +18,7 @@ const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
         <NavLink
         style={{ transform: rutaActual && "translateY(19px)" }}
             className="d-flex justify-content-center"
-            to={`/sis/stock/${id}`}>
+            to={`/stock/${id}`}>
             <Nav.Item
                 id={styles[id]}
                 height={height}
@@ -35,7 +35,7 @@ const NavItems = () => {
 
     const { pathname } = useLocation()
 
-    const splitPath = pathname.split("/")[3]
+    const splitPath = pathname.split("/")[2]
 
     return (
 

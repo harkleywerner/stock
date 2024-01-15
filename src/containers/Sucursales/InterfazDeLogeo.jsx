@@ -39,7 +39,7 @@ const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
                     className="w-100 transition fs-4 border-0">
                     Ingresar
                 </Button>
-                <Link to={`/sis/stock/?id=${id}`}>
+                <Link to={`/stock/?id=${id}`}>
                 <Button
                     variant="none"
                     className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
