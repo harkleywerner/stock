@@ -27,7 +27,6 @@ const InterfazDeRetiroDeProducto = lazy(() => retrasar(import("./InterfazDeRetir
 
 
 const ContenedorDeStock = () => {
-
     const { alternarMostrar, mostrar } = useAlternarComponentes()
     const { insertarParametros, parametros } = useEstablecerParametros()
     const [contador, setContador] = useState({})

@@ -24,7 +24,7 @@ export const NavHeader = () => {
         <Link to={"/stock"}>
           <i className="fa-solid fa-warehouse text-white fs-2 m-0 cursor-pointer hover-rosa transition"></i>
         </Link>
-        <Link to={"/gestion"}>
+        <Link to={"/stock/gestion"}>
           <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-2 fa-boxes-packing"></i>
         </Link>
         <i className="fa-solid fa-wifi text-white fs-2 m-0 cursor-pointer   hover-rosa transition"></i>

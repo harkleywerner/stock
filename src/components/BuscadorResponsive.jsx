@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
 import BuscadorInput from "./BuscadorInput"
-import { ListadoDeBusquedas } from "./ListadoDeBusquedas"
-import { useSearchParams } from "react-router-dom"
-
 
 export const BuscadorResponsive = ({ texto }) => {
 
@@ -64,11 +61,6 @@ export const BuscadorResponsive = ({ texto }) => {
                         <BuscadorInput texto={texto} />
                     }
                 </span>
-
-                {
-                    <ListadoDeBusquedas />
-                }
-
 
             </div>
 

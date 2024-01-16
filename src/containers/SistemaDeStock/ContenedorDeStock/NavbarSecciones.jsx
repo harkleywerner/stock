@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar } from "react-bootstrap"
 import styles from "@/styles/NavBarSecciones.module.css"
-import { NavLink, useLocation } from "react-router-dom"
+import { NavLink, useSearchParams } from "react-router-dom"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { memo } from "react"
 
@@ -16,9 +16,9 @@ const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
 
     return (
         <NavLink
-        style={{ transform: rutaActual && "translateY(19px)" }}
+            style={{ transform: rutaActual && "translateY(19px)" }}
             className="d-flex justify-content-center"
-            to={`/stock/${id}`}>
+            to={`/stock?categoria=${id}`}>
             <Nav.Item
                 id={styles[id]}
                 height={height}
@@ -33,15 +33,15 @@ const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
 
 const NavItems = () => {
 
-    const { pathname } = useLocation()
+    const [search] = useSearchParams()
 
-    const splitPath = pathname.split("/")[2]
+    const quearyPath = search.get("categoria")
 
     return (
 
         <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100">
             {
-                navItems.map(item => <NavItemImg key={item.id} rutaActual={splitPath == item.id} {...item} />)
+                navItems.map(item => <NavItemImg key={item.id} rutaActual={quearyPath == item.id} {...item} />)
             }
         </Nav>
 
