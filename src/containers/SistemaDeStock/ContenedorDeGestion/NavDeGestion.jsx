@@ -1,6 +1,29 @@
 import { DropDownSucursal } from "@/components//DropDownSucursal";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "./DropDownFilterCategoria";
+import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
+import { InterfazDeNuevoItem } from "./InterfazDeNuevoItem/InterfazDeNuevoItem";
+
+const NuevoItem = () => {
+
+    const { alternarMostrar, mostrar } = useAlternarComponentes()
+    return (
+        <>
+            <Nav.Item
+                onClick={alternarMostrar}
+                className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
+                <p className="m-0  fw-normal fs-4 mx-1">Agregar item</p>
+                <i className="fa-regular  fs-4 fa-square-plus"></i>
+            </Nav.Item>
+            {
+                mostrar &&
+                <InterfazDeNuevoItem
+                    alternarMostrar={alternarMostrar}
+                    mostrar={mostrar} />
+            }
+        </>
+    )
+}
 
 export const NavDeGestion = () => {
     return (
@@ -22,18 +45,14 @@ export const NavDeGestion = () => {
                             <p className="m-0  fw-normal fs-4 mx-1">nuevo stock</p>
                             <i className="fa-solid fs-4 fa-box-open"></i>
                         </Nav.Item>
-                        <Nav.Item className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
-                            <p className="m-0  fw-normal fs-4 mx-1">Agregar item</p>
-                            <i className="fa-regular  fs-4 fa-square-plus"></i>
-                        </Nav.Item>
+                        <NuevoItem />
                         <Nav.Item>
-                        <DropDownFilterCategoria/>
+                            <DropDownFilterCategoria />
                         </Nav.Item>
                         {/* <Nav.Item className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
                             <p className="m-0  fw-normal fs-4 mx-1">Editar ultimo stock</p>
                             <i className="fa-solid fs-4 fa-wand-magic-sparkles"></i>
                         </Nav.Item> */}
-
                     </Nav>
                 </Navbar.Collapse>
 

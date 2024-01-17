@@ -17,7 +17,8 @@ export const SuspenseLoadingComponent = memo(({ children, texto = "" }) => {
             fallback={
                 <div
                     id={styles.contenedorSuspense}
-                    className={`${mostrar ? "d-none" : "d-inline"} p-0 justify-content-center rounded-4 z-1  p-3 shadow position-absolute  d-flex flex-column align-items-center`}
+                    style={{ maxWidth: "350px" }}
+                    className={`${mostrar ? "d-none" : "d-inline"} p-0 justify-content-center rounded-4 z-1  p-3 shadow position-absolute d-flex flex-column align-items-center`}
                 >
                     <i
                         id={styles.closeSupense}

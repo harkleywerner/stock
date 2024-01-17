@@ -1,0 +1,23 @@
+#AlertaInformativa {
+    animation: animacionBajar 1s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+               parpadeo 5s ease-in-out normal 4s; /* Agrega un retraso de 3 segundos antes de que comience la animación de parpadeo */
+}
+
+@keyframes animacionBajar {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes parpadeo {
+    0%, 50%, 100% {
+      opacity: 1;
+    }
+    25%, 75% {
+      opacity: 0;
+    }
+}

@@ -17,6 +17,9 @@
       "@/containers/*": [
         "src/containers*"
       ],
+      "@/provider/*": [
+        "src/provider*"
+      ],
     }
   }
 }

@@ -3,6 +3,7 @@ import { NavDeGestion } from "./NavDeGestion";
 import { TablaDeItems } from "./TablaDeItems";
 
 const ContenedorDeGestion = () => {
+    
     return (
         <Container fluid className="p-0">
             <Row className="m-0">
