@@ -103,6 +103,15 @@ li {
     height: 10px;
 }
 
+.scrollHidden {
+    overflow: overlay;
+}
+
+.scrollHidden::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
 .scrollbar::-webkit-scrollbar-thumb {
     background-color: #814937;
     border-radius: 20px;
@@ -135,5 +144,3 @@ input[type=date]::-webkit-outer-spin-button {
 input[type=date] {
     -moz-appearance: textfield;
 }
-
-

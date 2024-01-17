@@ -37,6 +37,24 @@ const DropdownItems = ({ nombre }) => {
     )
 }
 
+const RemoverFiltros = () => {
+
+    const [search, setSearch] = useSearchParams()
+
+    const onClick = () => {
+        search.delete("categoria")
+        setSearch(`?${search.toString()}`)
+    }
+
+    return (
+        <Dropdown.Item
+            onClick={onClick}
+            className="bg-white">
+            <p className="m-0 text-center bg-hoverdark hover-rosa zoom  fs-5">Borrar filtros</p>
+        </Dropdown.Item>
+    )
+}
+
 export const DropDownFilterCategoria = () => {
 
     return (
@@ -47,11 +65,13 @@ export const DropDownFilterCategoria = () => {
             </Dropdown.Toggle>
             <Dropdown.Menu className="position-absolute">
                 {
-                    categorias.map(item =>
+                    [...categorias,].map(item =>
                         <DropdownItems
                             key={item.id}
                             nombre={item.nombre} />)
                 }
+                <Dropdown.Divider />
+                <RemoverFiltros />
             </Dropdown.Menu>
 
         </Dropdown>

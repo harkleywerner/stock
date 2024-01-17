@@ -4,23 +4,25 @@ import { memo, useEffect } from "react"
 import { Collapse, Form, Stack } from "react-bootstrap"
 
 const listado2 = [
-    { nombre: "323235dassa" },
-    { nombre: "6" },
-    { nombre: "1" },
-    { nombre: "f" },
-    { nombre: "gff" },
-    { nombre: "h" },
-    { nombre: "j" },
-    { nombre: "9" },
-    { nombre: "g" },
+    { nombre: "Dulce de leche", categoria: "dulce de leche", id: 1 },
+    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
+    { nombre: "Vainilla", categoria: "cremas", id: 3 },
+    { nombre: "Banana split", categoria: "cremas", id: 4 },
+    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
+    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
+    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
+
 ]
 
-const Listado = ({ nombre, alternarMostrar, insertarParametros }) => {
+const Listado = ({ alternarMostrar, insertarParametros, item }) => {
+
+    const { nombre } = item
 
     const onClick = () => {
-        const test = { nombre, categoria: 3 }
+
+
         alternarMostrar()
-        insertarParametros(test)
+        insertarParametros(item)
     }
 
     return (
@@ -36,8 +38,6 @@ const Listado = ({ nombre, alternarMostrar, insertarParametros }) => {
 }
 
 const ResultadosDeBusqueda = ({ buscador, listado = listado2, alternarMostrar, insertarParametros }) => {
-
-
     return (
         <Collapse
             className="z-1 shadow w-100 rounded-4  "
@@ -53,8 +53,9 @@ const ResultadosDeBusqueda = ({ buscador, listado = listado2, alternarMostrar, i
                             <Listado
                                 insertarParametros={insertarParametros}
                                 alternarMostrar={alternarMostrar}
-                                key={item.nombre}
-                                nombre={item.nombre} />
+                                key={item.id}
+                                item={item}
+                            />
                         )
                         :
                         <div

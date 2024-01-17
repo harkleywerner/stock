@@ -1,30 +1,103 @@
+import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
+import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
+import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
+import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import { lazy, memo } from "react";
 import { Table } from "react-bootstrap";
+import styles from "@/styles/TablaDeItems.module.css"
 
-export const TablaDeItems = () => {
+
+const InterfazDeNuevoItem = lazy(() => import("./InterfazDeNuevoItem/InterfazDeNuevoItem"))
+
+const Thead = () => {
     return (
-        <Table striped bordered className = "w-50 shadow" >
-            <thead className="shadow position-relative">
-                <tr >
-                    <th className="font" >#</th>
-                    <th className="fw-normal fs-5">Nombre</th>
-                    <th className="fw-normal fs-5">Categoria</th>
-                    <th className="fw-normal fs-5">Cantidad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Dulce de leche pauletti</td>
-                    <td>Dulce de leche</td>
-                    <td>55</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Dulce de leche pauletti</td>
-                    <td>Dulce de leche</td>
-                    <td>55</td>
-                </tr>
-            </tbody>
-        </Table>
+        <thead className="shadow position-relative">
+            <tr >
+                <th className="fw-normal fs-5">Nombre</th>
+                <th className="fw-normal fs-5">Categoria</th>
+                <th className="fw-normal fs-5">Cantidad</th>
+                <th className="fw-normal text-center fs-5">Accion</th>
+            </tr>
+        </thead>
+    )
+}
+
+const Tbody = memo(({ nombre = "Vainilla", categoria = "Cremas", cantidad = 123, insertarParametros, removerItem, id, establercerAlerta }) => {
+
+    const onRemoveItem = () => {
+        removerItem({ id })
+        establercerAlerta({ texto: `Item ${nombre} fue removido`, multiples: true, id: "1-remove-danger", tipo: "danger" })
+    }
+
+    return (
+        <tr>
+            <td
+                style={{ maxWidth: "300px", minWidth: "300px" }}
+                className="text-secondary fs-5 overflow-hidden">
+                {nombre}
+            </td>
+            <td
+                style={{ maxWidth: "150px", minWidth: "150px" }}
+                className="text-secondary fs-5">
+                {categoria}
+            </td>
+            <td className="text-secondary fs-5">
+                {cantidad}
+            </td>
+            <td>
+                <div className="d-flex justify-content-center">
+                    <i
+                        onClick={insertarParametros}
+                        style={{ color: "#57BDC6" }}
+                        className="fa-solid cursor-pointer transition bg-hoverdark fs-4 mx-1 fa-pen"></i>
+                    <i
+                        onClick={onRemoveItem}
+                        className="fa-solid cursor-pointer color-rosa bg-hoverdark transition fs-4 mx-1 fa-trash-can"></i>
+                </div>
+            </td>
+        </tr>
+    )
+})
+
+
+const TablaDeItems = memo(({ establercerAlerta, removerItem, state = [] }) => {
+
+    const { alternarMostrar, mostrar } = useAlternarComponentes()
+
+    const { insertarParametros, parametros } = useEstablecerParametros()
+
+    return (
+        <div className="table-resposive scrollbar">
+            <Table
+                id={styles.tablaDeItems}
+                striped bordered
+                className="w-75 shadow p-0 my-0 " >
+                <Thead />
+                <tbody className="v">
+                    {
+                        state.map((item, index) =>
+                            <Tbody
+                                removerItem={removerItem}
+                                establercerAlerta={establercerAlerta}
+                                insertarParametros={() => { insertarParametros(item), alternarMostrar() }}
+                                key={index
+                                } {...item} />)
+                    }
+                </tbody>
+            </Table>
+
+            <SuspenseLoadingComponent
+                texto="Cargando interfaz">
+                {mostrar && <InterfazDeNuevoItem
+                    alternarMostrar={alternarMostrar}
+                    mostrar={mostrar}
+                    parametrosEdit={parametros} />
+                }
+            </SuspenseLoadingComponent>
+
+        </div>
+
     );
-};
+})
+
+export default wrapperAlerta(TablaDeItems)
