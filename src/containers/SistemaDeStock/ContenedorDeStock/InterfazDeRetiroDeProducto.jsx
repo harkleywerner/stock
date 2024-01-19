@@ -1,8 +1,9 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "@/hooks/useForm";
+import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 
 
-const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, parametros, contador }) => {
+const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, establercerAlerta, parametros, contador }) => {
 
     const { nombre, cantidad: cantidadA } = parametros
 
@@ -19,10 +20,15 @@ const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, par
     const evaluarCantidad = cantidadPositiva > cantidadActual ? cantidadActual : cantidadPositiva
 
     const enviarCantidad = () => {
+
+        if (evaluarCantidad <= 0) return
+        establercerAlerta({ texto: `Retirtaste ${evaluarCantidad} items de ${nombre}`, tipo: "success", id: "success-retiro" })
+
         setContador({
             ...contador,
             [nombre]: buscadorContador + evaluarCantidad
         })
+
         restablecerFormulario()
     }
 
@@ -65,4 +71,4 @@ const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, par
     );
 };
 
-export default InterfazDeRetiroDeProducto
+export default wrapperAlerta(InterfazDeRetiroDeProducto)

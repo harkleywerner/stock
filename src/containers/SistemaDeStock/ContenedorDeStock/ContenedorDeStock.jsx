@@ -2,9 +2,9 @@ import { Col, Container, Row } from "react-bootstrap";
 import { lazy, useState } from "react";
 import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 import { SuspenseLoadingComponent } from "@/components/SuspenseLoadingComponent";
-import { CardDeProductos } from "./CardDeProductos";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { NavBarSecciones } from "./NavbarSecciones";
+import CardDeProductos from "./CardDeProductos";
 
 const retrasar = (impor, seconds = 0) => {
 

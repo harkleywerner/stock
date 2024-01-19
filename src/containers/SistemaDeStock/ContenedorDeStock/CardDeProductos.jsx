@@ -2,7 +2,7 @@ import { Button, Card } from "react-bootstrap";
 import styles from "@/styles/CardDeProductos.module.css"
 import { memo, useEffect, useState } from "react";
 
-export const CardDeProductos = memo(({ alternarMostrar, objecto, insertarParametros, contador = 0 }) => {
+ const CardDeProductos = memo(({ alternarMostrar, objecto, insertarParametros, contador = 0 }) => {
 
     const { id, nombre, cantidad } = objecto
 
@@ -40,3 +40,5 @@ export const CardDeProductos = memo(({ alternarMostrar, objecto, insertarParamet
         </Card>
     );
 })
+
+export default CardDeProductos

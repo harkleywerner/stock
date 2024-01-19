@@ -24,7 +24,6 @@ const BuscadorInput = memo(({ texto = "", }) => {
             search.delete("search")
 
             if (buscador.length == 0) return setSearch(`${search.toString()}`)
-
             search.append("search", form.buscador)
             setSearch(`?${search.toString()}`);
             setTyping(false)

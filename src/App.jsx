@@ -10,7 +10,6 @@ const Stock = lazy(() => import("./screens/SistemaDeStock"))
 const ContenedorDeGestion = lazy(() => import("./containers/SistemaDeStock/ContenedorDeGestion/ContenedorDeGestion"))
 const NuevaTabla = lazy(() => import('./containers/SistemaDeStock/ContenedorDeGestion/NuevaTabla'))
 
-
 const router = createBrowserRouter([
   {
     path: "/stock",
@@ -22,9 +21,10 @@ const router = createBrowserRouter([
         children: [
           {
             path: "nuevo",
-            element: <SuspenseLoadingComponent texto = "Cargando nueva tabla"><NuevaTabla /></SuspenseLoadingComponent>
-          }
-        ]
+            element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><NuevaTabla /></SuspenseLoadingComponent>,
+          },
+        ],
+
       },
     ]
   },

@@ -19,8 +19,6 @@ const Listado = ({ alternarMostrar, insertarParametros, item }) => {
     const { nombre } = item
 
     const onClick = () => {
-
-
         alternarMostrar()
         insertarParametros(item)
     }

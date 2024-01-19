@@ -1,18 +1,16 @@
 import { useContext, } from "react";
-import TablaDeItems from "./TablaDeItems";
+import ContenedorDeTabla from "./ContenedorDeTabla/ContenedorDeTabla";
 import { nuevoStockContext } from "@/provider//NuevoStockProvider";
-
-
+import { useFiltrosParams } from "@/hooks//useFiltrosParams";
 
 export const UltimaTabla = () => {
 
     const props = useContext(nuevoStockContext)["ultimaTabla"]
 
-    const stateFiltrado = [...props.state]
+    const filtros = useFiltrosParams(props.state)
 
     return (
-        stateFiltrado.length == 0 ? <p className="text-white fw-normal fs-1 h-100 d-flex align-items-center">No se encontraron tablas<span className="font">...</span></p> :
-            <TablaDeItems {...props} state={stateFiltrado} />
+        <ContenedorDeTabla {...props} state={filtros} />
     );
 };
 

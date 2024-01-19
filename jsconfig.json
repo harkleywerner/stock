@@ -8,6 +8,9 @@
       "@/hooks/*": [
         "src/hooks*"
       ],
+      "@/helpers/*": [
+        "src/helpers*"
+      ],
       "@/context/*": [
         "src/context*"
       ],

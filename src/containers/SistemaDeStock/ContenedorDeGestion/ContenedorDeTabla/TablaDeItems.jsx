@@ -2,12 +2,11 @@ import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
-import { lazy, memo } from "react";
 import { Table } from "react-bootstrap";
 import styles from "@/styles/TablaDeItems.module.css"
+import { lazy, memo } from "react";
 
-
-const InterfazDeNuevoItem = lazy(() => import("./InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const Thead = () => {
     return (
@@ -59,29 +58,29 @@ const Tbody = memo(({ nombre = "Vainilla", categoria = "Cremas", cantidad = 123,
     )
 })
 
-
-const TablaDeItems = memo(({ establercerAlerta, removerItem, state = [] }) => {
+const TablaDeItems = ({ state = [], establercerAlerta, removerItem }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
     const { insertarParametros, parametros } = useEstablecerParametros()
 
+
     return (
-        <div className="table-resposive scrollbar">
+        <div style={{maxWidth : "min-content"}} className="table-resposive mt-lg-3  w-100 scrollbar">
             <Table
                 id={styles.tablaDeItems}
                 striped bordered
                 className="w-75 shadow p-0 my-0 " >
                 <Thead />
-                <tbody className="v">
+                <tbody >
                     {
                         state.map((item, index) =>
                             <Tbody
                                 removerItem={removerItem}
                                 establercerAlerta={establercerAlerta}
                                 insertarParametros={() => { insertarParametros(item), alternarMostrar() }}
-                                key={index
-                                } {...item} />)
+                                key={index}
+                                {...item} />)
                     }
                 </tbody>
             </Table>
@@ -96,8 +95,7 @@ const TablaDeItems = memo(({ establercerAlerta, removerItem, state = [] }) => {
             </SuspenseLoadingComponent>
 
         </div>
-
     );
-})
+};
 
 export default wrapperAlerta(TablaDeItems)

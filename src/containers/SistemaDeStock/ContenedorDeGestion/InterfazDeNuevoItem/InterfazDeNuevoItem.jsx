@@ -13,7 +13,7 @@ const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, es
     const { insertarParametros, parametros } = useEstablecerParametros()
 
     const { pathname } = useLocation()
-    
+
     const splitPathname = pathname.split("/").length
 
     const { agregarItem, editarItem, state } = useContext(nuevoStockContext)[splitPathname == 3 ? "ultimaTabla" : "nuevaTabla"]
@@ -79,7 +79,7 @@ const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, es
                     style={{ background: "#57BDC6" }}
                     className="p-2 fs-5 w-50 border-0 transition">
                     {
-                        parametrosEdit ? "Guardar" : "Agregar item"
+                        parametrosEdit ? "Guardar cambios" : "Agregar item"
                     }
                 </Button>
                 <Button

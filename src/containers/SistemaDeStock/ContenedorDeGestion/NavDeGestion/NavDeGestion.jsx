@@ -6,9 +6,7 @@ import { lazy } from "react";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { Link, useLocation } from "react-router-dom";
 
-
-
-const InterfazDeNuevoItem = lazy(() => import("./InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const NuevoItem = () => {
 
@@ -68,8 +66,11 @@ export const NavDeGestion = () => {
     return (
         <Navbar
             expand="lg"
+
             className="d-flex justify-content-center align-items-center position-relative p-0 ">
-            <Container fluid className="m-0 shadow  fondo-verde  py-3">
+            <Container
+        
+                fluid className="m-0 shadow fondo-verde  py-3">
 
                 <div className="d-flex justify-content-between d-lg-none w-100">
                     <Navbar.Toggle
@@ -91,7 +92,7 @@ export const NavDeGestion = () => {
                         </Nav.Item>
 
                     </Nav>
-                    
+
                 </Navbar.Collapse>
 
             </Container>

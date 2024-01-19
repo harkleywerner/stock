@@ -27,9 +27,11 @@ const DropdownItems = ({ nombre }) => {
                 <p className="m-0 fw-normal text-secondary ">{nombre}</p>
 
                 {
-                    nombre == search.get("categoria") && <i style={{ right: "-30px" }} className="fa-solid z-1 fa-check color-rosa position-absolute text-end  mx-2"></i>
+                    nombre == search.get("categoria") &&
+                    <i
+                        style={{ right: "-30px" }}
+                        className="fa-solid z-1 fa-check color-rosa position-absolute text-end  mx-2" />
                 }
-
             </div>
         </Dropdown.Item>
 
