@@ -1,10 +1,11 @@
 import { Container, Row } from "react-bootstrap";
-import { NavHeader } from "../containers/SistemaDeStock/NavHeader/NavHeader";
+
 import { Outlet, useLocation } from "react-router-dom";
 import { lazy } from "react";
-import { NuevoStockProvider } from "../provider/NuevoStockProvider";
+import { NuevoStockProvider } from "../../provider/NuevoStockProvider";
+import { NavHeader } from "./NavHeader";
 
-const ContenedorDeStock = lazy(() => import("../containers/SistemaDeStock/ContenedorDeStock/ContenedorDeStock"))
+const ContenedorDeStock = lazy(() => import("../../containers/SistemaDeStock/ContenedorDeStock/ContenedorDeStock"))
 
 const SistemaDeStock = () => {
 

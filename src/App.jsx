@@ -6,9 +6,9 @@ import { Suspense, lazy } from 'react';
 import { AlertasProvider } from './provider/AlertaProvider/AlertasProvider';
 
 const Sucursales = lazy(() => import('./screens/Sucursales'))
-const Stock = lazy(() => import("./screens/SistemaDeStock"))
+const Stock = lazy(() => import("./screens/SistemaDeStock/SistemaDeStock"))
 const ContenedorDeGestion = lazy(() => import("./containers/SistemaDeStock/ContenedorDeGestion/ContenedorDeGestion"))
-const NuevaTabla = lazy(() => import('./containers/SistemaDeStock/ContenedorDeGestion/NuevaTabla'))
+const ContendoDeNuevoStock = lazy(() => import("./containers/SistemaDeStock/ContenedorDeNuevoStock/ContendoDeNuevoStock"))
 
 const router = createBrowserRouter([
   {
@@ -18,14 +18,12 @@ const router = createBrowserRouter([
       {
         path: "gestion",
         element: <SuspenseLoadingComponent texto={"Cargando gestor de stock"}> <ContenedorDeGestion /> </SuspenseLoadingComponent>,
-        children: [
-          {
-            path: "nuevo",
-            element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><NuevaTabla /></SuspenseLoadingComponent>,
-          },
-        ],
-
       },
+      {
+        path: "nuevo",
+        element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><ContendoDeNuevoStock /></SuspenseLoadingComponent>,
+      },
+
     ]
   },
   {

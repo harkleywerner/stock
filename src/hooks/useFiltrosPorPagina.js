@@ -18,7 +18,6 @@ export const useFiltrosPorPagina = () => {
     }
 
 
-
     useEffect(() => {
      
         if (dependencias.some(i => i !== undefined && page > 1)) {

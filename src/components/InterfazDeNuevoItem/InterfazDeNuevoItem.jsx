@@ -1,22 +1,24 @@
 import { Button, Modal } from "react-bootstrap";
 import { BuscadorItem } from "./BuscadorItem";
-import { memo, useContext, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import { nuevoStockContext } from "@/provider//NuevoStockProvider";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 import { ModalBody } from "./ModalBody";
-import { useLocation } from "react-router-dom";
 
-
-const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, establercerAlerta }) => {
+const InterfazDeNuevoItem = memo((
+    {
+        alternarMostrar,
+        mostrar,
+        parametrosEdit,
+        establercerAlerta,
+        state,
+        editarItem,
+        agregarItem
+    }
+) => {
 
     const { insertarParametros, parametros } = useEstablecerParametros()
 
-    const { pathname } = useLocation()
-
-    const splitPathname = pathname.split("/").length
-
-    const { agregarItem, editarItem, state } = useContext(nuevoStockContext)[splitPathname == 3 ? "ultimaTabla" : "nuevaTabla"]
 
     useEffect(() => {
         if (!parametrosEdit) return

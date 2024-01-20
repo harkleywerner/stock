@@ -1,13 +1,13 @@
 import { Container, Row } from "react-bootstrap";
-import { NavDeGestion } from "./NavDeGestion";
-import ContenedorDeTabla from "@/components//ContenedorDeTabla/ContenedorDeTabla";
-import { useFiltrosParams } from "@/hooks//useFiltrosParams";
-import { nuevoStockContext } from "@/provider//NuevoStockProvider";
+import ContenedorDeTabla from "@/components/ContenedorDeTabla/ContenedorDeTabla";
 import { useContext } from "react";
+import { nuevoStockContext } from "@/provider//NuevoStockProvider";
+import { useFiltrosParams } from "@/hooks//useFiltrosParams";
+import { NavDeNuevoStock } from "./NavDeNuevoStock";
 
-export const UltimaTabla = () => {
+const NuevaTabla = () => {
 
-    const props = useContext(nuevoStockContext)["ultimaTabla"]
+    const props = useContext(nuevoStockContext)["nuevaTabla"]
 
     const filtros = useFiltrosParams(props.state)
 
@@ -19,19 +19,18 @@ export const UltimaTabla = () => {
 
 
 
-const ContenedorDeGestion = () => {
-
+const ContendoDeNuevoStock = () => {
     return (
         <Container fluid className="p-0 overflow-hidden  d-flex flex-column  h-100">
 
             <Row className="m-0 flex-grow-0">
-                <NavDeGestion />
+                <NavDeNuevoStock />
             </Row>
             <Row className="m-0 flex-grow-1 overflow-hidden  h-100 ">
-                <UltimaTabla />
+                <NuevaTabla />
             </Row>
         </Container>
     );
 };
 
-export default ContenedorDeGestion
+export default ContendoDeNuevoStock
