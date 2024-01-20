@@ -19,6 +19,7 @@ const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, es
     const { agregarItem, editarItem, state } = useContext(nuevoStockContext)[splitPathname == 3 ? "ultimaTabla" : "nuevaTabla"]
 
     useEffect(() => {
+        if (!parametrosEdit) return
         insertarParametros({ ...parametrosEdit })
     }, [parametrosEdit])
 
@@ -35,9 +36,10 @@ const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, es
         const verificaSiSeEncuentra = state.find(item => item.id == parametros.id)
 
         if (keys.length == 0) {
-            establercerAlerta({ texto: "Debes agregar un item para continuar", id: "1-warning-item", tipo: "warning" })
+            return establercerAlerta({ texto: "Debes agregar un item para continuar", id: "1-warning-item", tipo: "warning" })
         }
         else if (verificaSiSeEncuentra && parametrosEdit && verificaSiSeEncuentra.id == parametrosEdit.id || !verificaSiSeEncuentra && parametrosEdit) {
+
             const { nombre, categoria, id } = parametros
 
             establercerAlerta({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, id: "1-success-item", tipo: "success", multiples: true })
@@ -54,8 +56,10 @@ const InterfazDeNuevoItem = memo(({ alternarMostrar, mostrar, parametrosEdit, es
             establercerAlerta({ texto: `Item ${parametros.nombre} agregado exitosamente `, id: "2-success-item", tipo: "success" })
             agregarItem({ ...parametros, cantidad: refImperative.current.cantidad })
         } else {
-            establercerAlerta({ texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", id: "2-warning-item", tipo: "warning" })
+            return establercerAlerta({ texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", id: "2-warning-item", tipo: "warning" })
         }
+
+        alternarMostrar()
     }
 
     return (

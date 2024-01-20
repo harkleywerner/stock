@@ -10,7 +10,7 @@ const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDe
 
 const Thead = () => {
     return (
-        <thead className="shadow position-relative">
+        <thead className="shadow position-relative ">
             <tr >
                 <th className="fw-normal fs-5">Nombre</th>
                 <th className="fw-normal fs-5">Categoria</th>
@@ -21,7 +21,7 @@ const Thead = () => {
     )
 }
 
-const Tbody = memo(({ nombre = "Vainilla", categoria = "Cremas", cantidad = 123, insertarParametros, removerItem, id, establercerAlerta }) => {
+const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id, establercerAlerta }) => {
 
     const onRemoveItem = () => {
         removerItem({ id })
@@ -66,11 +66,11 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem }) => {
 
 
     return (
-        <div style={{maxWidth : "min-content"}} className="table-resposive mt-lg-3  w-100 scrollbar">
+        <div style={{ maxWidth: "min-content" }} className="table-resposive mt-lg-3  w-100 scrollbar">
             <Table
                 id={styles.tablaDeItems}
                 striped bordered
-                className="w-75 shadow p-0 my-0 " >
+                className="w-75 shadow p-0 my-0  " >
                 <Thead />
                 <tbody >
                     {
