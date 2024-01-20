@@ -15,8 +15,8 @@ export const Alerta = memo(({ texto, tipo }) => {
         <Alert
             id={styles.AlertaInformativa}
             variant={tipo}
-            style={{ maxWidth: "400px", minWidth: "400px" }}
-            className="d-flex align-items-center shadow  p-2"
+            style={{ maxWidth: "400px", minWidth: "400px",opacity : "0.9" }}
+            className={`border-${tipo} border-2 d-flex bg-white align-items-center shadow  p-2`}
         >
             <i className={`${icon[tipo]} fs-3 mx-2 `}></i>
             <Alert.Heading
@@ -37,20 +37,22 @@ export const ContenedorDeAlertas = ({ alertas }) => {
     useEffect(() => {
 
         const resize = () => {
-            const t = ref.current.getBoundingClientRect()
-            setRects(t)
+    
+            const rect = ref.current.getBoundingClientRect()
+            setRects(rect)
         }
 
         const posicionamientoAlertas = (e) => {
+
             const rect = rects || ref.current.getBoundingClientRect()
             const totalY = rect.y + ref.current.clientHeight
             const totalX = rect.x + ref.current.clientWidth
 
             if (e.x >= rect.x && e.x <= totalX && e.y >= rect.y && e.y <= totalY) {
-
-                ref.current.style.zIndex = "-12313";
+            
+                ref.current.style.zIndex = "-1033330";
             } else {
-                ref.current.style.zIndex = "123131231233123";
+                ref.current.style.zIndex = "5000";
             }
 
         }
@@ -67,8 +69,8 @@ export const ContenedorDeAlertas = ({ alertas }) => {
         <div
             ref={ref}
             id="contenedor-alertas"
-            className="position-fixed scrollHidden "
-            style={{ zIndex: "5000", maxHeight: "100vh", right: "1%", bottom: "1%" }} >
+            className="position-fixed "
+            style={{ zIndex: "5000", maxHeight: "h-100", right: "1%", bottom: "1%" }} >
             {
                 alertas.length > 0 && alertas.map((item, index) => <Alerta key={index} {...item} />)
             }

@@ -1,7 +1,6 @@
 import { createContext, useEffect } from "react";
 import { useTablaItemReducer } from "../hooks/useTablaItemReducer";
 
-
 const listado2 = [
     { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
     { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
@@ -41,9 +40,9 @@ const listado2 = [
 ]
 
 
-export const nuevoStockContext = createContext()
+export const gestionDeStockContext = createContext()
 
-export const NuevoStockProvider = ({ children }) => {
+export const GestionDeStockProvider = ({ children }) => {
 
     const dataB = [...listado2]
 
@@ -62,11 +61,11 @@ export const NuevoStockProvider = ({ children }) => {
 
 
     return (
-        <nuevoStockContext.Provider value={{ nuevaTabla, ultimaTabla }}>
+        <gestionDeStockContext.Provider value={{ nuevaTabla, ultimaTabla }}>
             {
                 children
             }
-        </nuevoStockContext.Provider>
+        </gestionDeStockContext.Provider>
 
     )
 };

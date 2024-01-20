@@ -3,7 +3,7 @@ import { Dropdown } from "react-bootstrap";
 
 export const DropwDownUsuario = () => {
     return (
-        <Dropdown>
+        <Dropdown >
             <Dropdown.Toggle 
             variant="none" 
             className = "border-0 text-white fs-5 p-0 cursor-pointer hover-rosa transition">

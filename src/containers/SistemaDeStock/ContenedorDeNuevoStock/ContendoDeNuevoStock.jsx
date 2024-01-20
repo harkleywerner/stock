@@ -1,13 +1,13 @@
 import { Container, Row } from "react-bootstrap";
 import ContenedorDeTabla from "@/components/ContenedorDeTabla/ContenedorDeTabla";
 import { useContext } from "react";
-import { nuevoStockContext } from "@/provider//NuevoStockProvider";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import { useFiltrosParams } from "@/hooks//useFiltrosParams";
 import { NavDeNuevoStock } from "./NavDeNuevoStock";
 
 const NuevaTabla = () => {
 
-    const props = useContext(nuevoStockContext)["nuevaTabla"]
+    const props = useContext(gestionDeStockContext)["nuevaTabla"]
 
     const filtros = useFiltrosParams(props.state)
 

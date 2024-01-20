@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { useAlerta } from "./useAlerta";
-import { ContenedorDeAlertas } from "../../components/ContenedorDeAlertas";
+import { ContenedorDeAlertas } from "./ContenedorDeAlertas";
 
 export const AlertasContext = createContext()
 

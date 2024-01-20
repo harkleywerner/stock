@@ -10,7 +10,8 @@ export const useAlerta = () => {
 
     const establercerAlerta = useCallback((nuevaAlerta) => {
 
-        const multiples = nuevaAlerta.multiples
+        const { multiples, id } = nuevaAlerta
+
         return new Promise((res) => {
             setAlerta(prev => {
 
@@ -22,8 +23,8 @@ export const useAlerta = () => {
                     return nuevoPrev
                 }
 
-                const findIndex = multiples ? -1 : prev.findIndex(item => item.id == nuevaAlerta.id)
-                const splicePrev = multiples ? prev : [...prev].filter(item => item.id !== nuevaAlerta.id)
+                const findIndex = multiples ? -1 : prev.findIndex(item => item.id == id)
+                const splicePrev = multiples ? prev : [...prev].filter(item => item.id !== id)
                 res({ indice: findIndex })
                 return [...splicePrev, { ...nuevaAlerta }]
             })

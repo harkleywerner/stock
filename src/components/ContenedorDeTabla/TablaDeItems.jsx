@@ -1,10 +1,10 @@
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
-import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 import { Table } from "react-bootstrap";
 import styles from "@/styles/TablaDeItems.module.css"
 import { lazy, memo } from "react";
+import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 
 const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
@@ -58,7 +58,7 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
     )
 })
 
-const TablaDeItems = ({ state = [], establercerAlerta, removerItem }) => {
+const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem,editarItem }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -66,7 +66,9 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem }) => {
 
 
     return (
-        <div style={{ maxWidth: "min-content" }} className="table-resposive mt-lg-3  w-100 scrollbar">
+        <div
+            style={{ maxWidth: "min-content" }}
+            className="table-resposive mt-lg-3  w-100 scrollbar">
             <Table
                 id={styles.tablaDeItems}
                 striped bordered
@@ -88,6 +90,9 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem }) => {
             <SuspenseLoadingComponent
                 texto="Cargando interfaz">
                 {mostrar && <InterfazDeNuevoItem
+                    state={state}
+                    agregarItem={agregarItem}
+                    editarItem={editarItem}
                     alternarMostrar={alternarMostrar}
                     mostrar={mostrar}
                     parametrosEdit={parametros} />

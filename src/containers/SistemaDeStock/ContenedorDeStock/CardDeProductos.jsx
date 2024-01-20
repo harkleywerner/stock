@@ -1,6 +1,6 @@
 import { Button, Card } from "react-bootstrap";
 import styles from "@/styles/CardDeProductos.module.css"
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 
  const CardDeProductos = memo(({ alternarMostrar, objecto, insertarParametros, contador = 0 }) => {
 
@@ -11,21 +11,12 @@ import { memo, useEffect, useState } from "react";
         insertarParametros(objecto)
     }
 
-    const [visible, setVisible] = useState(false);
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setVisible(true);
-        }, 1000 * (id / 19));
-
-        return () => clearTimeout(timeout);
-    }, []);
 
 
     return (
         <Card
             className={`m-3 transition  cursor-pointer shadow`}
-            style={{ width: '18rem', opacity: "0.9", height: "6.5rem", visibility: `${visible ? "visible" : "hidden"}` }}>
+            style={{ width: '18rem', opacity: "0.9", height: "6.5rem" }}>
             <Card.Title className=" m-0 d-flex justify-content-center p-1">
                 <p className="m-0 w-75 border-bottom text-nowrap text-truncate text-center  fw-normal">{nombre}</p>
             </Card.Title>

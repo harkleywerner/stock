@@ -4,14 +4,15 @@ import { DropDownFilterCategoria } from "@/components/DropDownFilterCategoria";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy, useContext } from "react";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
-import { Link } from "react-router-dom";
-import { nuevoStockContext } from "@/provider//NuevoStockProvider";
+import { NavLink } from "react-router-dom";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
+import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 
 const InterfazDeNuevoItem = lazy(() => import("@/components//InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const InterfazContext = ({ alternarMostrar, mostrar }) => {
 
-    const { agregarItem, editarItem, state } = useContext(nuevoStockContext)["ultimaTabla"]
+    const { agregarItem, editarItem, state } = useContext(gestionDeStockContext)["ultimaTabla"]
 
     return (
         <SuspenseLoadingComponent texto="Cargando interfaz">
@@ -37,8 +38,7 @@ const NuevoItem = () => {
         <>
             <Nav.Item
                 onClick={alternarMostrar}
-                className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center d-flex align-items-center"
-            >
+                className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center d-flex align-items-center">
                 <p className="m-0 fw-normal fs-4 mx-1">Agregar item</p>
                 <i className="fa-regular fs-4 fa-square-plus"></i>
             </Nav.Item>
@@ -46,6 +46,32 @@ const NuevoItem = () => {
         </>
     )
 }
+
+const GuardarCambiosItem = wrapperAlerta(({ establercerAlerta }) => {
+
+    const { state } = useContext(gestionDeStockContext)["ultimaTabla"]
+
+    const subirStock = async () => {
+
+        if (state.length == 0) {
+            establercerAlerta({ texto: "No puedes subir un stock vacio", tipo: "warning", id: "warning-subirstock-1" })
+        }
+        else {
+            establercerAlerta({ texto: "El stock  403 se guardo con exito", tipo: "success", id: "succes-subirstock-1" })
+        }
+
+    }
+
+    return (
+        <Nav.Item
+            onClick={subirStock}
+            className="cursor-pointer hover-rosa fs-4 transition p-1 justify-content-center  d-flex align-items-center">
+            <p className="m-0 fw-normal mx-1">Guardar cambios</p>
+            <i className="fa-solid fa-cloud-arrow-down"></i>
+        </Nav.Item>
+    )
+})
+
 
 export const NavDeGestion = () => {
     return (
@@ -68,21 +94,19 @@ export const NavDeGestion = () => {
                     id="basic-navbar-nav">
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-around align-items-center w-100">
 
-                        <Link
-                            className="text-decoration-none text-white"
+                        <NavLink
+                            className="text-decoration-none text-white cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center"
                             to={"/stock/nuevo"}>
-                            <Nav.Item className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
-                                <p className="m-0  fw-normal fs-4 mx-1">Nuevo stock</p>
-                                <i className="fa-solid fs-4 fa-box-open"></i>
-                            </Nav.Item>
-                        </Link>
+                            <p className="m-0  fw-normal fs-4 mx-1">Nuevo stock</p>
+                            <i className="fa-solid fs-4 fa-box-open"></i>
+                        </NavLink>
 
                         <NuevoItem />
 
                         <Nav.Item>
                             <DropDownFilterCategoria />
                         </Nav.Item>
-
+                        <GuardarCambiosItem />
                     </Nav>
 
                 </Navbar.Collapse>

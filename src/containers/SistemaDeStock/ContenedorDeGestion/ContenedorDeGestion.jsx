@@ -2,12 +2,12 @@ import { Container, Row } from "react-bootstrap";
 import { NavDeGestion } from "./NavDeGestion";
 import ContenedorDeTabla from "@/components//ContenedorDeTabla/ContenedorDeTabla";
 import { useFiltrosParams } from "@/hooks//useFiltrosParams";
-import { nuevoStockContext } from "@/provider//NuevoStockProvider";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import { useContext } from "react";
 
 export const UltimaTabla = () => {
 
-    const props = useContext(nuevoStockContext)["ultimaTabla"]
+    const props = useContext(gestionDeStockContext)["ultimaTabla"]
 
     const filtros = useFiltrosParams(props.state)
 

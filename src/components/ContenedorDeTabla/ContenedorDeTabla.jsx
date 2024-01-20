@@ -7,20 +7,20 @@ import { Col } from "react-bootstrap";
 const MensajeDeContenedorVacio = () => {
 
     return (
-            <p className="text-white fw-normal fs-2 h-100  d-flex justify-content-center align-items-center">
-                No se encontraron items
+        <p className="text-white fw-normal fs-2 h-100  d-flex justify-content-center align-items-center">
+            No se encontraron items
 
-                <span className="font">...</span>
-            </p>
+            <span className="font">...</span>
+        </p>
     )
 }
 
-const ContenedorDeTabla = memo(({ state = [], removerItem }) => {
+const ContenedorDeTabla = memo((props) => {
 
 
     const { establecerPaginacion, filtradoPorPage, page } = useFiltrosPorPagina()
 
-    const nuevoEstado = filtradoPorPage(state)
+    const nuevoEstado = filtradoPorPage(props.state)
 
     return (
         <Col className="d-flex flex-column justify-content-between   h-100  align-items-center w-100">
@@ -28,9 +28,7 @@ const ContenedorDeTabla = memo(({ state = [], removerItem }) => {
                 nuevoEstado.length == 0 ?
                     <MensajeDeContenedorVacio />
                     :
-                    <TablaDeItems
-                        state={nuevoEstado}
-                        removerItem={removerItem} />
+                    <TablaDeItems {...props} state={nuevoEstado} />
             }
             <Paginacion
                 largo={nuevoEstado.length}
