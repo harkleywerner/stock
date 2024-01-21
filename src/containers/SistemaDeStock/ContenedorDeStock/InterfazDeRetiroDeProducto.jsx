@@ -1,57 +1,74 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "@/hooks/useForm";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import { memo } from "react";
 
 const sumarRetirados = (listaDeRetirados) => {
-    if(!listaDeRetirados) return
+    if (!listaDeRetirados) return 0
     return listaDeRetirados.reduce((acc, current) => {
-        return current.cantidad -( current.retirado || 0)
-
+        return acc + (current.retirado || 0)
     }, 0)
 }
 
-const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setListaDeRetirados, establercerAlerta, parametros, listaDeRetirados }) => {
+const establecerRetiros = ({ listaDeCantidades, total, verificacion }) => {
 
-    const { nombre, listaDeCantidades, cantidadTotal } = parametros
 
-    const buscarLista = listaDeRetirados[nombre]
+    console.log(verificacion)
+    let nuevoArray = []
+    for (const iterator of listaDeCantidades) {
 
-    const cantidadActual = buscarLista ? sumarRetirados(buscarLista) : cantidadTotal
+        if (total == 0) break
+        const retiradoN = Math.min(iterator.cantidad, Math.abs(total))
+        nuevoArray = [...nuevoArray, { ...iterator, retirado: verificacion ? -retiradoN : retiradoN  }]
+
+        total = verificacion ? total + iterator.cantidad : total - iterator.cantidad
+    }
+
+    return nuevoArray
+}
+
+const InterfazDeRetiroDeProducto = memo(({ alternarMostrar, mostrar, setListaDeRetirados, establercerAlerta, parametros, listaDeRetirados }) => {
+
+    const { nombre, listaDeCantidades, cantidadTotal, devoluciones_permitidas } = parametros
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
     const { cantidad } = form
 
-    const cantidadPositiva = Math.abs(parseInt(cantidad)) || 0
+    const buscarLista = listaDeRetirados[nombre]
 
-    const evaluarCantidad = cantidadPositiva > cantidadActual ? cantidadActual : cantidadPositiva
+    const sumarRetirado = sumarRetirados(buscarLista)
+
+    const cantidadActual = sumarRetirado || cantidadTotal
+
+    const verificarDevoluciones = sumarRetirado - (-devoluciones_permitidas)
+
+    const cantidadEnt = parseInt(cantidad) || 0
+
+    const verificarSigno = verificarDevoluciones <= 0 ? Math.abs(cantidadEnt) : cantidadEnt <= -verificarDevoluciones ? -verificarDevoluciones : cantidadEnt
+
+    const test = buscarLista ? sumarRetirado < 0 ?  Math.abs(sumarRetirado) :  (cantidadTotal - cantidadActual) : cantidadTotal
+
+    const evaluarCantidad = verificarSigno > test ? test : verificarSigno
+
+
 
     const enviarCantidad = () => {
 
-        if (evaluarCantidad <= 0) return
+        // if (evaluarCantidad <= 0) return
+
         establercerAlerta({ texto: `Retirtaste ${evaluarCantidad} items de ${nombre}`, tipo: "success", id: "success-retiro" })
 
-        let total = form.cantidad
-
-        const mapeo = listaDeCantidades.map(item => {
-
-            let obj = null
-            if (total > 0) {
-                obj = { ...item, retirado: Math.min(item.cantidad, total) }
-                total = total - item.cantidad
-            }
-            return obj ? obj : item
-
-        })
+        let total2 = buscarLista ? cantidadActual + evaluarCantidad : evaluarCantidad
+        let total = verificarDevoluciones > 0 && cantidadEnt < 0 ? (-verificarDevoluciones) : total2
 
         setListaDeRetirados({
             ...listaDeRetirados,
-            [nombre]: mapeo
+            [nombre]: establecerRetiros({ listaDeCantidades, total, verificacion: verificarDevoluciones > 0 && cantidadEnt < 0 })
         })
 
         restablecerFormulario()
     }
-
 
     return (
         <Modal
@@ -63,7 +80,10 @@ const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setListaDeRetira
                     <p className="m-0 text-secondary fw-normal">
                         {nombre}
                     </p>
-                    <p className="m-0 fs-5 text-secondary fw-normal mt-1 mx-2">{evaluarCantidad == "" ? 0 : evaluarCantidad}<span className="font">/</span>{cantidadActual}</p>
+                    <p className="m-0 fs-5 font text-secondary fw-normal mt-1 mx-2">{evaluarCantidad == "" ? 0 : evaluarCantidad}
+                        <span className="font">/</span>
+                        {test}
+                    </p>
                 </Modal.Title>
 
             </Modal.Header>
@@ -89,6 +109,6 @@ const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setListaDeRetira
             </Modal.Footer>
         </Modal>
     );
-};
+})
 
 export default wrapperAlerta(InterfazDeRetiroDeProducto)
