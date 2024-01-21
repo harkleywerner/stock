@@ -2,16 +2,20 @@ import { Button, Card } from "react-bootstrap";
 import styles from "@/styles/CardDeProductos.module.css"
 import { memo } from "react";
 
- const CardDeProductos = memo(({ alternarMostrar, objecto, insertarParametros, contador = 0 }) => {
+const CardDeProductos = memo(({ alternarMostrar, item, insertarParametros, listaDeRetirados = [] }) => {
 
-    const { id, nombre, cantidad } = objecto
+    const { nombre, cantidadTotal } = item
 
     const onClick = () => {
         alternarMostrar(true)
-        insertarParametros(objecto)
+        insertarParametros(item)
     }
 
-
+    const calcularCantidadRetirada = () => {
+        return listaDeRetirados.reduce((acc, current) => {
+            return acc - (current.retirado || 0)
+        }, cantidadTotal)
+    }
 
     return (
         <Card
@@ -26,7 +30,7 @@ import { memo } from "react";
                     className={styles.cardButton}
                     variant="none">Retirar</Button>
                 <p style={{ border: "1px solid #814937", color: "#555", width: "30px", height: "35px" }}
-                    className="m-0 fs-4 rounded-circle border-2 align-items-center d-flex justify-content-center  ">{cantidad - contador}</p>
+                    className="m-0 fs-4 rounded-circle border-2 align-items-center d-flex justify-content-center  ">{calcularCantidadRetirada()}</p>
             </Card.Body>
         </Card>
     );

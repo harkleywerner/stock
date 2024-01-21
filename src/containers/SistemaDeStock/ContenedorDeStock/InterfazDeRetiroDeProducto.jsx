@@ -2,14 +2,21 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "@/hooks/useForm";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 
+const sumarRetirados = (listaDeRetirados) => {
+    if(!listaDeRetirados) return
+    return listaDeRetirados.reduce((acc, current) => {
+        return current.cantidad -( current.retirado || 0)
 
-const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, establercerAlerta, parametros, contador }) => {
+    }, 0)
+}
 
-    const { nombre, cantidad: cantidadA } = parametros
+const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setListaDeRetirados, establercerAlerta, parametros, listaDeRetirados }) => {
 
-    const buscadorContador = contador[nombre] || 0
+    const { nombre, listaDeCantidades, cantidadTotal } = parametros
 
-    const cantidadActual = cantidadA - buscadorContador
+    const buscarLista = listaDeRetirados[nombre]
+
+    const cantidadActual = buscarLista ? sumarRetirados(buscarLista) : cantidadTotal
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
@@ -24,9 +31,22 @@ const InterfazDeRetiroDeProducto = ({ alternarMostrar, mostrar, setContador, est
         if (evaluarCantidad <= 0) return
         establercerAlerta({ texto: `Retirtaste ${evaluarCantidad} items de ${nombre}`, tipo: "success", id: "success-retiro" })
 
-        setContador({
-            ...contador,
-            [nombre]: buscadorContador + evaluarCantidad
+        let total = form.cantidad
+
+        const mapeo = listaDeCantidades.map(item => {
+
+            let obj = null
+            if (total > 0) {
+                obj = { ...item, retirado: Math.min(item.cantidad, total) }
+                total = total - item.cantidad
+            }
+            return obj ? obj : item
+
+        })
+
+        setListaDeRetirados({
+            ...listaDeRetirados,
+            [nombre]: mapeo
         })
 
         restablecerFormulario()

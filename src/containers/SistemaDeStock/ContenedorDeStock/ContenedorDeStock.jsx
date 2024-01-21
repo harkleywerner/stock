@@ -7,21 +7,25 @@ import { NavBarSecciones } from "./NavbarSecciones";
 import CardDeProductos from "./CardDeProductos";
 
 
-
 const helados = [
-    { id: 1, nombre: 'Chocolate', cantidad: Math.floor(Math.random() * 10) + 1 },
-    { id: 2, nombre: 'Frutilla', cantidad: Math.floor(Math.random() * 10) + 1 },
-    { id: 3, nombre: 'Vainilla', cantidad: Math.floor(Math.random() * 10) + 1 },
-    { id: 4, nombre: 'Banana split', cantidad: Math.floor(Math.random() * 10) + 1 },
-    { id: 5, nombre: 'Dulce de leche', cantidad: Math.floor(Math.random() * 10) + 1 },
+    {
+        id: 1, nombre: 'Chocolate', cantidadTotal: 3, listaDeCantidades: [
+            { id: 1, stockId: 1, cantidad: 1 },
+            { id: 2, stockId: 2, cantidad: 2 },
+        ],
+    },
 ];
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
 
 const ContenedorDeProductos = () => {
+
+    const [listaDeRetirados, setListaDeRetirados] = useState({})
+
     const { alternarMostrar, mostrar } = useAlternarComponentes()
+
     const { insertarParametros, parametros } = useEstablecerParametros()
-    const [contador, setContador] = useState({})
+
     return (
         <Col
             className=" m-0 p-0 d-flex scrollbar align-content-start  h-100 flex-wrap  justify-content-center ">
@@ -31,16 +35,16 @@ const ContenedorDeProductos = () => {
                         key={item.id}
                         insertarParametros={insertarParametros}
                         alternarMostrar={alternarMostrar}
-                        contador={contador[item.nombre]}
-                        objecto={item}
+                        listaDeRetirados={listaDeRetirados[item.nombre]}
+                        item={item}
                     />
                 )
             }
 
             <SuspenseLoadingComponent texto="Cargando item">
                 {mostrar && <InterfazDeRetiroDeProducto
-                    contador={contador}
-                    setContador={setContador}
+                    listaDeRetirados={listaDeRetirados}
+                    setListaDeRetirados={setListaDeRetirados}
                     parametros={parametros}
                     alternarMostrar={alternarMostrar}
                     mostrar={mostrar} />}

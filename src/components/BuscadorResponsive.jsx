@@ -6,13 +6,12 @@ export const BuscadorResponsive = ({ texto }) => {
     const [mostrar, alternarMostrar] = useState(false)
 
 
-    const verificar = mostrar ? "w-100 position-absolute px-3 " : "p-0"
+    const verificar = mostrar ? "w-100 h-100 position-absolute px-3 " : "p-0"
 
 
 
     const onClick = () => {
         alternarMostrar(true)
-        setResultados(true)
     }
 
 
@@ -36,7 +35,7 @@ export const BuscadorResponsive = ({ texto }) => {
 
     return (
         <div
-            style={{ background: "#57BDC6", right: "0%" }}
+            style={{ background: "#57BDC6", right: "0%",top : "0%" }}
             className={`${verificar}  position-relative d-flex align-items-center `}>
 
             <div
