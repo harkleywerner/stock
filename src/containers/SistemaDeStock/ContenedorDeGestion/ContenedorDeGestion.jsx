@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { NavDeGestion } from "./NavDeGestion";
-import ContenedorDeTabla from "@/components//ContenedorDeTabla/ContenedorDeTabla";
+import ContenedorDeTabla from "@/containers//SistemaDeStock/Components/ContenedorDeTabla/ContenedorDeTabla";
 import { useFiltrosParams } from "@/hooks//useFiltrosParams";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import { useContext } from "react";

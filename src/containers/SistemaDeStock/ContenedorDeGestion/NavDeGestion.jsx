@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 
-const InterfazDeNuevoItem = lazy(() => import("@/components//InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeNuevoItem = lazy(() => import("@/containers//SistemaDeStock/Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const InterfazContext = ({ alternarMostrar, mostrar }) => {
 
