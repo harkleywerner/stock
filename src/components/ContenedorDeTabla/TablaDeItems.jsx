@@ -11,11 +11,11 @@ const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDe
 const Thead = () => {
     return (
         <thead className="shadow position-relative ">
-            <tr >
+            <tr className="text-uppercase">
                 <th className="fw-normal fs-5">Nombre</th>
                 <th className="fw-normal fs-5">Categoria</th>
                 <th className="fw-normal fs-5">Cantidad</th>
-                <th className="fw-normal text-center fs-5">Accion</th>
+                <th className="fw-normal fs-5">Accion</th>
             </tr>
         </thead>
     )
@@ -32,16 +32,18 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
         <tr>
             <td
                 style={{ maxWidth: "300px", minWidth: "300px" }}
-                className="text-secondary fs-5 overflow-hidden">
+                className="text-secondary overflow-hidden">
                 {nombre}
             </td>
             <td
-                style={{ maxWidth: "150px", minWidth: "150px" }}
-                className="text-secondary fs-5">
+                style={{ maxWidth: "300px", minWidth: "150px", }}
+                className="text-secondary text-nowrap text-truncate ">
                 {categoria}
             </td>
-            <td className="text-secondary fs-5">
-                {cantidad}
+            <td className="text-center   ">
+                <p
+                    style={{ background: "#814937bf" }}
+                    className="m-0 rounded-5 text-white">{cantidad}</p>
             </td>
             <td>
                 <div className="d-flex justify-content-center">
@@ -58,7 +60,7 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
     )
 })
 
-const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem,editarItem }) => {
+const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem, editarItem }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -71,8 +73,10 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem,
             className="table-resposive mt-lg-3  w-100 scrollbar">
             <Table
                 id={styles.tablaDeItems}
-                striped bordered
-                className="w-75 shadow p-0 my-0  " >
+                bordered
+                striped
+                hover
+                className=" shadow p-0 my-0  " >
                 <Thead />
                 <tbody >
                     {

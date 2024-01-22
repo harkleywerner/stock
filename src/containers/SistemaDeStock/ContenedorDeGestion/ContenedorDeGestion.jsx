@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { NavDeGestion } from "./NavDeGestion";
 import ContenedorDeTabla from "@/components//ContenedorDeTabla/ContenedorDeTabla";
 import { useFiltrosParams } from "@/hooks//useFiltrosParams";
@@ -12,7 +12,10 @@ export const UltimaTabla = () => {
     const filtros = useFiltrosParams(props.state)
 
     return (
-        <ContenedorDeTabla {...props} state={filtros} />
+        <Col className="p-0 overflow-hidden h-100">
+            <ContenedorDeTabla {...props} state={filtros} />
+        </Col>
+
     );
 };
 

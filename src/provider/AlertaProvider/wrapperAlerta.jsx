@@ -6,7 +6,6 @@ const wrapperAlerta = (Component) => {
     return (props) => {
         const { establercerAlerta } = useContext(AlertasContext);
 
-
     return (
         <Component establercerAlerta={establercerAlerta} {...props} />
     )

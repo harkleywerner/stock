@@ -20,7 +20,7 @@ export const Alerta = memo(({ texto, tipo }) => {
         >
             <i className={`${icon[tipo]} fs-3 mx-2 `}></i>
             <Alert.Heading
-                className="fs-4 text-break"
+                className="fs-5 text-break"
             >
                 {texto}<span className="font">...</span>
             </Alert.Heading>

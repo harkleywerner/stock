@@ -16,7 +16,7 @@ export const useAlerta = () => {
             setAlerta(prev => {
 
                 if (prev.length >= 5) {
-                    res(0)
+                    res()
                     const nuevoPrev = [...prev]
                     nuevoPrev.splice(0, 1)
                     nuevoPrev.splice(prev.length - 1, 0, nuevaAlerta)
@@ -24,9 +24,9 @@ export const useAlerta = () => {
                 }
 
                 const findIndex = multiples ? -1 : prev.findIndex(item => item.id == id)
-                const splicePrev = multiples ? prev : [...prev].filter(item => item.id !== id)
+                const filtrado = multiples ? prev : prev.filter(item => item.id !== id)
                 res({ indice: findIndex })
-                return [...splicePrev, { ...nuevaAlerta }]
+                return [...filtrado, { ...nuevaAlerta }]
             })
         })
             .then(({ indice }) => {

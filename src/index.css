@@ -6,16 +6,17 @@
 
 @font-face {
     font-family: brother2;
-    src: url("../fonts/07-brother1816-regular.otf");
+    src: url("../fonts/Brother1816-Bold.ttf");
 }
 
 * {
     font-weight: 600;
-    font-family: brother;
+    font-family: brother2;
     transition: 0.2s all;
     letter-spacing: 1.5px;
     scroll-behavior: smooth;
 }
+
 
 
 

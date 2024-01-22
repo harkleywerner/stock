@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import ContenedorDeTabla from "@/components/ContenedorDeTabla/ContenedorDeTabla";
 import { useContext } from "react";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
@@ -12,7 +12,9 @@ const NuevaTabla = () => {
     const filtros = useFiltrosParams(props.state)
 
     return (
+        <Col className="p-0 overflow-hidden h-100">
         <ContenedorDeTabla {...props} state={filtros} />
+    </Col>
     );
 };
 
