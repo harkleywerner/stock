@@ -7,7 +7,7 @@ import { Col } from "react-bootstrap";
 const MensajeDeContenedorVacio = () => {
 
     return (
-        <p className="text-white fw-normal fs-2 h-100  d-flex justify-content-center align-items-center">
+        <p className="text-white fw-normal fs-3 h-100  d-flex justify-content-center align-items-center">
             No se encontraron items
 
             <span className="font">...</span>

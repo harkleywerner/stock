@@ -16,16 +16,16 @@ const Paginacion = ({ establecerPaginacion, page,largo }) => {
                 style={{ color: "#4EAAB2" }}
                 variant="none"
                 onClick={() => onClick(-1)}
-                className="fs-4 bg-white d-flex  align-items-center zoom">
-                <i className="fa-solid fa-circle-left fs-2 "></i>
+                className=" bg-white d-flex  align-items-center zoom">
+                <i className="fa-solid fa-circle-left fs-3 "></i>
             </Button>
-            <p className="m-0 font fs-4 text-white">{page}/15</p>
+            <p className="m-0 font fs-5 text-white">{page}/15</p>
             <Button
                 variant="none"
                 style={{ color: "#4EAAB2" }}
                 onClick={() => onClick(+1)}
-                className="fs-4 d-flex bg-white align-items-center zoom">
-                <i className="fa-solid fa-circle-right fs-2 "></i>
+                className=" d-flex bg-white align-items-center zoom">
+                <i className="fa-solid fa-circle-right fs-3 "></i>
             </Button>
         </Stack>
     )

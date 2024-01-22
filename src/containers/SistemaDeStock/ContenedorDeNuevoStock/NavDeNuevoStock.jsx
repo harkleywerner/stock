@@ -8,7 +8,7 @@ import { lazy, useContext } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
-const InterfazDeNuevoItem = lazy(() => import("@/components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeNuevoItem = lazy(() => import("../Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const InterfazContext = ({ alternarMostrar, mostrar }) => {
 
@@ -39,7 +39,7 @@ const NuevoItem = () => {
             <Nav.Item
                 onClick={alternarMostrar}
                 className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
-                <p className="m-0  fw-normal fs-4 mx-1">Agregar item</p>
+                <p className="m-0  fw-normal fs-5 mx-1">Agregar item</p>
                 <i className="fa-regular  fs-4 fa-square-plus"></i>
             </Nav.Item>
             <InterfazContext
@@ -67,9 +67,9 @@ const SubirNuevoStockItem = wrapperAlerta(({ establercerAlerta }) => {
     return (
         <Nav.Item
             onClick={subirStock}
-            className="cursor-pointer hover-rosa fs-4 transition p-1 justify-content-center  d-flex align-items-center">
-            <p className="m-0 fw-normal mx-1">Subir</p>
-            <i className="fa-solid fa-cloud-arrow-up"></i>
+            className="cursor-pointer hover-rosa  transition p-1 justify-content-center  d-flex align-items-center">
+            <p className="m-0 fw-normal fs-5 mx-1">Subir</p>
+            <i className="fa-solid fs-4 fa-cloud-arrow-up"></i>
         </Nav.Item>
     )
 })
@@ -100,7 +100,7 @@ export const NavDeNuevoStock = () => {
                         <NavLink
                             className="text-decoration-none text-white cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center"
                             to={"/stock/gestion"}>
-                            <p className="m-0  fw-normal fs-4 mx-1">Editar ultimo stock</p>
+                            <p className="m-0  fw-normal fs-5 mx-1">Editar ultimo stock</p>
                             <i className="fa-solid fs-4 fa-wand-magic-sparkles"></i>
                         </NavLink>
 

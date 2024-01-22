@@ -23,12 +23,12 @@ export const NavHeader = () => {
 
             <Stack direction="horizontal" className="flex-fill   justify-content-center" gap={3}>
               <NavLink to={"/stock"}>
-                <i className="fa-solid fa-warehouse text-white fs-2 m-0 cursor-pointer hover-rosa transition"></i>
+                <i className="fa-solid fa-warehouse text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
               </NavLink>
               <NavLink to={"/stock/gestion"}>
-                <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-2 fa-boxes-packing"></i>
+                <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-3 fa-boxes-packing"></i>
               </NavLink>
-              <i className="fa-solid fa-wifi text-white fs-2 m-0 cursor-pointer   hover-rosa transition"></i>
+              <i className="fa-solid fa-wifi text-white fs-3 m-0 cursor-pointer   hover-rosa transition"></i>
               <span className="d-none d-lg-inline">
                 <DropDownSucursal />
               </span>

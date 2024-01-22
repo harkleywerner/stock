@@ -86,7 +86,7 @@ const InterfazDeRetiroDeProducto = memo((
                 />
                 <small
                     style={{ fontSize: "12px" }}
-                    className=" text-dark fw-normal  mx-1 ">Puedes devolver {Math.abs(devoluciones_permitidas)} unidade/s</small>
+                    className=" text-danger fw-normal  mx-1 ">Puedes devolver {Math.abs(devoluciones_permitidas)} unidade/s</small>
             </Modal.Body>
             <Modal.Footer>
                 <Button

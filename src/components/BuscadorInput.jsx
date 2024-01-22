@@ -3,7 +3,7 @@ import { useForm } from "@/hooks/useForm"
 import { memo, useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
-const BuscadorInput = memo(({ texto = "", }) => {
+const FormBuscador = ({texto}) => {
 
     const { form, changeForm } = useForm({ "buscador": "" })
 
@@ -34,6 +34,26 @@ const BuscadorInput = memo(({ texto = "", }) => {
 
     }, [buscador])
 
+
+    return (
+        <Form.Control
+            type="search"
+            value={isTyping ? buscador : searching}
+            name="buscador"
+            className={` font border-0  d-sm-inline text-white fw-medium fs-5`}
+            style={{ boxShadow: "none", background: "transparent" }}
+            onChange={changeForm}
+            placeholder={`Buscar ${texto}`}
+            autoComplete="off"
+            aria-label={`Busqueda de ${texto}`} />
+    )
+
+}
+
+const BuscadorInput = memo(({ texto = "", }) => {
+
+
+
     return (
         <div
             className="rounded-5 p-1 border border-2"
@@ -44,16 +64,7 @@ const BuscadorInput = memo(({ texto = "", }) => {
                     className="text-center border-0 m-auto m-md-0 p-0" >
                     <i className="fa-solid text-white p-2 mx-1 fa-magnifying-glass "></i>
                 </InputGroup.Text>
-                <Form.Control
-                    type="search"
-                    value={isTyping ? buscador : searching}
-                    name="buscador"
-                    className={` font border-0 d-sm-inline text-white fw-medium fs-5`}
-                    style={{ boxShadow: "none", background: "transparent" }}
-                    onChange={changeForm}
-                    placeholder={`Buscar ${texto}`}
-                    autoComplete="off"
-                    aria-label={`Busqueda de ${texto}`} />
+                <FormBuscador texto={texto} />
             </InputGroup>
         </div>
     )

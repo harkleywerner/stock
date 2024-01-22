@@ -38,8 +38,8 @@ const NuevoItem = () => {
         <>
             <Nav.Item
                 onClick={alternarMostrar}
-                className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center d-flex align-items-center">
-                <p className="m-0 fw-normal fs-4 mx-1">Agregar item</p>
+                className="cursor-pointer hover-rosa transition p-1 justify-content-center d-flex align-items-center">
+                <p className="m-0 fw-normal fs-5 mx-1">Agregar item</p>
                 <i className="fa-regular fs-4 fa-square-plus"></i>
             </Nav.Item>
             <InterfazContext alternarMostrar={alternarMostrar} mostrar={mostrar} />
@@ -65,9 +65,9 @@ const GuardarCambiosItem = wrapperAlerta(({ establercerAlerta }) => {
     return (
         <Nav.Item
             onClick={subirStock}
-            className="cursor-pointer hover-rosa fs-4 transition p-1 justify-content-center  d-flex align-items-center">
+            className="cursor-pointer hover-rosa fs-5 transition p-1 justify-content-center  d-flex align-items-center">
             <p className="m-0 fw-normal mx-1">Guardar cambios</p>
-            <i className="fa-solid fa-cloud-arrow-down"></i>
+            <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
         </Nav.Item>
     )
 })
@@ -97,8 +97,8 @@ export const NavDeGestion = () => {
                         <NavLink
                             className="text-decoration-none text-white cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center"
                             to={"/stock/nuevo"}>
-                            <p className="m-0  fw-normal fs-4 mx-1">Nuevo stock</p>
-                            <i className="fa-solid fs-4 fa-box-open"></i>
+                            <p className="m-0  fw-normal fs-5 mx-1">Nuevo stock</p>
+                            <i className="fa-solid fs-5 fa-box-open"></i>
                         </NavLink>
 
                         <NuevoItem />

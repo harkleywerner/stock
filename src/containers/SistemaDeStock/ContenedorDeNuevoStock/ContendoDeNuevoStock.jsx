@@ -1,9 +1,9 @@
 import { Col, Container, Row } from "react-bootstrap";
-import ContenedorDeTabla from "@/components/ContenedorDeTabla/ContenedorDeTabla";
 import { useContext } from "react";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import { useFiltrosParams } from "@/hooks//useFiltrosParams";
 import { NavDeNuevoStock } from "./NavDeNuevoStock";
+import ContenedorDeTabla from "../Components/ContenedorDeTabla/ContenedorDeTabla";
 
 const NuevaTabla = () => {
 
