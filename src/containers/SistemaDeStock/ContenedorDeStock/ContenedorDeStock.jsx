@@ -9,7 +9,7 @@ import CardDeProductos from "./CardDeProductos";
 
 const helados = [
     {
-        id: 1, nombre: 'Chocolate', cantidadTotal: 3, devoluciones_permitidas: 1, listaDeCantidades: [
+        id: 1, nombre: 'Chocolate', cantidad_total: 3, devoluciones_permitidas: 1, listaDeCantidades: [
             { id: 1, stockId: 1, cantidad: 1 },
             { id: 2, stockId: 2, cantidad: 2 },
             { id: 3, stockId: 3, cantidad: 1 },

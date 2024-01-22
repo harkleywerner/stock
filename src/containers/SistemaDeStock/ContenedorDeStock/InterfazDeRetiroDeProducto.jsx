@@ -6,30 +6,74 @@ import { memo } from "react";
 const sumarRetirados = (listaDeRetirados) => {
     if (!listaDeRetirados) return 0
     return listaDeRetirados.reduce((acc, current) => {
+
         return acc + (current.retirado || 0)
+
     }, 0)
 }
 
-const establecerRetiros = ({ listaDeCantidades, total, verificacion }) => {
-
-
-    console.log(verificacion)
+const establecerRetiros = ({ listaDeCantidades, total }) => {
     let nuevoArray = []
+
     for (const iterator of listaDeCantidades) {
 
-        if (total == 0) break
-        const retiradoN = Math.min(iterator.cantidad, Math.abs(total))
-        nuevoArray = [...nuevoArray, { ...iterator, retirado: verificacion ? -retiradoN : retiradoN  }]
+        if (total <= 0) break
+        const retirado = Math.min(iterator.cantidad, total)
+        nuevoArray = [...nuevoArray, { ...iterator, retirado }]
 
-        total = verificacion ? total + iterator.cantidad : total - iterator.cantidad
+        total = total - iterator.cantidad
     }
 
     return nuevoArray
 }
 
-const InterfazDeRetiroDeProducto = memo(({ alternarMostrar, mostrar, setListaDeRetirados, establercerAlerta, parametros, listaDeRetirados }) => {
+const establecerDevoluciones = ({ listaDeCantidades, total }) => {
+    let nuevoArray = []
 
-    const { nombre, listaDeCantidades, cantidadTotal, devoluciones_permitidas } = parametros
+    for (const iterator of listaDeCantidades) {
+
+        if (total <= 0) break
+
+        const retirado = Math.min(-iterator.cantidad, total)
+
+        nuevoArray = [...nuevoArray, { ...iterator, retirado }]
+
+        total = total - iterator.cantidad
+    }
+
+
+    return nuevoArray
+}
+
+const evaluarCantidades = ({ cantidad, cantidadActual, verificarDiponibilidad }) => {
+
+    const cantidadEnt = parseInt(cantidad)
+
+    const disponibilidad = verificarDiponibilidad < 0 ? 0 : -verificarDiponibilidad
+
+    if (cantidadEnt >= cantidadActual) {
+        return cantidadActual
+    }
+    else if (cantidadEnt <= disponibilidad) {
+        return disponibilidad
+    }
+
+    return cantidadEnt
+
+}
+
+const InterfazDeRetiroDeProducto = memo((
+    {
+        alternarMostrar,
+        mostrar,
+        setListaDeRetirados,
+        establercerAlerta,
+        parametros,
+        listaDeRetirados
+    }
+) => {
+
+    const { nombre, listaDeCantidades, cantidad_total, devoluciones_permitidas } = parametros
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
@@ -39,32 +83,36 @@ const InterfazDeRetiroDeProducto = memo(({ alternarMostrar, mostrar, setListaDeR
 
     const sumarRetirado = sumarRetirados(buscarLista)
 
-    const cantidadActual = sumarRetirado || cantidadTotal
+    const cantidadTotal = buscarLista ?
+        sumarRetirado < 0 && cantidad_total + sumarRetirado <= 0 ? Math.abs(sumarRetirado)
+            : cantidad_total - sumarRetirado
+        : cantidad_total
 
-    const verificarDevoluciones = sumarRetirado - (-devoluciones_permitidas)
+    const cantidadActual = Math.sign(cantidadTotal) == -1 ? 0 : cantidadTotal
 
-    const cantidadEnt = parseInt(cantidad) || 0
+    const combinado = sumarRetirado + (devoluciones_permitidas)  
 
-    const verificarSigno = verificarDevoluciones <= 0 ? Math.abs(cantidadEnt) : cantidadEnt <= -verificarDevoluciones ? -verificarDevoluciones : cantidadEnt
+    console.log(combinado)
+    const verificarDiponibilidad =  combinado >= cantidad_total + devoluciones_permitidas  ? cantidad_total + devoluciones_permitidas : combinado
 
-    const test = buscarLista ? sumarRetirado < 0 ?  Math.abs(sumarRetirado) :  (cantidadTotal - cantidadActual) : cantidadTotal
-
-    const evaluarCantidad = verificarSigno > test ? test : verificarSigno
-
-
+    const evaluarCantidad = evaluarCantidades({ cantidad, cantidadActual, verificarDiponibilidad }) || 0
 
     const enviarCantidad = () => {
 
-        // if (evaluarCantidad <= 0) return
 
-        establercerAlerta({ texto: `Retirtaste ${evaluarCantidad} items de ${nombre}`, tipo: "success", id: "success-retiro" })
+        let total = Math.abs(evaluarCantidad)
 
-        let total2 = buscarLista ? cantidadActual + evaluarCantidad : evaluarCantidad
-        let total = verificarDevoluciones > 0 && cantidadEnt < 0 ? (-verificarDevoluciones) : total2
+        let nuevoArray = []
+
+        if (cantidad < 0 && verificarDiponibilidad > 0) {
+            nuevoArray = establecerDevoluciones({ listaDeCantidades, total })
+        } else {
+            nuevoArray = establecerRetiros({ listaDeCantidades, total })
+        }
 
         setListaDeRetirados({
             ...listaDeRetirados,
-            [nombre]: establecerRetiros({ listaDeCantidades, total, verificacion: verificarDevoluciones > 0 && cantidadEnt < 0 })
+            [nombre]: nuevoArray
         })
 
         restablecerFormulario()
@@ -82,7 +130,7 @@ const InterfazDeRetiroDeProducto = memo(({ alternarMostrar, mostrar, setListaDeR
                     </p>
                     <p className="m-0 fs-5 font text-secondary fw-normal mt-1 mx-2">{evaluarCantidad == "" ? 0 : evaluarCantidad}
                         <span className="font">/</span>
-                        {test}
+                        {cantidadActual}
                     </p>
                 </Modal.Title>
 

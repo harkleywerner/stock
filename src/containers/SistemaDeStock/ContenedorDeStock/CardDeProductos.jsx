@@ -4,7 +4,7 @@ import { memo } from "react";
 
 const CardDeProductos = memo(({ alternarMostrar, item, insertarParametros, listaDeRetirados = [] }) => {
 
-    const { nombre, cantidadTotal } = item
+    const { nombre, cantidad_total } = item
 
     const onClick = () => {
         alternarMostrar(true)
@@ -14,7 +14,7 @@ const CardDeProductos = memo(({ alternarMostrar, item, insertarParametros, lista
     const calcularCantidadRetirada = () => {
         return listaDeRetirados.reduce((acc, current) => {
             return acc - (current.retirado || 0)
-        }, cantidadTotal)
+        }, cantidad_total)
     }
 
     return (
