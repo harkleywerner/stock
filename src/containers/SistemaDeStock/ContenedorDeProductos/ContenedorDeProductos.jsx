@@ -14,7 +14,9 @@ const helados = [
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
 
-const ContenedorDeProductos = () => {
+const ListaDeProductos = () => {
+
+
 
     const [listaDeRetirados, setListaDeRetirados] = useState({})
 
@@ -49,7 +51,7 @@ const ContenedorDeProductos = () => {
     )
 }
 
-const ContenedorDeStock = () => {
+const ContenedorDeProductos = () => {
 
 
     return (
@@ -58,11 +60,11 @@ const ContenedorDeStock = () => {
                 <NavBarSecciones />
             </Row>
             <Row className="m-0">
-                <ContenedorDeProductos />
+                <ListaDeProductos />
             </Row>
         </Container>
 
     );
 };
 
-export default ContenedorDeStock
+export default ContenedorDeProductos

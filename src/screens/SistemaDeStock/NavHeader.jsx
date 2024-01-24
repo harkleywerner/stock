@@ -1,8 +1,8 @@
 import { Container, Nav, Navbar, Stack } from "react-bootstrap"
 import { BuscadorResponsive } from "@/components/BuscadorResponsive"
-import { DropwDownUsuario } from "./DropwDownUsuario"
+import { DropwDownUsuario } from "./DropDownUsuario.jsx/DropwDownUsuario"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 export const NavHeader = () => {
 
@@ -24,6 +24,9 @@ export const NavHeader = () => {
             <Stack direction="horizontal" className="flex-fill   justify-content-center" gap={3}>
               <NavLink to={"/stock"}>
                 <i className="fa-solid fa-warehouse text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
+              </NavLink>
+              <NavLink to="/stock/productos">
+                <i className="fa-solid fa-ice-cream text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
               </NavLink>
               <NavLink to={"/stock/gestion"}>
                 <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-3 fa-boxes-packing"></i>

@@ -30,9 +30,8 @@ export const SuspenseLoadingComponent = memo(({ children, texto = "" }) => {
                         style={{ height: "30px", width: "30px" }}
                         variant="white"
                     />
-                    <p className="m-0 fw-medium fs-4 text-white">
-                        {texto}
-                        <span className="font">...</span>
+                    <p className="m-0 fw-medium fs-5 text-white">
+                        {texto}...
                     </p>
                 </div>
             }

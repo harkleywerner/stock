@@ -23,7 +23,7 @@ const ContenedorDeTabla = memo((props) => {
     const nuevoEstado = filtradoPorPage(props.state)
 
     return (
-        <Col className="d-flex flex-column justify-content-between   h-100  align-items-center w-100">
+        <Col className="d-flex flex-column justify-content-between p-2   h-100  align-items-center w-100">
             {
                 nuevoEstado.length == 0 ?
                     <MensajeDeContenedorVacio />

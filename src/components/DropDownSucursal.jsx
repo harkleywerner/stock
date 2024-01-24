@@ -15,7 +15,7 @@ export const DropDownSucursal = () => {
 
             <Dropdown.Menu
                 style={{left : "-20%"}}
-                className="border-0 position-absolute">
+                className="border-0 shadow position-absolute">
                 <Link
                     className="text-decoration-none"
                     to={"/sucursales"}>

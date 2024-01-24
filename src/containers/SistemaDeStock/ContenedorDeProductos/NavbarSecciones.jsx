@@ -16,14 +16,13 @@ const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
 
     return (
         <NavLink
-            style={{ transform: rutaActual && "translateY(19px)" }}
-            className="d-flex justify-content-center"
+            style={{ background: rutaActual && "#E84A7A", maxWidth: "min-content" }}
+            className={`${rutaActual && "shadow"} d-flex justify-content-center transition overflow-hidden p-1 pt-1 rounded-4`}
             to={`/stock?categoria=${id}`}>
             <Nav.Item
-                id={styles[id]}
                 height={height}
                 decoding="async"
-                className="transition  mt-2 mt-lg-0"
+                className="  mt-2 px-2 px-md-0  mt-lg-0"
                 as={"img"}
                 src={src} />
         </NavLink>
@@ -39,7 +38,7 @@ const NavItems = () => {
 
     return (
 
-        <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100">
+        <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100 align-items-center">
             {
                 navItems.map(item => <NavItemImg key={item.id} rutaActual={quearyPath == item.id} {...item} />)
             }
@@ -63,6 +62,7 @@ export const NavBarSecciones = () => {
                     <DropDownSucursal />
                 </div>
                 <Navbar.Collapse
+                    className="mt-1"
                     id="basic-navbar-nav">
                     <NavItems />
                 </Navbar.Collapse>

@@ -9,12 +9,17 @@ const Sucursales = lazy(() => import('./screens/Sucursales'))
 const Stock = lazy(() => import("./screens/SistemaDeStock/SistemaDeStock"))
 const ContenedorDeGestion = lazy(() => import("./containers/SistemaDeStock/ContenedorDeGestion/ContenedorDeGestion"))
 const ContendoDeNuevoStock = lazy(() => import("./containers/SistemaDeStock/ContenedorDeNuevoStock/ContendoDeNuevoStock"))
+const ContenedorDeProductos = lazy(() => import('./containers/SistemaDeStock/ContenedorDeProductos/ContenedorDeProductos'))
 
 const router = createBrowserRouter([
   {
     path: "/stock",
-    element: <SuspenseLoadingComponent texto={"Cargando stock"}> <Stock /> </SuspenseLoadingComponent>,
+    element: <SuspenseLoadingComponent > <Stock /> </SuspenseLoadingComponent>,
     children: [
+      {
+        path: "productos",
+        element: <SuspenseLoadingComponent texto={"Cargando productos"}><ContenedorDeProductos /> </SuspenseLoadingComponent>
+      },
       {
         path: "gestion",
         element: <SuspenseLoadingComponent texto={"Cargando gestor de stock"}> <ContenedorDeGestion /> </SuspenseLoadingComponent>,
@@ -25,10 +30,6 @@ const router = createBrowserRouter([
       },
 
     ]
-  },
-  {
-    path: "/",
-    loader: () => redirect("/sucursales")
   },
   {
     path: "sucursales",
