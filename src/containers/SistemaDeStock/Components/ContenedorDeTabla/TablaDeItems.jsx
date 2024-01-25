@@ -8,7 +8,7 @@ import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 
 const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
-const Thead = () => {
+const Thead = memo(() => {
     return (
         <thead className="shadow position-relative ">
             <tr className="text-uppercase">
@@ -19,7 +19,7 @@ const Thead = () => {
             </tr>
         </thead>
     )
-}
+})
 
 const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id, establercerAlerta }) => {
 

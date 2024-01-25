@@ -1,24 +1,43 @@
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import obtenerUsuarios from "./api/obtenerUsuarios";
+import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 
+const InterfazDeIngresoDeUsuario = lazy(() => import("@/components//InterfazDeIngresoDeUsuario"))
 
+const ListaDeUsuarios = (item) => {
+    const { alternarMostrar, mostrar } = useAlternarComponentes()
+    const { nombre, apellido, id_usuario } = item
 
-const ListaDeUsuarios = ({ Nombre, Apellido }) => {
     return (
-        <Dropdown.Item className="text-secondary">{Nombre} {Apellido}</Dropdown.Item>
+        <>
+            <Dropdown.Item
+                onClick={alternarMostrar}
+                className="text-secondary">
+                {nombre} {apellido}
+            </Dropdown.Item>
+            {
+                mostrar &&
+                <InterfazDeIngresoDeUsuario
+                    key={id_usuario}
+                    {...item}
+                    alternarMostrar={alternarMostrar}
+                    mostrar={mostrar} />
+            }
+        </>
+
     )
 }
 
+
 export const DropwDownUsuario = () => {
 
-    const [usuario, setUsuarios] = useState([])
+    const [usuario, setUsuarios] = useState([{ id_usuario: 1, nombre: "f" }])
 
     useEffect(() => {
 
         (async () => {
             const res = await obtenerUsuarios()
-            console.log(res)
             setUsuarios(res)
         })()
 

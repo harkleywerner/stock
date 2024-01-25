@@ -18,7 +18,7 @@ const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
         <NavLink
             style={{ background: rutaActual && "#E84A7A", maxWidth: "min-content" }}
             className={`${rutaActual && "shadow"} d-flex justify-content-center transition overflow-hidden p-1 pt-1 rounded-4`}
-            to={`/stock?categoria=${id}`}>
+            to={`/stock/productos?categoria=${id}`}>
             <Nav.Item
                 height={height}
                 decoding="async"
