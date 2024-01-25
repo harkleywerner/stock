@@ -7,6 +7,7 @@ const obtenerUsuarios = async () => {
 
     const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/usuarios`, body)
     
+  
     const json = await res.json()
 
     if (!res.ok || json.error) {
