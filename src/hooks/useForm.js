@@ -12,9 +12,9 @@ export const useForm = (intialInput = {}) => {
 
     }, [])
 
-    const onSubmit = (evento) => {
+    const onSubmit = useCallback((evento) => {
         evento.preventDefault()
-    }
+    },[])
 
 
    const restablecerFormulario = () => {

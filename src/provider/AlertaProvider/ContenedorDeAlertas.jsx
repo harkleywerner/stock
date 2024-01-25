@@ -16,7 +16,7 @@ export const Alerta = memo(({ texto, tipo }) => {
             id={styles.AlertaInformativa}
             variant={tipo}
             style={{ maxWidth: "400px", minWidth: "400px",opacity : "0.9" }}
-            className={`border-${tipo} border-2 d-flex bg-white align-items-center shadow  p-2`}
+            className={`border-${tipo}  d-flex bg-white align-items-center justfiy-content-center shadow  p-2`}
         >
             <i className={`${icon[tipo]} fs-3 mx-2 `}></i>
             <Alert.Heading

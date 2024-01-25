@@ -1,31 +1,29 @@
 import { Button, Form, Modal } from "react-bootstrap"
 import wrapperAlerta from "../provider/AlertaProvider/wrapperAlerta"
-import { forwardRef, memo, useRef, useState } from "react"
+import { memo } from "react"
 import { useForm } from "../hooks/useForm"
-import { useImperativeHandle } from "react"
+import { useValidarForm } from "../hooks/useValidarForm"
 
-const FormularioDeIngreso = forwardRef((props, ref) => {
+const ButtonIngreso = memo(({ onSubmit, validated }) => {
+  
+    return (
+        <Button
+            type="submit"
+            onSubmit={onSubmit}
+            style={{ background: "#4bb9b7" }}
+            className="transition w-100 border-0 mt-5 fs-5">
+            Ingresar
+        </Button>
+    )
+})
 
-    const { form, changeForm } = useForm({ contraseña: "" })
+const FormularioDeIngreso = () => {
 
-    const [validated, setValidated] = useState(false);
+    const { form, changeForm, onSubmit } = useForm({ contraseña: "" })
 
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
+    const { handleSubmit, validated } = useValidarForm()
 
-        setValidated(true);
-    };
-
-    useImperativeHandle(ref, () => {
-        return {
-            contraseña: form.contraseña
-        }
-    })
-
+    const verificacion = form.contraseña.length < 6
     return (
         <Form
             noValidate
@@ -33,53 +31,40 @@ const FormularioDeIngreso = forwardRef((props, ref) => {
             onSubmit={handleSubmit}>
             <Form.Group>
                 <Form.Control
+                    autoComplete="off"
                     required
-                    isValid={false}
+                    isValid={!verificacion && validated}
+                    isInvalid={verificacion && validated}
                     onChange={changeForm}
                     name="contraseña"
                     value={form.contraseña}
                     placeholder="Ingresa la contraseña"
                     maxLength={6}
                     minLength={6}
-                    aria-labelledby="ingreso de usuario"
+                    aria-labelledby="contraseña del usuario"
                     className="fs-4 text-secondary"
                     type="password">
-
                 </Form.Control>
-                <Form.Control.Feedback type="invalid">Contraseña incorrecta!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">Contraseña incorrecta, debes ingresar 6 caracteres!</Form.Control.Feedback>
             </Form.Group>
+            <ButtonIngreso onSubmit={onSubmit} validated={!verificacion && validated} />
         </Form>
 
     )
-})
+}
 
 const InterfazDeIngresoDeUsuario = memo(({ establercerAlerta, alternarMostrar, mostrar, nombre, apellido }) => {
 
-    const formRef = useRef()
-
-    const onClick = () => {
-        console.log(formRef.current)
-    }
-
-
     return (
         <Modal
-            show={mostrar}
+            show={true}
             onHide={alternarMostrar}>
             <Modal.Header closeButton >
-                <Modal.Title className="text-secondary text-uppercase">{nombre} {apellido}</Modal.Title>
+                <Modal.Title className="text-secondary text-uppercase fs-4 text-truncate">{nombre} {apellido}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <FormularioDeIngreso ref={formRef} />
+                <FormularioDeIngreso />
             </Modal.Body>
-            <Modal.Footer>
-                <Button
-                    onClick={onClick}
-                    style={{ background: "#4bb9b7" }}
-                    className="transition w-100 border-0 fs-5">
-                    Ingresar
-                </Button>
-            </Modal.Footer>
         </Modal>
     )
 })
