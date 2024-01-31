@@ -1,30 +1,24 @@
-import { Container, Nav, Navbar } from "react-bootstrap"
+import { Container, Nav, Navbar, Spinner } from "react-bootstrap"
 import styles from "@/styles/NavBarSecciones.module.css"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
-import { memo } from "react"
+import { memo, useEffect, useState } from "react"
+import axios from "axios"
 
-const navItems = [
-    { id: "cremas", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/Cremas-Title.svg" },
-    { id: "ddl", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/DDL-Title.svg" },
-    { id: "agua", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/Alagua-Title.svg" },
-    { id: "chocolate", src: "https://www.pauletti.com.ar/wp-content/uploads/2022/08/Chocolate-Title.svg" },
-    { id: "tortas", src: "https://i.ibb.co/HNH0My7/test.png", height: 42 }
-]
 
-const NavItemImg = memo(({ src, id, height = 35, rutaActual }) => {
+const NavItemImg = memo(({ img_url, id_categoria, rutaActual }) => {
 
     return (
         <NavLink
             style={{ background: rutaActual && "#E84A7A", maxWidth: "min-content" }}
             className={`${rutaActual && "shadow"} d-flex justify-content-center transition overflow-hidden p-1 pt-1 rounded-4`}
-            to={`/stock/productos?categoria=${id}`}>
+            to={`/stock/productos?categoria=${id_categoria}`}>
             <Nav.Item
-                height={height}
+                height={id_categoria == 5 ? 45 : 35}
                 decoding="async"
                 className="  mt-2 px-2 px-md-0  mt-lg-0"
                 as={"img"}
-                src={src} />
+                src={img_url} />
         </NavLink>
 
     )
@@ -34,13 +28,30 @@ const NavItems = () => {
 
     const [search] = useSearchParams()
 
+    const [data, setData] = useState([])
+
     const quearyPath = search.get("categoria")
+
+    const BACK_END_URL = import.meta.env.VITE_BACKEND_URL
+
+
+    useEffect(() => {
+        (async () => {
+            const response = await axios.get(`${BACK_END_URL}/productos/categorias`)
+            setData(response.data)
+        })()
+
+
+    }, [])
 
     return (
 
         <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100 align-items-center">
             {
-                navItems.map(item => <NavItemImg key={item.id} rutaActual={quearyPath == item.id} {...item} />)
+                data.length == 0 ?
+                    <Spinner variant="white" className="mx-auto p-3" />
+                    :
+                    data.map(item => <NavItemImg key={item.id_categoria} rutaActual={quearyPath == item.id_categoria} {...item} />)
             }
         </Nav>
 

@@ -2,68 +2,70 @@ import { Col, Container, Row } from "react-bootstrap";
 import { lazy, useState } from "react";
 import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 import { SuspenseLoadingComponent } from "@/components/SuspenseLoadingComponent";
-import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { NavBarSecciones } from "./NavbarSecciones";
 import CardDeProductos from "./CardDeProductos";
+import { Await, useLoaderData } from "react-router-dom";
 
-const helados = [
-    {
-        id: 1, nombre: 'Chocolate', cantidad_total: 1, devoluciones_permitidas: -7
-    },
-];
+
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
 
-const ListaDeProductos = () => {
-
-
+const ContenedorCard = ({item}) => {
 
     const [listaDeRetirados, setListaDeRetirados] = useState({})
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const { insertarParametros, parametros } = useEstablecerParametros()
-
     return (
-        <Col
-            className=" m-0 p-0 d-flex scrollbar align-content-start  h-100 flex-wrap  justify-content-center ">
-            {
-                helados.map((item) =>
-                    <CardDeProductos
-                        key={item.id}
-                        insertarParametros={insertarParametros}
-                        alternarMostrar={alternarMostrar}
-                        listaDeRetirados={listaDeRetirados[item.nombre]}
-                        item={item}
-                    />
-                )
-            }
+        <>
+            <CardDeProductos
+                alternarMostrar={alternarMostrar}
+                listaDeRetirados={listaDeRetirados[item.nombre]}
+                item={item}
+            />
 
-            <SuspenseLoadingComponent texto="Cargando item">
+
+            <SuspenseLoadingComponent texto={`Cargando item ${item.nombre}`}>
                 {mostrar && <InterfazDeRetiroDeProducto
                     listaDeRetirados={listaDeRetirados}
                     setListaDeRetirados={setListaDeRetirados}
-                    parametros={parametros}
                     alternarMostrar={alternarMostrar}
+                    parametros={item}
                     mostrar={mostrar} />}
             </SuspenseLoadingComponent>
-        </Col>
+
+        </>
+
+
     )
 }
 
 const ContenedorDeProductos = () => {
 
+    const { productos } = useLoaderData()
 
     return (
-        <Container fluid className="p-0  m-0">
-            <Row className="m-0">
-                <NavBarSecciones />
-            </Row>
-            <Row className="m-0">
-                <ListaDeProductos />
-            </Row>
-        </Container>
+        <SuspenseLoadingComponent texto="Cargando productos...">
 
+            <Container fluid className="p-0  m-0">
+
+                <Row className="m-0">
+                    <NavBarSecciones />
+                </Row>
+
+                <Row className="m-0">
+
+                    <Col
+                        className=" m-0 p-0 d-flex scrollbar align-content-start  h-100 flex-wrap  justify-content-center ">
+                        <Await resolve={productos}>
+                            {(resolveProductos) => resolveProductos.data.map(item => <ContenedorCard key={item.id_producto} item={item} />)}
+                        </Await>
+                    </Col>
+
+                </Row>
+            </Container>
+
+        </SuspenseLoadingComponent >
     );
 };
 

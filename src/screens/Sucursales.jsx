@@ -3,62 +3,53 @@ import { CardDeSucursales } from "../containers/Sucursales/CardDeSucursales";
 import { useAlternarComponentes } from "../hooks/useAlternarComponentes";
 import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent";
 import { lazy } from "react";
-import { useEstablecerParametros } from "../hooks/useEstablecerParametros";
+import { Await, useLoaderData } from "react-router-dom";
 
-const retrasar = (impor, seconds = 3) => {
+const InterfazDeLogeo = lazy(() => import("../containers/Sucursales/InterfazDeLogeo"))
 
-    return new Promise((res, rej) => {
-        setTimeout(() => {
-            res(impor)
-        }, 1000 * seconds);
-    })
-}
-
-
-const InterfazDeLogeo = lazy(() => retrasar(import("../containers/Sucursales/InterfazDeLogeo")))
-
-const listadoDeSucursales = [
-    { id: 1, nombre: "25 de mayo 226" },
-    { id: 2, nombre: "Salta 398 343434343344334" },
-    { id: 3, nombre: "25 de mayo 226" },
-    { id: 4, nombre: "25 de mayo 226" },
-    { id: 5, nombre: "25 de mayo 226" },
-    { id: 6, nombre: "25 de mayo 226" },
-    { id: 7, nombre: "25 de mayo 226" },
-
-]
- const Sucursales = () => {
+const ContenedorCard = ({ nombre, id_sucursal }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const { insertarParametros, parametros } = useEstablecerParametros()
-
     return (
-        <Container fluid className=" vh-100 overflow-hidden p-0">
-            <SuspenseLoadingComponent
-                texto="Cargando sucursal">
+        <>
+            <CardDeSucursales
+                alternarMostrar={alternarMostrar}
+                nombre={nombre}
+            />
+            <SuspenseLoadingComponent texto={`Cargando ${nombre}`}>
                 {
-                    mostrar && <InterfazDeLogeo
+                    mostrar &&
+                    <InterfazDeLogeo
                         alternarMostrar={alternarMostrar}
                         mostrar={mostrar}
-                        parametros={parametros}
-                    />
+                        nombre={nombre}
+                        id_sucursal={id_sucursal} />
                 }
             </SuspenseLoadingComponent>
-            <Row className="m-0 h-100">
-                <Col className="p-0 h-100 scrollbar flex-wrap d-flex align-content-start align-items-center justify-content-center">
-                    {
-                        listadoDeSucursales.map(item =>
-                            <CardDeSucursales
-                                insertarParametros={insertarParametros}
-                                alternarMostrar={alternarMostrar}
-                                key={item.id} objecto={item} />)
-                    }
-                </Col>
-            </Row>
+        </>
+    )
+}
 
 
-        </Container>
+const Sucursales = () => {
+
+    const { lista_de_sucursales } = useLoaderData()
+
+    return (
+        <SuspenseLoadingComponent texto="Cargando sucursales">
+            <Container fluid className=" vh-100 overflow-hidden p-0">
+                <Row className="m-0 h-100">
+                    <Col className="p-0 h-100 scrollbar flex-wrap d-flex align-content-start align-items-center justify-content-center">
+                        <Await resolve={lista_de_sucursales}>
+                            {(resolveSucursal) => (
+                                resolveSucursal.data.map(item => <ContenedorCard key={item.id_sucursal} {...item} />)
+                            )}
+                        </Await>
+                    </Col>
+                </Row>
+            </Container>
+        </SuspenseLoadingComponent>
     );
 };
 

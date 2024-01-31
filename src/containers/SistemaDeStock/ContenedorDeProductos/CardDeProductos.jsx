@@ -2,15 +2,9 @@ import { Button, Card } from "react-bootstrap";
 import styles from "@/styles/CardDeProductos.module.css"
 import { memo } from "react";
 
-const CardDeProductos = memo(({ alternarMostrar, item, insertarParametros, listaDeRetirados }) => {
+const CardDeProductos = memo(({ alternarMostrar, item, listaDeRetirados }) => {
 
     const { nombre, cantidad_total } = listaDeRetirados || item
-
-
-    const onClick = () => {
-        alternarMostrar(true)
-        insertarParametros(item)
-    }
 
     return (
         <Card
@@ -21,7 +15,7 @@ const CardDeProductos = memo(({ alternarMostrar, item, insertarParametros, lista
             </Card.Title>
             <Card.Body className="d-flex justify-content-between  align-items-center">
                 <Button
-                    onClick={onClick}
+                    onClick={alternarMostrar}
                     className={styles.cardButton}
                     variant="none">Retirar</Button>
                 <p style={{ border: "1px solid #814937", color: "#555", width: "30px", height: "35px" }}

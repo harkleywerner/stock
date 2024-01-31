@@ -1,13 +1,11 @@
 import { useForm } from "@/hooks//useForm";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
+const InterfazDeLogeo = ({ alternarMostrar, mostrar, nombre, id_sucursal }) => {
 
-    const [search] = useSearchParams()
     const { changeForm, form } = useForm({ password: "" })
-    const nombre = search.get("s")
-    const id = search.get("id")
+
     return (
         <Modal
             show={mostrar}
@@ -28,7 +26,6 @@ const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
                     aria-labelledby="contraseña"
                     maxLength={6}
                 />
-
                 <p
                     style={{ visibility: "hidden" }}
                     className="m-0 text-danger pt-2 ms-1  fw-normal ">Contraseña incorrecta</p>
@@ -39,13 +36,13 @@ const InterfazDeLogeo = ({ alternarMostrar, mostrar }) => {
                     className="w-100 transition fs-4 border-0">
                     Ingresar
                 </Button>
-                <Link to={`/stock/?id=${id}`}>
-                <Button
-                    variant="none"
-                    className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
-                    <span className="mx-1 fw-normal">Ingresar como invitado</span>
-                    <i className="fa-solid fs-4 fa-user-clock"></i>
-                </Button>
+                <Link to={`/stock/?id=${id_sucursal}`}>
+                    <Button
+                        variant="none"
+                        className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
+                        <span className="mx-1 fw-normal">Ingresar como invitado</span>
+                        <i className="fa-solid fs-4 fa-user-clock"></i>
+                    </Button>
                 </Link>
             </Modal.Footer>
         </Modal>

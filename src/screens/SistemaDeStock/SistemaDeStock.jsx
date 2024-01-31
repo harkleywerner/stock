@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { GestionDeStockProvider } from "../../provider/GestionDeStockProvider";
 import { NavHeader } from "./NavHeader";
 
-const SistemaDeStock = () => {
+const SistemaDeStock =() => {
 
     return (
         <GestionDeStockProvider>
@@ -12,6 +12,7 @@ const SistemaDeStock = () => {
                 <Row id="nav" className='m-0 '>
                     <NavHeader />
                 </Row>
+                
                 <Row
                     as={"main"}
                     className='h-100 m-0 flex-grow-1 overflow-hidden'>
@@ -20,6 +21,6 @@ const SistemaDeStock = () => {
             </Container >
         </GestionDeStockProvider>
     );
-};
+}
 
 export default SistemaDeStock
