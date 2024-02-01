@@ -10,7 +10,7 @@ export const useAlerta = () => {
 
     const establercerAlerta = useCallback((nuevaAlerta) => {
 
-        const { multiples, id } = nuevaAlerta
+        const { multiples, id } = nuevaAlerta //=> id,multiples,texto,tipo
 
         return new Promise((res) => {
             setAlerta(prev => {

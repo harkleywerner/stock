@@ -37,11 +37,13 @@ const NavItems = () => {
 
     useEffect(() => {
         (async () => {
-            const response = await axios.get(`${BACK_END_URL}/productos/categorias`)
-            setData(response.data)
+            try {
+                const response = await axios.get(`${BACK_END_URL}/productos/categorias`)
+                setData(response.data)
+            } catch (error) {
+                console.log(error.response.data)
+            }
         })()
-
-
     }, [])
 
     return (
@@ -49,7 +51,7 @@ const NavItems = () => {
         <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100 align-items-center">
             {
                 data.length == 0 ?
-                    <Spinner variant="white" className="mx-auto p-3" />
+                    <Spinner variant="white" className="mx-auto p-2" />
                     :
                     data.map(item => <NavItemImg key={item.id_categoria} rutaActual={quearyPath == item.id_categoria} {...item} />)
             }

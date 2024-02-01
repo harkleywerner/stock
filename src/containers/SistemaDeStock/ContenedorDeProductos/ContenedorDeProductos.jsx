@@ -5,12 +5,13 @@ import { SuspenseLoadingComponent } from "@/components/SuspenseLoadingComponent"
 import { NavBarSecciones } from "./NavbarSecciones";
 import CardDeProductos from "./CardDeProductos";
 import { Await, useLoaderData } from "react-router-dom";
+import ErrorAwaitHandler from "@/components//ErrorAwaitHandler";
 
 
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
 
-const ContenedorCard = ({item}) => {
+const ContenedorCard = ({ item }) => {
 
     const [listaDeRetirados, setListaDeRetirados] = useState({})
 
@@ -40,9 +41,11 @@ const ContenedorCard = ({item}) => {
     )
 }
 
+
 const ContenedorDeProductos = () => {
 
     const { productos } = useLoaderData()
+
 
     return (
         <SuspenseLoadingComponent texto="Cargando productos...">
@@ -57,7 +60,7 @@ const ContenedorDeProductos = () => {
 
                     <Col
                         className=" m-0 p-0 d-flex scrollbar align-content-start  h-100 flex-wrap  justify-content-center ">
-                        <Await resolve={productos}>
+                        <Await errorElement={<ErrorAwaitHandler />} resolve={productos}>
                             {(resolveProductos) => resolveProductos.data.map(item => <ContenedorCard key={item.id_producto} item={item} />)}
                         </Await>
                     </Col>

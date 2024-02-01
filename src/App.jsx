@@ -24,12 +24,16 @@ const router = createBrowserRouter([
         path: "productos",
         element: <SuspenseLoadingComponent texto={"Cargando productos"}><ContenedorDeProductos /> </SuspenseLoadingComponent>,
         loader: async ({ request }) => {
-          const queryParams = new URL(request.url)
 
-          const response = axios.get(`${BACK_END_URL}/productos${queryParams.search}`)
-          return defer({
-            productos: response
-          })
+            const queryParams = new URL(request.url)
+
+            const response = axios.get(`${BACK_END_URL}/productos${queryParams.search}`)
+
+            return defer({
+              productos: response,
+
+            })
+        
         }
       },
 
