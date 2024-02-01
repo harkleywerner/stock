@@ -4,11 +4,11 @@ import { NotificacionesContext } from "./NotificacionesProvider";
 const wrapperNotificaciones = (Component) => {
 
     return (props) => {
-        const { establecerAlerta, establecerToast } = useContext(NotificacionesContext) || {};
+        const { establecerAlerta, establecerToast,removerAlerta } = useContext(NotificacionesContext) || {};
 
     
         return (
-            <Component establecerAlerta={establecerAlerta} establecerToast={establecerToast} {...props} />
+            <Component establecerAlerta={establecerAlerta} removerAlerta = {removerAlerta} establecerToast={establecerToast} {...props} />
         )
     };
 }

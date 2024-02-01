@@ -1,6 +1,6 @@
   #contenedorSuspense {
       background-color: #E84A7A;
-      top: 2%;
+      top: 0.9%;
       left: 50%;
       transform: translateX(-50%);
       animation: animacionBajar 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -12,7 +12,7 @@
       }
 
       to {
-          top: 2%;
+          top: 0.9%;
       }
   }
 

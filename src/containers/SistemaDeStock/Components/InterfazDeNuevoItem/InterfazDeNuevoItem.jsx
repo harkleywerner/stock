@@ -24,7 +24,7 @@ const InterfazDeNuevoItem = memo((
         if (!parametrosEdit) return
         insertarParametros({ ...parametrosEdit })
     }, [parametrosEdit])
-  
+
 
     const onAlternarMostrar = () => {
         alternarMostrar()
@@ -45,7 +45,7 @@ const InterfazDeNuevoItem = memo((
 
             const { nombre, categoria, id } = parametros
 
-            establecerToast({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, tipo: "success"})
+            establecerToast({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, tipo: "success" })
 
             editarItem({
                 id: parametrosEdit.id,

@@ -43,8 +43,9 @@ const ContenedorCard = wrapperNotificaciones(memo(({ establecerAlerta }) => {
 
     const [search] = useSearchParams()
 
+
     const listaDePromesas = [
-        { method: "GET", url: `/productos/?${search.toString()}`, id: "productos" }
+        { method: "GET", url: `/productos/`, id: "productos", params: { search: search.get("search") } }
     ]
 
     const { loader, data, obtenerDatos } = useLoaderPromesas({ listaDePromesas, establecerAlerta })
@@ -57,7 +58,7 @@ const ContenedorCard = wrapperNotificaciones(memo(({ establecerAlerta }) => {
 
         obtenerDatos({ promesa: [listaDePromesas[0]] })
 
-    }, [search.toString()])
+    }, [search.get("search")])
 
     return (
 

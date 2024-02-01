@@ -1,25 +1,18 @@
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes"
 import { useForm } from "@/hooks//useForm"
-import { memo, useEffect } from "react"
-import { Collapse, Form, Stack } from "react-bootstrap"
+import { useLoaderPromesas } from "@/hooks//useLoaderPromesas"
+import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones"
+import axios from "axios"
+import { memo, useEffect, useState } from "react"
+import { Collapse, Form, Spinner, Stack } from "react-bootstrap"
 
-const listado2 = [
-    { nombre: "Dulce de leche", categoria: "dulce de leche", id: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
 
-]
 
-const Listado = ({ alternarMostrar, insertarParametros, item }) => {
+const Listado = ({ insertarParametros, item }) => {
 
     const { nombre } = item
 
     const onClick = () => {
-        alternarMostrar()
         insertarParametros(item)
     }
 
@@ -35,23 +28,49 @@ const Listado = ({ alternarMostrar, insertarParametros, item }) => {
     )
 }
 
-const ResultadosDeBusqueda = ({ buscador, listado = listado2, alternarMostrar, insertarParametros }) => {
+const ResultadosDeBusqueda = wrapperNotificaciones(memo(({ buscador, insertarParametros, mostrar, establecerAlerta }) => {
+
+    const cancelSoruce = axios.CancelToken.source()
+
+    const listaDePromesas = [
+        { method: "POST", url: `/productos`, id: "productos", data: buscador, cancelToken: cancelSoruce.token }]
+
+    const { data, loader, obtenerDatos, setLoader } = useLoaderPromesas({ establecerAlerta })
+
+    const productos = data.productos ?? []
+
+    useEffect(() => {
+
+        const timeoutSearch = setTimeout(() => {
+
+            if (cancelSoruce.token) {
+                cancelSoruce.cancel
+            }
+
+            obtenerDatos({ promesa: listaDePromesas })
+            setLoader(false)
+        }, 600);
+
+        return () => {
+            clearTimeout(timeoutSearch)
+            cancelSoruce.cancel('Componente desmontado');
+        }
+    }, [buscador])
+
     return (
         <Collapse
-            className="z-1 shadow w-100 rounded-4  "
-            in={buscador.length > 0 ? true : false}
+            className={`${!mostrar ? "d-none" : ""} z-1 shadow w-100 rounded-4 `}
+            in={true}
             dimension={"width"} >
-
             <div
                 style={{ minHeight: "100px", maxHeight: "250px", left: "0%" }}
                 className="bg-white scrollbar w-100 border position-absolute">
                 {
-                    listado.length > 0 ?
-                        listado.map(item =>
+                    productos.length > 0 && loader ?
+                        productos.map(item =>
                             <Listado
                                 insertarParametros={insertarParametros}
-                                alternarMostrar={alternarMostrar}
-                                key={item.id}
+                                key={item.id_producto}
                                 item={item}
                             />
                         )
@@ -59,30 +78,37 @@ const ResultadosDeBusqueda = ({ buscador, listado = listado2, alternarMostrar, i
                         <div
                             style={{ minHeight: "100px" }}
                             className="text-ligthdark d-flex justify-content-center align-items-center h-100 ">
-                            <p className="m-0 mx-1">No se encontraron coincidencias de {searching}</p>
+                            {
+                                loader ? <p className="m-0 mx-1">No se encontraron coincidencias...</p> : <Spinner></Spinner>
+                            }
                         </div>
                 }
             </div>
+
         </Collapse>
     )
-}
+}))
 
 export const BuscadorItem = memo(({ insertarParametros }) => {
 
     const { changeForm, form } = useForm({ buscador: "" })
 
+
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
+    const onBlur = () => {
+        const timeOut = setTimeout(() => {
+            alternarMostrar(false)
+        }, 200)
 
-    useEffect(() => {
-
-        changeForm({ target: { name: "buscador", value: "" } })
-
-    }, [mostrar])
+        return () => clearTimeout(timeOut)
+    }
 
     return (
         <>
             <Form.Control
+                onFocus={() => alternarMostrar(true)}
+                onBlur={onBlur}
                 className="font py-2 fs-5"
                 name="buscador"
                 type="search"
@@ -92,10 +118,12 @@ export const BuscadorItem = memo(({ insertarParametros }) => {
                 value={form.buscador}
             >
             </Form.Control>
+
             <ResultadosDeBusqueda
+                mostrar={mostrar}
                 insertarParametros={insertarParametros}
-                alternarMostrar={alternarMostrar}
                 buscador={form.buscador} />
+
         </>
     )
 })

@@ -13,7 +13,7 @@ export const NotificacionesProvider = ({ children }) => {
 
 
     return (
-        <NotificacionesContext.Provider value={{ establecerAlerta, establecerToast }}>
+        <NotificacionesContext.Provider value={{ establecerAlerta, establecerToast,removerAlerta }}>
             {
                 toasts.length > 0 &&
                 <ContenedorDeToast

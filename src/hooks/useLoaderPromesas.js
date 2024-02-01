@@ -4,29 +4,33 @@ import shortUUID from "short-uuid";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-
-export const useLoaderPromesas = ({ listaDePromesas, establecerAlerta }) => {
+export const useLoaderPromesas = ({ listaDePromesas = [], establecerAlerta } = {}) => {
 
     const [data, setData] = useState({});
 
     const [loader, setLoader] = useState(false);
 
-    const id = useMemo(()=>{
+    const id = useMemo(() => {
         return shortUUID.generate()
-    },[])
+    }, [])
 
 
     const obtenerDatos = async ({ promesa, intentos } = {}) => {
 
         const actual = promesa || listaDePromesas
-
         try {
             const responses = await Promise.all(
-                actual.map(({ method, url, data }) =>
+                actual.map(({ method, url, data, cancelToken, params }) =>
                     axios({
                         method,
+                        params: {
+                            ...params
+                        },
                         url: `${BACK_END_URL}${url}`,
-                        data,
+                        data: {
+                            buscador: data
+                        },
+                        cancelToken,
                     })
                 )
             );
@@ -41,31 +45,32 @@ export const useLoaderPromesas = ({ listaDePromesas, establecerAlerta }) => {
                 return { ...prev, ...newData }
             });
 
+
             setLoader(true)
 
             return "success"
 
         } catch (error) {
 
-            if (!intentos && [502, 503, 504, 500, 429, 500, 0].includes(error.request.status)) {
+            const request = error?.request?.status
+
+            if (!intentos && [502, 503, 504, 500, 429, 500, 0].includes(request || 200)) {
 
                 const res = error?.response?.data
 
                 establecerAlerta({
                     id: id,
                     data: res || { message: error.message, code: error.code },
-                    obtenerDatos
-
+                    obtenerDatos: ({ intentos }) => obtenerDatos({ promesa: actual, intentos })
                 })
             }
-
-
 
         }
     };
 
     useEffect(() => {
-        setLoader(false);
+        if (listaDePromesas.length == 0) return
+
         obtenerDatos();
     }, []);
 
@@ -73,6 +78,7 @@ export const useLoaderPromesas = ({ listaDePromesas, establecerAlerta }) => {
     return {
         data,
         loader,
-        obtenerDatos
+        obtenerDatos,
+        setLoader
     }
 }

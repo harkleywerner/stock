@@ -11,14 +11,14 @@ export const useAlerta = () => {
             const busqueda = prev.find(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos: 10 }]
             return busqueda
         })
-    },[])
+    }, [])
 
-    const removerAlerta = (id) => {
+    const removerAlerta = useCallback((id) => {
 
         setAlerta(prev => {
             return prev.filter(i => i.id !== id)
         })
-    }
+    }, [])
 
     const establecerIntentos = (id) => {
 

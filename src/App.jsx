@@ -39,8 +39,8 @@ const router = createBrowserRouter([
     path: "sucursales",
     element: <SuspenseLoadingComponent ><Sucursales /></SuspenseLoadingComponent>,
     loader: async () => {
-      const response = axios.get(`${BACK_END_URL}/sucursales`)
-
+      const response =  axios.get(`${BACK_END_URL}/sucursales`)
+          
 
       return defer({
         lista_de_sucursales: response
