@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import { BuscadorItem } from "./BuscadorItem";
 import { memo, useEffect, useRef } from "react";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { ModalBody } from "./ModalBody";
 
 const InterfazDeNuevoItem = memo((
@@ -10,7 +10,7 @@ const InterfazDeNuevoItem = memo((
         alternarMostrar,
         mostrar,
         parametrosEdit,
-        establercerAlerta,
+        establecerToast,
         state,
         editarItem,
         agregarItem
@@ -24,6 +24,7 @@ const InterfazDeNuevoItem = memo((
         if (!parametrosEdit) return
         insertarParametros({ ...parametrosEdit })
     }, [parametrosEdit])
+  
 
     const onAlternarMostrar = () => {
         alternarMostrar()
@@ -38,13 +39,13 @@ const InterfazDeNuevoItem = memo((
         const verificaSiSeEncuentra = state.find(item => item.id == parametros.id)
 
         if (keys.length == 0) {
-            return establercerAlerta({ texto: "Debes agregar un item para continuar", id: "1-warning-item", tipo: "warning" })
+            return establecerToast({ texto: "Debes agregar un item para continuar", tipo: "warning" })
         }
         else if (verificaSiSeEncuentra && parametrosEdit && verificaSiSeEncuentra.id == parametrosEdit.id || !verificaSiSeEncuentra && parametrosEdit) {
 
             const { nombre, categoria, id } = parametros
 
-            establercerAlerta({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, id: "1-success-item", tipo: "success", multiples: true })
+            establecerToast({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, tipo: "success"})
 
             editarItem({
                 id: parametrosEdit.id,
@@ -55,10 +56,10 @@ const InterfazDeNuevoItem = memo((
             })
         }
         else if (!parametrosEdit && !verificaSiSeEncuentra) {
-            establercerAlerta({ texto: `Item ${parametros.nombre} agregado exitosamente `, id: "2-success-item", tipo: "success" })
+            establecerToast({ texto: `${parametros.nombre} agregado exitosamente `, tipo: "success" })
             agregarItem({ ...parametros, cantidad: refImperative.current.cantidad })
         } else {
-            return establercerAlerta({ texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", id: "2-warning-item", tipo: "warning" })
+            return establecerToast({ texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", tipo: "warning" })
         }
 
         alternarMostrar()
@@ -100,4 +101,4 @@ const InterfazDeNuevoItem = memo((
 })
 
 
-export default wrapperAlerta(InterfazDeNuevoItem)
+export default wrapperNotificaciones(InterfazDeNuevoItem)

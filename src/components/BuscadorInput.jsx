@@ -3,7 +3,7 @@ import { useForm } from "@/hooks/useForm"
 import { memo, useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
-const FormBuscador = ({texto}) => {
+const FormBuscador = ({ texto }) => {
 
     const { form, changeForm } = useForm({ "buscador": "" })
 

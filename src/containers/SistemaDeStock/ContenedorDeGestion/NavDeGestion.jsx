@@ -6,7 +6,7 @@ import { lazy, useContext } from "react";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { NavLink } from "react-router-dom";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 
 const InterfazDeNuevoItem = lazy(() => import("@/containers//SistemaDeStock/Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
 

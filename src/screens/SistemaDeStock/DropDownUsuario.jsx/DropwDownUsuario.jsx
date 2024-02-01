@@ -2,7 +2,7 @@ import { lazy, memo, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import obtenerUsuarios from "./api/obtenerUsuarios";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 
 const InterfazDeIngresoDeUsuario = lazy(() => import("@/components//InterfazDeIngresoDeUsuario"))
 
@@ -33,24 +33,9 @@ const ListaDeUsuarios = (item) => {
 
 export const DropwDownUsuario = wrapperAlerta(memo(({ establercerAlerta }) => {
 
-    const [usuario, setUsuarios] = useState([])
+ 
 
-    useEffect(() => {
 
-        (async () => {
-            try {
-                const res = await obtenerUsuarios()
-
-                setUsuarios(res)
-        
-            } catch (error) {
-              
-                establercerAlerta({ texto: `Error ${error.type || "no identificado"}`, tipo: "danger", id: "usuarios-danger-1" })
-            }
-
-        })()
-
-    }, [])
 
     return (
         <Dropdown >
@@ -62,7 +47,7 @@ export const DropwDownUsuario = wrapperAlerta(memo(({ establercerAlerta }) => {
 
             <Dropdown.Menu>
                 {
-                    usuario.map(item => <ListaDeUsuarios key={item.id_usuario} {...item} />)
+                    [].map(item => <ListaDeUsuarios key={item.id_usuario} {...item} />)
                 }
             </Dropdown.Menu>
         </Dropdown>

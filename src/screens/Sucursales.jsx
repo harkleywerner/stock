@@ -4,6 +4,7 @@ import { useAlternarComponentes } from "../hooks/useAlternarComponentes";
 import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent";
 import { lazy } from "react";
 import { Await, useLoaderData } from "react-router-dom";
+import ErrorAwaitHandler from "../components/ErrorAwaitHandler";
 
 const InterfazDeLogeo = lazy(() => import("../containers/Sucursales/InterfazDeLogeo"))
 
@@ -41,7 +42,9 @@ const Sucursales = () => {
             <Container fluid className=" vh-100 overflow-hidden p-0">
                 <Row className="m-0 h-100">
                     <Col className="p-0 h-100 scrollbar flex-wrap d-flex align-content-start align-items-center justify-content-center">
-                        <Await resolve={lista_de_sucursales}>
+                        <Await
+                        errorElement = {<ErrorAwaitHandler/>}
+                        resolve={lista_de_sucursales}>
                             {(resolveSucursal) => (
                                 resolveSucursal.data.map(item => <ContenedorCard key={item.id_sucursal} {...item} />)
                             )}

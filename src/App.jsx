@@ -1,9 +1,9 @@
-import { RouterProvider, createBrowserRouter, defer, useLocation, useSearchParams } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { Suspense, lazy } from 'react';
-import { AlertasProvider } from './provider/AlertaProvider/AlertasProvider';
+import { NotificacionesProvider } from './provider/NotificacionesProvider/NotificacionesProvider';
 import axios from 'axios';
 
 const Sucursales = lazy(() => import('./screens/Sucursales'))
@@ -18,23 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/stock",
     element: <SuspenseLoadingComponent > <Stock /> </SuspenseLoadingComponent>,
-
     children: [
       {
         path: "productos",
         element: <SuspenseLoadingComponent texto={"Cargando productos"}><ContenedorDeProductos /> </SuspenseLoadingComponent>,
-        loader: async ({ request }) => {
-
-            const queryParams = new URL(request.url)
-
-            const response = axios.get(`${BACK_END_URL}/productos${queryParams.search}`)
-
-            return defer({
-              productos: response,
-
-            })
-        
-        }
       },
 
       {
@@ -50,9 +37,10 @@ const router = createBrowserRouter([
   },
   {
     path: "sucursales",
-    element: <SuspenseLoadingComponent><Sucursales /></SuspenseLoadingComponent>,
+    element: <SuspenseLoadingComponent ><Sucursales /></SuspenseLoadingComponent>,
     loader: async () => {
       const response = axios.get(`${BACK_END_URL}/sucursales`)
+
 
       return defer({
         lista_de_sucursales: response
@@ -65,9 +53,9 @@ function App() {
 
   return (
     <Suspense fallback="">
-      <AlertasProvider>
+      <NotificacionesProvider>
         <RouterProvider router={router}></RouterProvider>
-      </AlertasProvider>
+      </NotificacionesProvider>
     </Suspense>
   )
 }

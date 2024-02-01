@@ -1,5 +1,5 @@
 import { Button, Form, Modal } from "react-bootstrap"
-import wrapperAlerta from "../provider/AlertaProvider/wrapperAlerta"
+import wrapperAlerta from "../provider/NotificacionesProvider/wrapperNotificaciones"
 import { memo } from "react"
 import { useForm } from "../hooks/useForm"
 import { useValidarForm } from "../hooks/useValidarForm"

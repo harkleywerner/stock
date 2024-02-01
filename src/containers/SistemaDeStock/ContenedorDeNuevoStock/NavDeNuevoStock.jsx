@@ -2,7 +2,7 @@ import { DropDownFilterCategoria } from "@/components//DropDownFilterCategoria";
 import { DropDownSucursal } from "@/components//DropDownSucursal";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
+import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
 import { lazy, useContext } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";

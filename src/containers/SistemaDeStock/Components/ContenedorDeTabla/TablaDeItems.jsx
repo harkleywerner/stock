@@ -1,10 +1,11 @@
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 import { Table } from "react-bootstrap";
 import styles from "@/styles/TablaDeItems.module.css"
 import { lazy, memo } from "react";
 import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
+import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
+import { PrimeraLetraMayuscula } from "@/helpers//PrimeraLetraMayuscula";
 
 const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
@@ -21,11 +22,11 @@ const Thead = memo(() => {
     )
 })
 
-const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id, establercerAlerta }) => {
+const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id, establecerToast }) => {
 
     const onRemoveItem = () => {
         removerItem({ id })
-        establercerAlerta({ texto: `Item ${nombre} fue removido`, multiples: true, id: "1-remove-danger", tipo: "danger" })
+        establecerToast({ texto: `Item ${nombre} fue removido`, tipo: "danger" })
     }
 
     return (
@@ -38,7 +39,7 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
             <td
                 style={{ maxWidth: "300px", minWidth: "150px", }}
                 className="text-secondary text-nowrap text-truncate ">
-                {categoria}
+                {PrimeraLetraMayuscula(categoria)}
             </td>
             <td className="text-center   ">
                 <p
@@ -60,7 +61,7 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
     )
 })
 
-const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem, editarItem }) => {
+const TablaDeItems = ({ state = [], establecerToast, removerItem, agregarItem, editarItem }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -83,7 +84,7 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem,
                         state.map((item, index) =>
                             <Tbody
                                 removerItem={removerItem}
-                                establercerAlerta={establercerAlerta}
+                                establecerToast={establecerToast}
                                 insertarParametros={() => { insertarParametros(item), alternarMostrar() }}
                                 key={index}
                                 {...item} />)
@@ -107,4 +108,4 @@ const TablaDeItems = ({ state = [], establercerAlerta, removerItem, agregarItem,
     );
 };
 
-export default wrapperAlerta(TablaDeItems)
+export default wrapperNotificaciones(TablaDeItems)

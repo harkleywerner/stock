@@ -2,6 +2,7 @@ import { Container, Row } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
 import { GestionDeStockProvider } from "../../provider/GestionDeStockProvider";
 import { NavHeader } from "./NavHeader";
+import { useEffect } from "react";
 
 const SistemaDeStock =() => {
 

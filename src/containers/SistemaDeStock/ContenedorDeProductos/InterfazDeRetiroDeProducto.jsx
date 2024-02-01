@@ -1,15 +1,15 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "@/hooks/useForm";
-import wrapperAlerta from "@/provider//AlertaProvider/wrapperAlerta";
 import { memo } from "react";
-
+import shortUUID from "short-uuid";
+import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 
 const InterfazDeRetiroDeProducto = memo((
     {
         alternarMostrar,
         mostrar,
         setListaDeRetirados,
-        establercerAlerta,
+        establecerToast,
         parametros,
         listaDeRetirados
     }
@@ -34,7 +34,7 @@ const InterfazDeRetiroDeProducto = memo((
 
     const enviarCantidad = () => {
 
-        if (cantidadEnt == 0) return
+        if (evaluarCantidad == 0) return
 
         const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
         const calcularCantidad = cantidad_total - evaluarCantidad
@@ -50,7 +50,7 @@ const InterfazDeRetiroDeProducto = memo((
 
         const text = cantidadEnt < 0 ? "Devolviste" : "Retiraste"
 
-        establercerAlerta({ texto: `${text} ${Math.abs(evaluarCantidad)} unidade/s de ${nombre}`, tipo: "success", multiples: true })
+        establecerToast({ texto: `${text} ${Math.abs(evaluarCantidad)} unidade/s de ${nombre}`, tipo: "success" })
 
         restablecerFormulario()
     }
@@ -100,4 +100,4 @@ const InterfazDeRetiroDeProducto = memo((
     );
 })
 
-export default wrapperAlerta(InterfazDeRetiroDeProducto)
+export default wrapperNotificaciones(InterfazDeRetiroDeProducto)
