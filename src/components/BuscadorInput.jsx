@@ -9,28 +9,16 @@ const FormBuscador = ({ texto }) => {
 
     const [search, setSearch] = useSearchParams()
 
-    const [isTyping, setTyping] = useState()
-
-    const searching = search.get("search") || ""
-
     const { buscador } = form
 
     useEffect(() => {
 
-        !isTyping && setTyping(true)
+        search.delete("search")
 
-        const timeoutSearch = setTimeout(() => {
+        if (buscador.length == 0) return setSearch(`${search.toString()}`)
+        search.append("search", form.buscador)
+        setSearch(`?${search.toString()}`);
 
-            search.delete("search")
-
-            if (buscador.length == 0) return setSearch(`${search.toString()}`)
-            search.append("search", form.buscador)
-            setSearch(`?${search.toString()}`);
-            setTyping(false)
-
-        }, 600);
-
-        return () => clearTimeout(timeoutSearch)
 
     }, [buscador])
 
@@ -38,7 +26,7 @@ const FormBuscador = ({ texto }) => {
     return (
         <Form.Control
             type="search"
-            value={isTyping ? buscador : searching}
+            value={buscador}
             name="buscador"
             className={` font border-0  d-sm-inline text-white fw-medium fs-5`}
             style={{ boxShadow: "none", background: "transparent" }}

@@ -21,7 +21,7 @@ const RestoDelMensaje = memo(({ message }) => {
       {show && (
         <p
           id={styles.textoAnimado}
-          className="m-0 border w-100 text-center border-3 text-muted text-break"
+          className="m-0 border w-100 text-center border-3 text-muted text-break d-flex align-items-center justify-content-center"
         >
           {message}
         </p>
@@ -30,9 +30,7 @@ const RestoDelMensaje = memo(({ message }) => {
   )
 })
 
-export const AlertaComponent = memo(({ removerAlerta, data , id, intentos, establecerIntentos, obtenerDatos }) => {
-
-
+export const AlertaComponent = memo(({ removerAlerta, data, id, intentos, establecerIntentos, obtenerDatos }) => {
 
   const { code, message } = data || {}
 
@@ -90,7 +88,7 @@ export const AlertaComponent = memo(({ removerAlerta, data , id, intentos, estab
             <Button
               variant="dark"
               onClick={reloadPage}
-              className={`border-0 w-50 mt-4 transition text-uppercase`}
+              className={`border-0 w-50 mt-1 transition text-uppercase`}
               style={{ background: "#E84A7A" }}>
               Refrescar pagina
             </Button>

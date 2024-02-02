@@ -32,8 +32,6 @@ export const useAlerta = () => {
         })
     }
 
-
-
     return {
         establecerAlerta,
         alerta: alerta[0],

@@ -23,7 +23,6 @@ export const UltimaTabla = () => {
 
 
 const ContenedorDeGestion = () => {
-          
 
     return (
         <Container fluid className="p-0 overflow-hidden  d-flex flex-column  h-100">

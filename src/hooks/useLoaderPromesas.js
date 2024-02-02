@@ -4,9 +4,9 @@ import shortUUID from "short-uuid";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const useLoaderPromesas = ({ listaDePromesas = [], establecerAlerta } = {}) => {
+export const useLoaderPromesas = ({ promesaInicial, establecerAlerta } = {}) => {
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
 
     const [loader, setLoader] = useState(false);
 
@@ -17,44 +17,38 @@ export const useLoaderPromesas = ({ listaDePromesas = [], establecerAlerta } = {
 
     const obtenerDatos = async ({ promesa, intentos } = {}) => {
 
-        const actual = promesa || listaDePromesas
+        const actual = promesa || promesaInicial
+
+        const { method, params, url, data, cancelToken } = actual
+
+        loader && setLoader(false)
+
         try {
-            const responses = await Promise.all(
-                actual.map(({ method, url, data, cancelToken, params }) =>
-                    axios({
-                        method,
-                        params: {
-                            ...params
-                        },
-                        url: `${BACK_END_URL}${url}`,
-                        data: {
-                            buscador: data
-                        },
-                        cancelToken,
-                    })
-                )
-            );
+            const response = await axios({
+                method,
+                params: {
+                    ...params
+                },
+                url: `${BACK_END_URL}${url}`,
+                data: {
+                    ...data
+                },
+                cancelToken,
 
-            const newData = responses.reduce((acc, response, index) => {
-                acc[actual[index].id] = response.data;
-                return acc;
-            }, {});
+            })
 
-
-            setData(prev => { //=> En casos donde tenga donde cambie las query, se reemplaza por el anterior propiedad del mismo id
-                return { ...prev, ...newData }
-            });
-
+            setData(prev => {
+                return [...prev, ...response.data]
+            })
 
             setLoader(true)
 
             return "success"
 
         } catch (error) {
+            const request = error?.request?.status ?? 200
 
-            const request = error?.request?.status
-
-            if (!intentos && [502, 503, 504, 500, 429, 500, 0].includes(request || 200)) {
+            if (!intentos && [502, 503, 504, 500, 429, 500, 0].includes(request)) {
 
                 const res = error?.response?.data
 
@@ -68,12 +62,10 @@ export const useLoaderPromesas = ({ listaDePromesas = [], establecerAlerta } = {
         }
     };
 
-    useEffect(() => {
-        if (listaDePromesas.length == 0) return
 
+    useEffect(() => {
         obtenerDatos();
     }, []);
-
 
     return {
         data,
@@ -81,4 +73,5 @@ export const useLoaderPromesas = ({ listaDePromesas = [], establecerAlerta } = {
         obtenerDatos,
         setLoader
     }
+
 }

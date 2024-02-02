@@ -28,25 +28,26 @@ const NavItemImg = memo(({ img_url, id_categoria, rutaActual }) => {
 
 const NavItems = wrapperNotificaciones(memo(({ establecerAlerta }) => {
 
-    const [search] = useSearchParams()
+    // const [search] = useSearchParams()
 
-    const quearyPath = search.get("categoria")
+    // const quearyPath = search.get("categoria")
 
-    const listaDePromesas = [{ method: "GET", url: `/productos/categorias`, id: "productos/categorias" }]
+    // const listaDePromesas = [{ method: "GET", url: `/productos/categorias`, id: "productos/categorias" }]
 
-    const { data, loader } = useLoaderPromesas({ listaDePromesas, establecerAlerta })
+    // const { data, loader } = useLoaderPromesas({ listaDePromesas, establecerAlerta })
 
-    const categorias = data["productos/categorias"] || []
+    // const categorias = data["productos/categorias"] || []
 
     return (
-        <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100 align-items-center">
-            {
-                !loader ?
-                    <Spinner variant="white" className="mx-auto p-2" />
-                    :
-                    categorias.map(item => <NavItemImg key={item.id_categoria} rutaActual={quearyPath == item.id_categoria} {...item} />)
-            }
-        </Nav>
+        <></>
+        // <Nav className="px-1 text-white fs-2 d-flex justify-content-between w-100 align-items-center">
+        //     {
+        //         !loader ?
+        //             <Spinner variant="white" className="mx-auto p-2" />
+        //             :
+        //             categorias.map(item => <NavItemImg key={item.id_categoria} rutaActual={quearyPath == item.id_categoria} {...item} />)
+        //     }
+        // </Nav>
     )
 }))
 

@@ -33,29 +33,28 @@ const ResultadosDeBusqueda = wrapperNotificaciones(memo(({ buscador, insertarPar
     const cancelSoruce = axios.CancelToken.source()
 
     const listaDePromesas = [
-        { method: "POST", url: `/productos`, id: "productos", data: buscador, cancelToken: cancelSoruce.token }]
+        { method: "POST", url: `/productos`, id: "productos", data: { buscador }, cancelToken: cancelSoruce.token }]
 
-    const { data, loader, obtenerDatos, setLoader } = useLoaderPromesas({ establecerAlerta })
+    const { data, loader, obtenerDatos } = useLoaderPromesas({ establecerAlerta, listaDePromesas })
 
-    const productos = data.productos ?? []
+    const { productos = [] } = data
 
     useEffect(() => {
 
+        if (!loader && buscador.length == 0 && Object.keys(data).length == 0) return //=> en caso de primer renderizado.
+
         const timeoutSearch = setTimeout(() => {
 
-            if (cancelSoruce.token) {
-                cancelSoruce.cancel
-            }
-
             obtenerDatos({ promesa: listaDePromesas })
-            setLoader(false)
+
         }, 600);
 
         return () => {
             clearTimeout(timeoutSearch)
-            cancelSoruce.cancel('Componente desmontado');
+            cancelSoruce.cancel()
         }
     }, [buscador])
+
 
     return (
         <Collapse
