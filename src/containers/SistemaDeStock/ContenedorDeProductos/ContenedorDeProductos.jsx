@@ -5,16 +5,16 @@ import { SuspenseLoadingComponent } from "@/components/SuspenseLoadingComponent"
 import { NavBarSecciones } from "./NavbarSecciones";
 import CardDeProductos from "./CardDeProductos";
 import { useSearchParams } from "react-router-dom";
-import SpinnerLoader from "@/components//SpinnerLoader";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
-import { useLoaderPromesas } from "@/hooks//useLoaderPromesas";
+import { usePromiseHandler } from "@/hooks//usePromiseHandler";
 import axios from "axios";
-import { useScrolling } from "@/hooks//useScrolling";
-import shortUUID from "short-uuid";
+import ScrollingInfinite from "@/components//ScrollingInfinite";
+
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
 
 const ListadoDeCards = ({ item }) => {
+
 
     const [listaDeRetirados, setListaDeRetirados] = useState({})
 
@@ -41,73 +41,43 @@ const ListadoDeCards = ({ item }) => {
     )
 }
 
-const ScrollingInfinito = ({ children, obtenerDatos, refScrolling, offset, step} = {}) => {
-
-
-
-    useEffect(() => {
-        const component = refScrolling.current
-
-        const test = async (e) => {
-            const { scrollTop, clientHeight, scrollHeight } = e.target;
-
-            const scrollPercentage = Math.round((scrollTop / (scrollHeight - clientHeight)) * 100)
-
-            if (scrollPercentage == 100 && offset % step == 0) {
-                console.log(offset)
-                await obtenerDatos()
-            }
-        }
-
-        component.addEventListener("scroll", test)
-        return () => component.removeEventListener("scroll", test)
-
-    }, [offset])
-
-    // useEffect(() => {
-    //     SetScrollVault([...scrollVault, data])
-    // }, [data])
-
-
-
-    return (
-        <>
-        <div>
-        {children}
-        </div>
-         
-        </>
-    )
-}
-
-
 
 const ContenedorCard = wrapperNotificaciones(memo(({ establecerAlerta }) => {
 
     const [search] = useSearchParams()
 
-    const refScrolling = useRef()
+    const elementToObserve = useRef(null)
+
     const getBuscador = search.get("search") || ""
 
     const getCategoria = search.get("categoria")
 
     const cancelSoruce = axios.CancelToken.source()
 
-    const promesaInicial = {
-        method: "GET", url: `/productos`, id: "productos",
-        params: { search: getBuscador, categoria: getCategoria, offset: 0 },
-        cancelToken: cancelSoruce.token
-    }
+    const listaDePromesas = [
+        {
+            method: "GET", url: `/productos`, id: "productos",
+            params: { search: getBuscador, categoria: getCategoria, offset: 0 },
+            cancelToken: cancelSoruce.token
+        }
+    ]
 
-    const { loader, data, obtenerDatos } = useLoaderPromesas({ promesaInicial, establecerAlerta })
+    const dependencias = [getBuscador, getCategoria]
+
+    const { loader, data, obtenerDatos, removerData } = usePromiseHandler({ establecerAlerta, dependecias: dependencias })
+
+    const productos = data["productos"] || []
+
 
     useEffect(() => {
 
-        if (!loader && data.length == 0 && getBuscador.length == 0) return
+        if (productos.length >= 0) {
+            removerData({ id: "productos" })
+        }
 
         const timeOut = setTimeout(() => {
 
-            obtenerDatos({ promesa: promesaInicial })
+            obtenerDatos({ promesa: [listaDePromesas[0]] })
 
         }, 600);
 
@@ -116,47 +86,43 @@ const ContenedorCard = wrapperNotificaciones(memo(({ establecerAlerta }) => {
             cancelSoruce.cancel()
         }
 
-    }, [getBuscador, getCategoria])
+    }, dependencias)
 
-
+    const nuevoPromesa = [{ ...listaDePromesas[0], params: { ...listaDePromesas[0].params, offset: productos.length } }]
 
     return (
-        <ScrollingInfinito
-            refScrolling={refScrolling}
-            obtenerDatos={() => obtenerDatos({ promesa: { ...promesaInicial, offset: data.length } })}
-            offset={data.length}
+        <ScrollingInfinite
+            ApiCall={() => obtenerDatos({ promesa: nuevoPromesa })}
+            dataLength={productos.length}
+            elementToObserve={elementToObserve}
             step={15}
-        >
-            <Col
-                ref={refScrolling}
-                className=" m-0 p-0 d-flex scrollbar align-content-start flex-wrap h-25 align-items-center   justify-content-center ">
-
+            loader={{ loaderStatus: loader, color: "white", size: "lg" }}>
+            <section className="justify-content-center h-100 px-1 align-content-start align-items-center  flex-wrap  d-flex"
+                ref={elementToObserve}>
                 {
-                    !loader && data.length == 0
-                        ? <SpinnerLoader /> :
-                        data.length == 0 ?
-                            <p className="text-white  h-100 d-flex align-items-center  fs-5">No se encontro ningun producto con el nombre "{getBuscador}"...</p>
-                            : [...data, ...data].map(item => <ListadoDeCards key={shortUUID.generate()} item={item} />)
+                    productos.length == 0 && getBuscador.length > 0 && loader ?
+                        <p style={{ top: "0%" }} className="text-white position-absolute  text-center h-100 d-flex align-items-center   fs-5">No se encontro ningun producto con el nombre "{getBuscador}"...</p>
+                        : productos.map(item => <ListadoDeCards key={Math.random() * 403403043} item={item} />)
                 }
-
-            </Col>
-        </ScrollingInfinito>
+            </section>
+        </ScrollingInfinite>
     )
 }))
 
 
-const ContenedorDeProductos = () => {
 
+
+const ContenedorDeProductos = () => {
 
     return (
 
-        <Container fluid className="p-0 h-100  m-0">
+        <Container fluid className="p-0 h-100 overflow-hidden d-flex flex-column  m-0">
 
-            <Row className="m-0">
+            <Row className="m-0 flex-grow-0">
                 <NavBarSecciones />
             </Row>
 
-            <Row className="m-0 h-100">
+            <Row className="m-0 h-100 flex-grow-1 overflow-hidden ">
                 <ContenedorCard />
             </Row>
         </Container>

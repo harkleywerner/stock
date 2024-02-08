@@ -40,11 +40,12 @@ export const AlertaComponent = memo(({ removerAlerta, data, id, intentos, establ
 
     setShow(true)
     const timeOUT = setTimeout(async () => {
-      const status = await obtenerDatos({ intentos })
+      const datos = await obtenerDatos({ intentos })
 
       if (intentos <= 0) return
 
-      if (status == "success") {
+      if (datos?.status == "success") {
+        
         setShow(false)
         removerAlerta(id)
       }
@@ -70,7 +71,7 @@ export const AlertaComponent = memo(({ removerAlerta, data, id, intentos, establ
       <Modal.Header
         style={{ right: "0%" }}
         className="border-0 fs-5 w-100 position-absolute z-1"
-        closeButton>
+        closeButton = {intentos > 0}>
         <Badge bg="none" style={{ background: "#E84A7A" }} >#{code}</Badge>
       </Modal.Header>
       <Modal.Body className={`shadow d-flex flex-column justify-content-center align-items-center `}>

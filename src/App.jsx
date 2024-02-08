@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import { NotificacionesProvider } from './provider/NotificacionesProvider/NotificacionesProvider';
 import axios from 'axios';
 
@@ -11,6 +11,7 @@ const Stock = lazy(() => import("./screens/SistemaDeStock/SistemaDeStock"))
 const ContenedorDeGestion = lazy(() => import("./containers/SistemaDeStock/ContenedorDeGestion/ContenedorDeGestion"))
 const ContendoDeNuevoStock = lazy(() => import("./containers/SistemaDeStock/ContenedorDeNuevoStock/ContendoDeNuevoStock"))
 const ContenedorDeProductos = lazy(() => import('./containers/SistemaDeStock/ContenedorDeProductos/ContenedorDeProductos'))
+
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -39,8 +40,8 @@ const router = createBrowserRouter([
     path: "sucursales",
     element: <SuspenseLoadingComponent ><Sucursales /></SuspenseLoadingComponent>,
     loader: async () => {
-      const response =  axios.get(`${BACK_END_URL}/sucursales`)
-          
+      const response = axios.get(`${BACK_END_URL}/sucursales`)
+
 
       return defer({
         lista_de_sucursales: response
@@ -61,3 +62,4 @@ function App() {
 }
 
 export default App
+

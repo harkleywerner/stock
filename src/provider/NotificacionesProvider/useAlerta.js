@@ -8,7 +8,7 @@ export const useAlerta = () => {
 
 
         setAlerta(prev => {
-            const busqueda = prev.find(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos: 10 }]
+            const busqueda = prev.some(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos: 10 }]
             return busqueda
         })
     }, [])

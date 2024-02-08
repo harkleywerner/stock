@@ -4,19 +4,22 @@ const reducer = (state = [], action) => {
 
     const { tipo, productoItem } = action
 
+
     if (tipo == "INICIALIZAR") {
         return [...productoItem]
+    }else if(tipo == "REINICIAR"){
+        return []
     }
 
-    const { cantidad, id, categoria, nombre } = productoItem
 
-    if (!state.find(item => item.id == id)) {
+    const { cantidad, id_producto, categoria, nombre } = productoItem
+
+    if (!state.some(item => item.id_producto == id_producto)) {
         return [...state, { ...productoItem }]
     }
 
-
     return state.map(item => {
-        if (item.id !== id) return item
+        if (item.id_producto !== id_producto) return item
 
         switch (tipo) {
             case "AGREGAR":
@@ -27,7 +30,7 @@ const reducer = (state = [], action) => {
             case "EDICION":
 
                 return {
-                    id: productoItem.idActual,
+                    id_producto: productoItem.id_actual,
                     categoria,
                     nombre,
                     cantidad
@@ -48,7 +51,6 @@ export const useTablaItemReducer = () => {
     const inicilizarState = (productoItem) => {
         dispatch({ tipo: "INICIALIZAR", productoItem })
     }
-
     const agregarItem = useCallback((productoItem) => {
 
         dispatch({ tipo: "AGREGAR", productoItem })
@@ -62,12 +64,17 @@ export const useTablaItemReducer = () => {
         dispatch({ tipo: "REMOVER", productoItem })
     }, [])
 
+    const reinicarLista = useCallback(()=>{
+        dispatch({ tipo: "REINICIAR" })
+    },[])
+
     return {
         state,
         agregarItem,
         editarItem,
         removerItem,
-        inicilizarState
+        inicilizarState,
+        reinicarLista
     }
 
 }

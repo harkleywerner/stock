@@ -5,7 +5,8 @@ import styles from "@/styles/TablaDeItems.module.css"
 import { lazy, memo } from "react";
 import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
-import { PrimeraLetraMayuscula } from "@/helpers//PrimeraLetraMayuscula";
+import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula";
+
 
 const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
@@ -22,10 +23,10 @@ const Thead = memo(() => {
     )
 })
 
-const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id, establecerToast }) => {
+const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id_producto, establecerToast }) => {
 
     const onRemoveItem = () => {
-        removerItem({ id })
+        removerItem({ id_producto })
         establecerToast({ texto: `Item ${nombre} fue removido`, tipo: "danger" })
     }
 
@@ -43,8 +44,7 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
             </td>
             <td className="text-center   ">
                 <p
-                    style={{ background: "#814937bf" }}
-                    className="m-0 rounded-5 text-white">{cantidad}</p>
+                    className="m-0 rounded-5 text-dark">{cantidad}</p>
             </td>
             <td>
                 <div className="d-flex justify-content-center">

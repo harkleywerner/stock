@@ -1,5 +1,7 @@
 import { useSearchParams } from "react-router-dom"
-import pipe from "@/helpers/pipe"
+import pipe from "@/utils/pipe"
+
+
 
 export const useFiltrosParams = (state) => {
 
@@ -8,8 +10,6 @@ export const useFiltrosParams = (state) => {
     const busqueda = search.get("search")
 
     const categoria = search.get("categoria")
-
-
 
     const filtradoPorCategoria = (estado) => {
         return estado.filter(item => {
@@ -20,7 +20,9 @@ export const useFiltrosParams = (state) => {
     }
 
     const filtradoPorNombre = (estado) => {
+
         return estado.filter(item => {
+     
             const verificaBusqueda = busqueda ? busqueda : ""
             return item.nombre.toLowerCase().startsWith(verificaBusqueda.toLowerCase())
         })

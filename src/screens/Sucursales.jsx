@@ -2,9 +2,8 @@ import { Col, Container, Row } from "react-bootstrap";
 import { CardDeSucursales } from "../containers/Sucursales/CardDeSucursales";
 import { useAlternarComponentes } from "../hooks/useAlternarComponentes";
 import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent";
-import { lazy, memo, useEffect, useState } from "react";
-import { Await, useAsyncValue, useLoaderData, useNavigate, useNavigation } from "react-router-dom";
-import ErrorAwaitHandler from "../components/ErrorAwaitHandler";
+import { lazy, memo} from "react";
+import { Await,useLoaderData } from "react-router-dom";
 import wrapperNotificaciones from "../provider/NotificacionesProvider/wrapperNotificaciones";
 
 
@@ -46,7 +45,6 @@ const Sucursales = wrapperNotificaciones(memo(({ establecerAlerta, removerAlerta
                 <Row className="m-0 h-100">
                     <Col className="p-0 h-100 scrollbar flex-wrap d-flex align-content-start align-items-center justify-content-center">
                         <Await
-                            errorElement={<ErrorAwaitHandler />}
                             resolve={lista_de_sucursales}>
                             {(resolveSucursal) => (
                                 resolveSucursal.data.map(item => <ContenedorCard key={item.id_sucursal} {...item} />)

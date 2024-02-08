@@ -1,15 +1,26 @@
 import { Form, InputGroup } from "react-bootstrap"
 import { useForm } from "@/hooks/useForm"
-import { memo, useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { memo, useEffect } from "react"
+import { useLocation, useSearchParams } from "react-router-dom"
 
 const FormBuscador = ({ texto }) => {
 
-    const { form, changeForm } = useForm({ "buscador": "" })
+    const { form, changeForm,restablecerFormulario } = useForm({ "buscador": "" })
 
     const [search, setSearch] = useSearchParams()
 
+    const {pathname} = useLocation()
+
     const { buscador } = form
+
+
+    useEffect(()=>{
+
+        if(form.buscador.length > 0){
+            restablecerFormulario()
+        }
+
+    },[pathname])
 
     useEffect(() => {
 

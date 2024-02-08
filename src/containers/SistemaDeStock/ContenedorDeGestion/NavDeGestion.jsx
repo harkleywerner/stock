@@ -1,6 +1,6 @@
 import { DropDownSucursal } from "@/components//DropDownSucursal";
-import { Container, Nav, Navbar } from "react-bootstrap";
-import { DropDownFilterCategoria } from "@/components/DropDownFilterCategoria";
+import { Badge, Container, Nav, Navbar } from "react-bootstrap";
+import { DropDownFilterCategoria } from "@/components//DropDownFilterCategoria";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy, useContext } from "react";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
@@ -95,10 +95,9 @@ export const NavDeGestion = () => {
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-around align-items-center w-100">
 
                         <NavLink
-                            className="text-decoration-none text-white cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center"
+                            className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center"
                             to={"/stock/nuevo"}>
-                            <p className="m-0  fw-normal fs-5 mx-1">Nuevo stock</p>
-                            <i className="fa-solid fs-5 fa-box-open"></i>
+                            <Badge style={{ backgroundColor: "#814937" }} bg="none" className="shadow">Stock #555</Badge>
                         </NavLink>
 
                         <NuevoItem />

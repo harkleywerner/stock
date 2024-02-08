@@ -1,50 +1,12 @@
 import { createContext, useEffect } from "react";
 import { useTablaItemReducer } from "../hooks/useTablaItemReducer";
 
-const listado2 = [
-    { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
-    { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
-    { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
-    { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotorta", categoria: "tortas", id: 7 },
-    { nombre: "Dulce de leche con nuez", categoria: "dulce de leche", id: 8, cantidad: 1 },
-    { nombre: "Dulce de leche granizado", categoria: "dulce de leche", id: 2 },
-    { nombre: "Vainilla", categoria: "cremas", id: 3 },
-    { nombre: "Banana split", categoria: "cremas", id: 4 },
-    { nombre: "Frutilla a la crema", categoria: "cremas", id: 5 },
-    { nombre: "Choco shot", categoria: "chocolate", id: 6 },
-    { nombre: "Chocotortaffffffffffff", categoria: "tortas", id: 7 },
-]
-
 
 export const gestionDeStockContext = createContext()
 
 export const GestionDeStockProvider = ({ children }) => {
 
-    const dataB = [...listado2]
+    const dataB = []
 
     const nuevaTabla = useTablaItemReducer()
 

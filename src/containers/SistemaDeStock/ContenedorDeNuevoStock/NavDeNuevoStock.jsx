@@ -4,9 +4,11 @@ import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
-import { lazy, useContext } from "react";
+import { lazy, useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { usePromiseHandler } from "@/hooks//usePromiseHandler";
+import SpinnerLoader from "@/components//SpinnerLoader";
 
 const InterfazDeNuevoItem = lazy(() => import("../Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
@@ -49,31 +51,53 @@ const NuevoItem = () => {
     )
 }
 
-const SubirNuevoStockItem = wrapperAlerta(({ establercerAlerta }) => {
+const SubirNuevoStockItem = wrapperAlerta(({ establecerToast, establecerAlerta }) => {
 
-    const { state } = useContext(gestionDeStockContext)["nuevaTabla"]
+    const { state, reinicarLista } = useContext(gestionDeStockContext)["nuevaTabla"]
+
+    const { loader, obtenerDatos, data } = usePromiseHandler({ establecerAlerta })
+
+
+
+    useEffect(() => {
+
+        if (data["stock/nuevo"]?.message == "success") {
+            reinicarLista()
+            establecerToast({ texto: "El lote  se subio con exito", tipo: "success", id: "succes-subirstock-1" })
+        }
+
+    }, [data])
 
     const subirStock = async () => {
 
         if (state.length == 0) {
-            establercerAlerta({ texto: "No puedes subir un stock vacio", tipo: "warning", id: "warning-subirstock-1" })
+            establecerToast({ texto: "No puedes subir un stock vacio", tipo: "warning", id: "warning-subirstock-1" })
         }
         else {
-            establercerAlerta({ texto: "El stock  403 se subio con exito", tipo: "success", id: "succes-subirstock-1" })
+            await obtenerDatos({ promesa: [{ method: "POST", url: "/stock/nuevo", data: { listaDeNuevoStock: [...state] }, id: "stock/nuevo" }] })
+
         }
 
     }
 
+
     return (
-        <Nav.Item
-            onClick={subirStock}
-            className="cursor-pointer hover-rosa  transition p-1 justify-content-center  d-flex align-items-center">
-            <p className="m-0 fw-normal fs-5 mx-1">Subir</p>
-            <i className="fa-solid fs-4 fa-cloud-arrow-up"></i>
-        </Nav.Item>
+        <>
+            {
+                !loader ? <SpinnerLoader
+                    position={["y"]}
+                    size="md" /> :
+                    <Nav.Item
+                        onClick={subirStock}
+                        className="cursor-pointer hover-rosa  transition p-1 justify-content-center  d-flex align-items-center">
+                        <p className="m-0 fw-normal fs-5 mx-1">Subir</p>
+                        <i className="fa-solid fs-4 fa-cloud-arrow-up"></i>
+                    </Nav.Item>
+            }
+        </>
+
     )
 })
-
 
 export const NavDeNuevoStock = () => {
 
@@ -96,13 +120,6 @@ export const NavDeNuevoStock = () => {
                 <Navbar.Collapse
                     id="basic-navbar-nav">
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-around align-items-center w-100">
-
-                        <NavLink
-                            className="text-decoration-none text-white cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center"
-                            to={"/stock/gestion"}>
-                            <p className="m-0  fw-normal fs-5 mx-1">Editar ultimo stock</p>
-                            <i className="fa-solid fs-4 fa-wand-magic-sparkles"></i>
-                        </NavLink>
 
                         <NuevoItem />
 

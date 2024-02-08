@@ -26,38 +26,40 @@ const InterfazDeNuevoItem = memo((
     }, [parametrosEdit])
 
 
-    const onAlternarMostrar = () => {
-        alternarMostrar()
-    }
-
     const refImperative = useRef()
 
     const onClick = () => {
 
         const keys = Object.keys(parametros)
 
-        const verificaSiSeEncuentra = state.find(item => item.id == parametros.id)
+        const verificaSiSeEncuentra = state.some(item => item.id_producto == parametros.id_producto)
+
+        const refCantidad = parseInt(refImperative.current.cantidad)
+
+        if (refCantidad <= 0) return
+      
 
         if (keys.length == 0) {
             return establecerToast({ texto: "Debes agregar un item para continuar", tipo: "warning" })
         }
         else if (verificaSiSeEncuentra && parametrosEdit && verificaSiSeEncuentra.id == parametrosEdit.id || !verificaSiSeEncuentra && parametrosEdit) {
 
-            const { nombre, categoria, id } = parametros
+            const { nombre, categoria, id_producto } = parametros
 
+  
             establecerToast({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, tipo: "success" })
 
             editarItem({
-                id: parametrosEdit.id,
-                idActual: id,
+                id_producto: parametrosEdit.id_producto,
+                id_actual: id_producto,
                 nombre,
                 categoria,
-                cantidad: refImperative.current.cantidad
+                cantidad: refCantidad
             })
         }
         else if (!parametrosEdit && !verificaSiSeEncuentra) {
             establecerToast({ texto: `${parametros.nombre} agregado exitosamente `, tipo: "success" })
-            agregarItem({ ...parametros, cantidad: refImperative.current.cantidad })
+            agregarItem({ ...parametros, cantidad: refCantidad })
         } else {
             return establecerToast({ texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", tipo: "warning" })
         }
@@ -69,11 +71,9 @@ const InterfazDeNuevoItem = memo((
         <Modal
             size="lg"
             show={mostrar}
-            onHide={onAlternarMostrar}>
-            <Modal.Header className="d-flex justify-content-center px-lg-5" >
-                <div className="w-100 position-relative ">
+            onHide={alternarMostrar}>
+            <Modal.Header className="d-flex justify-content-center h-100 w-100 px-0" >
                     <BuscadorItem insertarParametros={insertarParametros} />
-                </div>
             </Modal.Header>
             <Modal.Body style={{ height: "350px" }}>
                 <ModalBody
@@ -90,7 +90,7 @@ const InterfazDeNuevoItem = memo((
                     }
                 </Button>
                 <Button
-                    onClick={onAlternarMostrar}
+                    onClick={alternarMostrar}
                     variant="secondary"
                     className="p-2 fs-5 w-50  border-0 transition">
                     Cerrar

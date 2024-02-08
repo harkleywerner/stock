@@ -1,12 +1,12 @@
+import ScrollingInfinite from "@/components//ScrollingInfinite"
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes"
 import { useForm } from "@/hooks//useForm"
-import { useLoaderPromesas } from "@/hooks//useLoaderPromesas"
+import { usePromiseHandler } from "@/hooks//usePromiseHandler"
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones"
 import axios from "axios"
-import { memo, useEffect, useState } from "react"
-import { Collapse, Form, Spinner, Stack } from "react-bootstrap"
-
-
+import { memo, useCallback, useEffect, useRef, useState } from "react"
+import { Form, Stack } from "react-bootstrap"
+import { FiltradoPorCategorias } from "./FiltradoPorCategorias"
 
 const Listado = ({ insertarParametros, item }) => {
 
@@ -20,7 +20,7 @@ const Listado = ({ insertarParametros, item }) => {
         <Stack
             onClick={onClick}
             direction="horizontal"
-            className=" bg-hoverdark  bg-white cursor-pointer">
+            className=" bg-hoverdark py-1 bg-white cursor-pointer">
             <i style={{ background: "#57BDC6", padding: "6px" }}
                 className="fa-solid mx-1 rounded-circle text-white text-ligthdark fa-magnifying-glass"></i>
             <p className="m-0 fw-normal bg-hoverdark w-100 p-2  text-truncate font">{nombre}</p>
@@ -28,20 +28,31 @@ const Listado = ({ insertarParametros, item }) => {
     )
 }
 
-const ResultadosDeBusqueda = wrapperNotificaciones(memo(({ buscador, insertarParametros, mostrar, establecerAlerta }) => {
+const ResultadosDeBusqueda = wrapperNotificaciones(memo(({
+    buscador,
+    insertarParametros,
+    mostrar,
+    establecerAlerta,
+    categoria
+}) => {
+
 
     const cancelSoruce = axios.CancelToken.source()
 
-    const listaDePromesas = [
-        { method: "POST", url: `/productos`, id: "productos", data: { buscador }, cancelToken: cancelSoruce.token }]
+    const refListado = useRef(null)
 
-    const { data, loader, obtenerDatos } = useLoaderPromesas({ establecerAlerta, listaDePromesas })
+    const listaDePromesas = [
+        { method: "POST", url: `/productos`, id: "productos", data: { buscador, categoria }, cancelToken: cancelSoruce.token }]
+
+    const { data, loader, obtenerDatos, removerData } = usePromiseHandler({ establecerAlerta })
 
     const { productos = [] } = data
 
     useEffect(() => {
 
-        if (!loader && buscador.length == 0 && Object.keys(data).length == 0) return //=> en caso de primer renderizado.
+        if (productos.length > 0) {
+            removerData({ id: "productos" })
+        }
 
         const timeoutSearch = setTimeout(() => {
 
@@ -53,38 +64,41 @@ const ResultadosDeBusqueda = wrapperNotificaciones(memo(({ buscador, insertarPar
             clearTimeout(timeoutSearch)
             cancelSoruce.cancel()
         }
-    }, [buscador])
+    }, [buscador, categoria])
+
+    const nuevoPromesa = [{ ...listaDePromesas[0], data: { ...listaDePromesas[0].data, offset: productos.length } }]
 
 
     return (
-        <Collapse
-            className={`${!mostrar ? "d-none" : ""} z-1 shadow w-100 rounded-4 `}
-            in={true}
-            dimension={"width"} >
-            <div
-                style={{ minHeight: "100px", maxHeight: "250px", left: "0%" }}
-                className="bg-white scrollbar w-100 border position-absolute">
-                {
-                    productos.length > 0 && loader ?
-                        productos.map(item =>
-                            <Listado
-                                insertarParametros={insertarParametros}
-                                key={item.id_producto}
-                                item={item}
-                            />
-                        )
-                        :
-                        <div
-                            style={{ minHeight: "100px" }}
-                            className="text-ligthdark d-flex justify-content-center align-items-center h-100 ">
-                            {
-                                loader ? <p className="m-0 mx-1">No se encontraron coincidencias...</p> : <Spinner></Spinner>
-                            }
-                        </div>
-                }
-            </div>
 
-        </Collapse>
+        <div
+            style={{ minHeight: "200px", display: mostrar ? "flex" : "none", top: "100%" }}
+            className="position-absolute z-1  w-100 h-100 bg-white shadow" >
+            <ScrollingInfinite
+                dataLength={productos.length}
+                loader={{ loaderStatus: loader, color: "dark", size: "md" }}
+                elementToObserve={refListado}
+                step={15}
+                style={{ maxHeight: "200px", minHeight: "200px" }}
+                ApiCall={() => obtenerDatos({ promesa: nuevoPromesa })}>
+                <section
+                    ref={refListado}
+                    className="m-0  p-0 d-block w-100 justify-content-start ">
+                    {
+                        productos.length == 0 && buscador.length > 0 && loader ?
+                            <p style={{ top: "0%" }} className="m-0 position-absolute text-center d-flex justify-content-center align-items-center h-100 w-100 text-secondary text-center fs-5">No se encontro ningun item...</p> :
+                            productos.map(item =>
+                                <Listado
+                                    insertarParametros={insertarParametros}
+                                    key={item.id_producto}
+                                    item={item}
+                                />)
+                    }
+                </section>
+
+            </ScrollingInfinite>
+
+        </div>
     )
 }))
 
@@ -92,37 +106,48 @@ export const BuscadorItem = memo(({ insertarParametros }) => {
 
     const { changeForm, form } = useForm({ buscador: "" })
 
+    const [categoria, setCategoria] = useState()
+
+    const establecerCategoria = useCallback((id) => {
+        setCategoria(prev => id)
+    }, [])
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
     const onBlur = () => {
         const timeOut = setTimeout(() => {
             alternarMostrar(false)
-        }, 200)
+        }, 300)
 
         return () => clearTimeout(timeOut)
     }
 
     return (
-        <>
-            <Form.Control
-                onFocus={() => alternarMostrar(true)}
-                onBlur={onBlur}
-                className="font py-2 fs-5"
-                name="buscador"
-                type="search"
-                placeholder="Buscar un item..."
-                autoComplete="off"
-                onChange={changeForm}
-                value={form.buscador}
-            >
-            </Form.Control>
+        <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+            <FiltradoPorCategorias
+                establecerCategoria={establecerCategoria}
+                categoria={categoria} />
+            <section className="position-relative w-75 ">
+                <Form.Control
+                    onFocus={() => alternarMostrar(true)}
+                    onBlur={onBlur}
+                    className="font py-2 fs-5"
+                    name="buscador"
+                    type="search"
+                    placeholder="Buscar un item..."
+                    autoComplete="off"
+                    onChange={changeForm}
+                    value={form.buscador}
+                >
+                </Form.Control>
 
-            <ResultadosDeBusqueda
-                mostrar={mostrar}
-                insertarParametros={insertarParametros}
-                buscador={form.buscador} />
-
-        </>
+                <ResultadosDeBusqueda
+                    mostrar={mostrar}
+                    insertarParametros={insertarParametros}
+                    buscador={form.buscador}
+                    categoria={categoria}
+                />
+            </section>
+        </div>
     )
 })

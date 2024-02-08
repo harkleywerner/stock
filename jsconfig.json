@@ -23,6 +23,9 @@
       "@/provider/*": [
         "src/provider*"
       ],
+      "@/utils/*": [
+        "src/utls*"
+      ],
     }
   }
 }
