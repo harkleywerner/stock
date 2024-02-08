@@ -1,9 +1,9 @@
-import { DropDownFilterCategoria } from "@/components//DropDownFilterCategoria";
+import { DropDownFilterCategoria } from "@/containers//SistemaDeStock/Components/DropDownFilterCategoria";
 import { DropDownSucursal } from "@/components//DropDownSucursal";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
 import { lazy, useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";

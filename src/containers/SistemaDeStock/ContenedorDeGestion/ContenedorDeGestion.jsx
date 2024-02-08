@@ -1,25 +1,25 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { NavDeGestion } from "./NavDeGestion";
 import ContenedorDeTabla from "@/containers//SistemaDeStock/Components/ContenedorDeTabla/ContenedorDeTabla";
-import { useFiltrosParams } from "@/hooks//useFiltrosParams";
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
 import { useContext } from "react";
+import ScrollingInfinite from "../Components/ScrollingInfinite";
+import { usePromiseHandler } from "@/hooks//usePromiseHandler";
 
 export const UltimaTabla = () => {
 
+    const { data, loader, obtenerDatos } = usePromiseHandler()
     const props = useContext(gestionDeStockContext)["ultimaTabla"]
 
-    const filtros = useFiltrosParams(props.state)
-
     return (
-        <Col className="p-0 overflow-hidden h-100">
-            <ContenedorDeTabla {...props} state={filtros} />
-        </Col>
+        <ScrollingInfinite>
+            <Col className="p-0 overflow-hidden h-100">
+                <ContenedorDeTabla {...props} state={props.state} />
+            </Col>
+        </ScrollingInfinite>
 
     );
 };
-
-
 
 
 const ContenedorDeGestion = () => {

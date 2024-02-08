@@ -1,8 +1,8 @@
 import { Container, Nav, Navbar, Stack } from "react-bootstrap"
-import { BuscadorResponsive } from "@/components/BuscadorResponsive"
 import { DropwDownUsuario } from "./DropDownUsuario.jsx/DropwDownUsuario"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { NavLink } from "react-router-dom"
+import { BuscadorResponsive } from "./BuscadorResponsive"
 
 export const NavHeader = () => {
 
@@ -44,7 +44,7 @@ export const NavHeader = () => {
               <DropwDownUsuario />
             </Stack>
 
-            <BuscadorResponsive texto={""} />
+            <BuscadorResponsive/>
           </Nav>
 
         </Container>

@@ -1,5 +1,5 @@
-import IconIceCream from "@/components//IconIceCream"
-import IconSucural from "@/components//IconSucural"
+import IconIceCream from "@/containers//Sucursales/icons/IceCream.icon"
+import IconSucural from "@/containers//Sucursales/icons/Sucursal.icon"
 import { memo } from "react"
 import { Card } from "react-bootstrap"
 

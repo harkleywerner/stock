@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { Col, Container, Row } from "react-bootstrap"
-import SpinnerLoader from "./SpinnerLoader"
+import SpinnerLoader from "@/components/SpinnerLoader"
 
 const scrollObserver = ({ ApiCall, validationLength }) => {
     const config = {

@@ -1,5 +1,6 @@
 import { Dropdown } from "react-bootstrap"
 import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula"
+import { memo } from "react"
 
 const categoriasss = [
     { id: 2, nombre: "cremas" },
@@ -9,7 +10,12 @@ const categoriasss = [
     { id: 5, nombre: "tortas" },
 ]
 
-const DropdownItems = ({ nombre, verificarCategoriaSeleccionada, establecerCategoria, id }) => {
+const DropdownItems = memo(({
+    nombre,
+    verificarCategoriaSeleccionada,
+    establecerCategoria,
+    id
+}) => {
 
     return (
         <Dropdown.Item
@@ -27,13 +33,18 @@ const DropdownItems = ({ nombre, verificarCategoriaSeleccionada, establecerCateg
             </div>
         </Dropdown.Item>
     )
-}
+})
 
-export const FiltradoPorCategorias = ({ establecerCategoria, categoria }) => {
+export const FiltradoPorCategorias = ({
+    establecerCategoria,
+    categoria
+}) => {
     return (
-        <Dropdown className="mx-1 h-100">
+        <Dropdown
+            style={{ backgroundColor: "#57BDC6" }}
+            className="mx-1 h-100 rounded-2">
             <Dropdown.Toggle
-                variant="secondary"
+                variant="none"
                 className="d-flex  py-2 text-white h-100 ">
                 <i className="fa-solid fs-5 fa-filter"></i>
             </Dropdown.Toggle>

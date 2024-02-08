@@ -5,7 +5,7 @@ import { useForm } from "../hooks/useForm"
 import { useValidarForm } from "../hooks/useValidarForm"
 
 const ButtonIngreso = memo(({ onSubmit, validated }) => {
-  
+
     return (
         <Button
             type="submit"
@@ -53,7 +53,12 @@ const FormularioDeIngreso = () => {
     )
 }
 
-const InterfazDeIngresoDeUsuario = memo(({ establercerAlerta, alternarMostrar, mostrar, nombre, apellido }) => {
+const InterfazDeIngresoDeUsuario = memo(({
+    establercerAlerta,
+    alternarMostrar,
+    mostrar,
+    nombre,
+    apellido }) => {
 
     return (
         <Modal

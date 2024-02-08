@@ -2,10 +2,9 @@ import { useSearchParams } from "react-router-dom"
 import pipe from "@/utils/pipe"
 
 
-
 export const useFiltrosParams = (state) => {
 
-    const [search, setSearch] = useSearchParams()
+    const [search] = useSearchParams()
 
     const busqueda = search.get("search")
 

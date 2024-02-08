@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { useContext } from "react";
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
-import { useFiltrosParams } from "@/hooks//useFiltrosParams";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
+import { useFiltrosParams } from "@/containers//SistemaDeStock/ContenedorDeNuevoStock/hooks/useFiltrosParams";
 import { NavDeNuevoStock } from "./NavDeNuevoStock";
 import ContenedorDeTabla from "../Components/ContenedorDeTabla/ContenedorDeTabla";
 

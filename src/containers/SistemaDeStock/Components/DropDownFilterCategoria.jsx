@@ -15,8 +15,16 @@ const DropdownItems = ({ nombre }) => {
     const [search, setSearch] = useSearchParams()
 
     const onClick = () => {
+
+        const getCategoria = search.get("categoria")
+
         search.delete("categoria")
-        search.append("categoria", nombre)
+
+        if (getCategoria !== nombre) {
+            search.append("categoria", nombre)
+        }
+
+
         setSearch(`?${search.toString()}`)
     }
 
@@ -40,23 +48,6 @@ const DropdownItems = ({ nombre }) => {
     )
 }
 
-const RemoverFiltros = () => {
-
-    const [search, setSearch] = useSearchParams()
-
-    const onClick = () => {
-        search.delete("categoria")
-        setSearch(`?${search.toString()}`)
-    }
-
-    return (
-        <Dropdown.Item
-            onClick={onClick}
-            className="bg-white">
-            <p className="m-0 text-center bg-hoverdark hover-rosa zoom  fs-5">Borrar filtros</p>
-        </Dropdown.Item>
-    )
-}
 
 export const DropDownFilterCategoria = () => {
 
@@ -75,8 +66,6 @@ export const DropDownFilterCategoria = () => {
                             key={item.id}
                             nombre={item.nombre} />)
                 }
-                <Dropdown.Divider />
-                <RemoverFiltros />
             </Dropdown.Menu>
 
         </Dropdown>

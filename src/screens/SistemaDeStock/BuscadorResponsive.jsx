@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import BuscadorInput from "./BuscadorInput"
+import BuscadorInput from "../../components/BuscadorInput"
 
 export const BuscadorResponsive = ({ texto }) => {
 

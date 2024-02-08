@@ -1,8 +1,8 @@
 import { createContext } from "react";
-import { useToast } from "./useToast";
+import { useToast } from "./hooks/useToast";
 import { ContenedorDeToast } from "./ContenedorDeToast";
 import { AlertaComponent } from "./AlertaComponent";
-import { useAlerta } from "./useAlerta";
+import { useAlerta } from "./hooks/useAlerta";
 
 export const NotificacionesContext = createContext()
 

@@ -13,7 +13,6 @@ const FormBuscador = ({ texto }) => {
 
     const { buscador } = form
 
-
     useEffect(()=>{
 
         if(form.buscador.length > 0){

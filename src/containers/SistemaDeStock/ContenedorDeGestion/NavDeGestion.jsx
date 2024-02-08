@@ -1,11 +1,11 @@
 import { DropDownSucursal } from "@/components//DropDownSucursal";
-import { Badge, Container, Nav, Navbar } from "react-bootstrap";
-import { DropDownFilterCategoria } from "@/components//DropDownFilterCategoria";
+import { Badge, Container, Nav, NavItem, Navbar } from "react-bootstrap";
+import { DropDownFilterCategoria } from "@/containers//SistemaDeStock/Components/DropDownFilterCategoria";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy, useContext } from "react";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { NavLink } from "react-router-dom";
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider";
+import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
 import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 
 const InterfazDeNuevoItem = lazy(() => import("@/containers//SistemaDeStock/Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
@@ -42,6 +42,7 @@ const NuevoItem = () => {
                 <p className="m-0 fw-normal fs-5 mx-1">Agregar item</p>
                 <i className="fa-regular fs-4 fa-square-plus"></i>
             </Nav.Item>
+            
             <InterfazContext alternarMostrar={alternarMostrar} mostrar={mostrar} />
         </>
     )
@@ -94,11 +95,10 @@ export const NavDeGestion = () => {
                     id="basic-navbar-nav">
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-around align-items-center w-100">
 
-                        <NavLink
-                            className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center"
-                            to={"/stock/nuevo"}>
+                        <NavItem
+                            className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center">
                             <Badge style={{ backgroundColor: "#814937" }} bg="none" className="shadow">Stock #555</Badge>
-                        </NavLink>
+                        </NavItem>
 
                         <NuevoItem />
 

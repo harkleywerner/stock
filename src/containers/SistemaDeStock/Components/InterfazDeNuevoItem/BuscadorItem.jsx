@@ -1,4 +1,4 @@
-import ScrollingInfinite from "@/components//ScrollingInfinite"
+import ScrollingInfinite from "@/containers//SistemaDeStock/Components/ScrollingInfinite"
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes"
 import { useForm } from "@/hooks//useForm"
 import { usePromiseHandler } from "@/hooks//usePromiseHandler"
@@ -86,7 +86,9 @@ const ResultadosDeBusqueda = wrapperNotificaciones(memo(({
                     className="m-0  p-0 d-block w-100 justify-content-start ">
                     {
                         productos.length == 0 && buscador.length > 0 && loader ?
-                            <p style={{ top: "0%" }} className="m-0 position-absolute text-center d-flex justify-content-center align-items-center h-100 w-100 text-secondary text-center fs-5">No se encontro ningun item...</p> :
+                            <p
+                                style={{ top: "0%" }}
+                                className="m-0 position-absolute text-center d-flex justify-content-center align-items-center h-100 w-100 text-secondary text-center fs-5">No se encontro ningun item...</p> :
                             productos.map(item =>
                                 <Listado
                                     insertarParametros={insertarParametros}
@@ -95,9 +97,7 @@ const ResultadosDeBusqueda = wrapperNotificaciones(memo(({
                                 />)
                     }
                 </section>
-
             </ScrollingInfinite>
-
         </div>
     )
 }))
@@ -109,8 +109,9 @@ export const BuscadorItem = memo(({ insertarParametros }) => {
     const [categoria, setCategoria] = useState()
 
     const establecerCategoria = useCallback((id) => {
-        setCategoria(prev => id)
+        setCategoria(prev => id !== prev ? id : undefined)
     }, [])
+
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -123,11 +124,13 @@ export const BuscadorItem = memo(({ insertarParametros }) => {
     }
 
     return (
-        <div className="h-100 w-100 d-flex align-items-center justify-content-center">
+        <section className="h-100 w-100 d-flex align-items-center justify-content-center">
+
             <FiltradoPorCategorias
                 establecerCategoria={establecerCategoria}
                 categoria={categoria} />
-            <section className="position-relative w-75 ">
+
+            <div className="position-relative w-75 ">
                 <Form.Control
                     onFocus={() => alternarMostrar(true)}
                     onBlur={onBlur}
@@ -147,7 +150,9 @@ export const BuscadorItem = memo(({ insertarParametros }) => {
                     buscador={form.buscador}
                     categoria={categoria}
                 />
-            </section>
-        </div>
+            </div>
+        
+
+        </section>
     )
 })

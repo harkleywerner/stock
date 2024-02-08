@@ -7,7 +7,6 @@ import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula";
 
-
 const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
 const Thead = memo(() => {

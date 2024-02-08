@@ -1,6 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
-import { GestionDeStockProvider } from "../../provider/GestionDeStockProvider";
+import { GestionDeStockProvider } from "../../provider/GestionDeStockProvider/GestionDeStockProvider";
 import { NavHeader } from "./NavHeader";
 
 

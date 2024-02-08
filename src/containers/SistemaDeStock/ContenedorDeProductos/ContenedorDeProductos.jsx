@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { usePromiseHandler } from "@/hooks//usePromiseHandler";
 import axios from "axios";
-import ScrollingInfinite from "@/components//ScrollingInfinite";
+import ScrollingInfinite from "@/containers//SistemaDeStock/Components/ScrollingInfinite";
 
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
