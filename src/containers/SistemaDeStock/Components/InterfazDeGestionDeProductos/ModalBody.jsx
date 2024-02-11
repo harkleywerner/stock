@@ -4,7 +4,6 @@ import { Form, Stack } from "react-bootstrap"
 
 const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => {
 
-
     const { changeForm, form } = useForm({ cantidad: Math.abs(parametroCantidad) })
 
     useImperativeHandle(ref, () => ({
@@ -45,7 +44,7 @@ const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => 
 
 export const ModalBody = memo(({ parametros, refImperative }) => {
 
-    const { nombre, categoria } = parametros
+    const { nombre , categoria } = parametros
 
     const keys = Object.keys(parametros)
 

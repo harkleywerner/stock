@@ -13,7 +13,7 @@ const positions = {
   "x": "mx-auto",
 }
 
-export const SpinnerLoader = memo((
+const SpinnerLoader = memo((
   {
     color,
     size = "lg",

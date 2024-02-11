@@ -1,16 +1,14 @@
-import { DropDownFilterCategoria } from "@/containers//SistemaDeStock/Components/DropDownFilterCategoria";
 import { DropDownSucursal } from "@/components//DropDownSucursal";
+import SpinnerLoader from "@/components//SpinnerLoader";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
+import { DropDownFilterCategoria } from "@/containers//SistemaDeStock/Components/DropDownFilterCategoria";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
-import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
 import { lazy, useContext, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import { usePromiseHandler } from "@/hooks//usePromiseHandler";
-import SpinnerLoader from "@/components//SpinnerLoader";
+import { wrapperNotificacionesFetch } from "@/provider/NotificacionesProvider/wrapperNotificacionesFetch";
 
-const InterfazDeNuevoItem = lazy(() => import("../Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeGestionDeProductos = lazy(() => import("../Components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
 
 const InterfazContext = ({ alternarMostrar, mostrar }) => {
 
@@ -20,7 +18,7 @@ const InterfazContext = ({ alternarMostrar, mostrar }) => {
         <SuspenseLoadingComponent texto="Cargando interfaz">
             {
                 mostrar &&
-                <InterfazDeNuevoItem
+                <InterfazDeGestionDeProductos
                     alternarMostrar={alternarMostrar}
                     mostrar={mostrar}
                     agregarItem={agregarItem}
@@ -51,13 +49,9 @@ const NuevoItem = () => {
     )
 }
 
-const SubirNuevoStockItem = wrapperAlerta(({ establecerToast, establecerAlerta }) => {
+const SubirNuevoStockItem = wrapperNotificacionesFetch(({ establecerToast, loader, obtenerDatos, data }) => {
 
     const { state, reinicarLista } = useContext(gestionDeStockContext)["nuevaTabla"]
-
-    const { loader, obtenerDatos, data } = usePromiseHandler({ establecerAlerta })
-
-
 
     useEffect(() => {
 
@@ -75,16 +69,13 @@ const SubirNuevoStockItem = wrapperAlerta(({ establecerToast, establecerAlerta }
         }
         else {
             await obtenerDatos({ promesa: [{ method: "POST", url: "/stock/nuevo", data: { listaDeNuevoStock: [...state] }, id: "stock/nuevo" }] })
-
         }
-
     }
-
 
     return (
         <>
             {
-                !loader ? <SpinnerLoader
+                loader ? <SpinnerLoader
                     position={["y"]}
                     size="md" /> :
                     <Nav.Item

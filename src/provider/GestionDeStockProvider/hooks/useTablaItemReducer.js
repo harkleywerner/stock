@@ -7,7 +7,7 @@ const reducer = (state = [], action) => {
 
     if (tipo == "INICIALIZAR") {
         return [...productoItem]
-    }else if(tipo == "REINICIAR"){
+    } else if (tipo == "REINICIAR") {
         return []
     }
 
@@ -33,7 +33,7 @@ const reducer = (state = [], action) => {
                     id_producto: productoItem.id_actual,
                     categoria,
                     nombre,
-                    cantidad
+                    cantidad,
                 }
             case "REMOVER":
                 return null
@@ -64,9 +64,9 @@ export const useTablaItemReducer = () => {
         dispatch({ tipo: "REMOVER", productoItem })
     }, [])
 
-    const reinicarLista = useCallback(()=>{
+    const reinicarLista = useCallback(() => {
         dispatch({ tipo: "REINICIAR" })
-    },[])
+    }, [])
 
     return {
         state,

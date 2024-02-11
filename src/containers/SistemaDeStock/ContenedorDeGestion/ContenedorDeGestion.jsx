@@ -1,26 +1,36 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import { NavDeGestion } from "./NavDeGestion";
-import ContenedorDeTabla from "@/containers//SistemaDeStock/Components/ContenedorDeTabla/ContenedorDeTabla";
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
-import { useContext } from "react";
-import ScrollingInfinite from "../Components/ScrollingInfinite";
-import { usePromiseHandler } from "@/hooks//usePromiseHandler";
+import { TablaGestion } from "./TablaGestion";
+import { wrapperNotificacionesFetch } from "@/provider//NotificacionesProvider/wrapperNotificacionesFetch";
+import { memo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
-export const UltimaTabla = () => {
 
-    const { data, loader, obtenerDatos } = usePromiseHandler()
-    const props = useContext(gestionDeStockContext)["ultimaTabla"]
+const Tabla = wrapperNotificacionesFetch(memo(({ data, loader, obtenerDatos, removerData }) => {
+
+    const [search] = useSearchParams()
+
+    const getStock = search.get("stock")
+
+    const verificarStock = getStock ? "/detalleDeStock" : "/detalleDeStock/ultimo"
+
+    const stock = data["detalleStock"] || []
+
+    const listaDePromesas = [
+        {
+            method: "GET", url: verificarStock, id: "detalleStock",
+        }
+    ]
+
+    useEffect(() => {
+        obtenerDatos({ promesas: listaDePromesas })
+    }, [])
+
 
     return (
-        <ScrollingInfinite>
-            <Col className="p-0 overflow-hidden h-100">
-                <ContenedorDeTabla {...props} state={props.state} />
-            </Col>
-        </ScrollingInfinite>
-
-    );
-};
-
+        <TablaGestion stock={stock} />
+    )
+}))
 
 const ContenedorDeGestion = () => {
 
@@ -31,10 +41,10 @@ const ContenedorDeGestion = () => {
                 <NavDeGestion />
             </Row>
             <Row className="m-0 flex-grow-1 overflow-hidden  h-100 ">
-                <UltimaTabla />
+                <Tabla />
             </Row>
         </Container>
     );
-};
+}
 
 export default ContenedorDeGestion

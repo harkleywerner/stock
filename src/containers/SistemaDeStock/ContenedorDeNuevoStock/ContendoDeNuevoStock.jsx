@@ -13,8 +13,8 @@ const NuevaTabla = () => {
 
     return (
         <Col className="p-0 overflow-hidden h-100">
-        <ContenedorDeTabla {...props} state={filtros} />
-    </Col>
+            <ContenedorDeTabla {...props} state={filtros} />
+        </Col>
     );
 };
 

@@ -1,14 +1,13 @@
 import { DropDownSucursal } from "@/components//DropDownSucursal";
-import { Badge, Container, Nav, NavItem, Navbar } from "react-bootstrap";
+import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { DropDownFilterCategoria } from "@/containers//SistemaDeStock/Components/DropDownFilterCategoria";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
-import { lazy, useContext } from "react";
-import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
-import { NavLink } from "react-router-dom";
 import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
 import wrapperAlerta from "@/provider//NotificacionesProvider/wrapperNotificaciones";
+import {  lazy, useContext } from "react";
+import { Badge, Container, Nav, NavItem, Navbar } from "react-bootstrap";
 
-const InterfazDeNuevoItem = lazy(() => import("@/containers//SistemaDeStock/Components/InterfazDeNuevoItem/InterfazDeNuevoItem"))
+const InterfazDeGestionDeProductos = lazy(() => import("../Components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
 
 const InterfazContext = ({ alternarMostrar, mostrar }) => {
 
@@ -18,7 +17,7 @@ const InterfazContext = ({ alternarMostrar, mostrar }) => {
         <SuspenseLoadingComponent texto="Cargando interfaz">
             {
                 mostrar &&
-                <InterfazDeNuevoItem
+                <InterfazDeGestionDeProductos
                     alternarMostrar={alternarMostrar}
                     mostrar={mostrar}
                     agregarItem={agregarItem}

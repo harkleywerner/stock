@@ -1,21 +1,18 @@
-import { Container, Nav, Navbar, Spinner } from "react-bootstrap"
-import styles from "@/styles/NavBarSecciones.module.css"
-import { NavLink, useSearchParams } from "react-router-dom"
-import { DropDownSucursal } from "@/components/DropDownSucursal"
-import { memo } from "react"
-
-import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones"
-import { usePromiseHandler } from "@/hooks//usePromiseHandler"
 import SpinnerLoader from "@/components//SpinnerLoader"
+import { DropDownSucursal } from "@/components/DropDownSucursal"
+import styles from "@/styles/NavBarSecciones.module.css"
+import { memo, useCallback, useEffect } from "react"
+import { Container, Nav, Navbar } from "react-bootstrap"
+import { NavLink, useSearchParams } from "react-router-dom"
+import { wrapperNotificacionesFetch } from "../../../provider/NotificacionesProvider/wrapperNotificacionesFetch"
 
-
-const NavItemImg = memo(({ img_url, id_categoria, rutaActual }) => {
+const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
 
     return (
         <NavLink
+            onClick={() => onNavigate(id_categoria)}
             style={{ background: rutaActual && "#E84A7A", maxWidth: "min-content" }}
-            className={`${rutaActual && "shadow"} justify-content-center transition overflow-hidden p-1 pt-1 rounded-4`}
-            to={`/stock/productos?categoria=${id_categoria}`}>
+            className={`${rutaActual && "shadow"} justify-content-center transition overflow-hidden p-1 pt-1 rounded-4`}>
             <Nav.Item
                 height={id_categoria == 5 ? 45 : 35}
                 decoding="async"
@@ -27,29 +24,42 @@ const NavItemImg = memo(({ img_url, id_categoria, rutaActual }) => {
     )
 })
 
-const NavItems = wrapperNotificaciones(memo(({ establecerAlerta }) => {
+const NavItems = wrapperNotificacionesFetch(memo(({ data, loader, obtenerDatos }) => {
 
-    const [search] = useSearchParams()
+    const [search, setSearch] = useSearchParams()
 
-    const quearyPath = search.get("categoria")
+    const categoria = search.get("categoria")
 
     const listaDePromesas = [{ method: "GET", url: `/productos/categorias`, id: "productos/categorias" }]
 
-    const { data, loader } = usePromiseHandler({ listaDePromesas, establecerAlerta })
+    useEffect(() => {
+        obtenerDatos({ promesas: listaDePromesas })
+    }, [])
 
     const categorias = data["productos/categorias"] || []
+
+    const onNavigate = useCallback((categoriaActual) => {
+
+        search.delete("categoria")
+
+        if (categoria != categoriaActual) {
+            search.append("categoria", categoriaActual)
+        }
+
+        setSearch(`?${search.toString()}`)
+    
+    }, [categoria])
 
 
     return (
 
         <Nav className="px-1 text-white fs-2  w-100 d-flex justify-content-between  align-items-center">
             {
-                !loader ?
+                loader ?
                     <SpinnerLoader size="md" />
                     :
-                    categorias.map(item => <NavItemImg key={item.id_categoria} rutaActual={quearyPath == item.id_categoria} {...item} />)
+                    categorias.map(item => <NavItemImg key={item.id_categoria} onNavigate={onNavigate} rutaActual={categoria == item.id_categoria} {...item} />)
             }
-
         </Nav>
     )
 }))

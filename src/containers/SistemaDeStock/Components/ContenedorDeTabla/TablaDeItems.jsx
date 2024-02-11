@@ -1,28 +1,18 @@
-import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
-import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import { Table } from "react-bootstrap";
-import styles from "@/styles/TablaDeItems.module.css"
-import { lazy, memo } from "react";
-import { useAlternarComponentes } from "@/hooks/useAlternarComponentes";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula";
+import { memo } from "react";
 
-const InterfazDeNuevoItem = lazy(() => import("../InterfazDeNuevoItem/InterfazDeNuevoItem"))
 
-const Thead = memo(() => {
-    return (
-        <thead className="shadow position-relative ">
-            <tr className="text-uppercase">
-                <th className="fw-normal fs-5">Nombre</th>
-                <th className="fw-normal fs-5">Categoria</th>
-                <th className="fw-normal fs-5">Cantidad</th>
-                <th className="fw-normal fs-5">Accion</th>
-            </tr>
-        </thead>
-    )
-})
 
-const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, insertarParametros, removerItem, id_producto, establecerToast }) => {
+const TbodyDefault = wrapperNotificaciones(memo(({
+    nombre = "error",
+    categoria = "error",
+    cantidad = -905,
+    insertarParametros,
+    removerItem,
+    id_producto,
+    establecerToast
+}) => {
 
     const onRemoveItem = () => {
         removerItem({ id_producto })
@@ -58,53 +48,8 @@ const Tbody = memo(({ nombre = "error", categoria = "error", cantidad = -905, in
             </td>
         </tr>
     )
-})
-
-const TablaDeItems = ({ state = [], establecerToast, removerItem, agregarItem, editarItem }) => {
-
-    const { alternarMostrar, mostrar } = useAlternarComponentes()
-
-    const { insertarParametros, parametros } = useEstablecerParametros()
+}))
 
 
-    return (
-        <div
-            style={{ maxWidth: "min-content" }}
-            className="table-resposive mt-lg-3  w-100 scrollbar">
-            <Table
-                id={styles.tablaDeItems}
-                bordered
-                striped
-                hover
-                className=" shadow p-0 my-0  " >
-                <Thead />
-                <tbody >
-                    {
-                        state.map((item, index) =>
-                            <Tbody
-                                removerItem={removerItem}
-                                establecerToast={establecerToast}
-                                insertarParametros={() => { insertarParametros(item), alternarMostrar() }}
-                                key={index}
-                                {...item} />)
-                    }
-                </tbody>
-            </Table>
+export default TbodyDefault
 
-            <SuspenseLoadingComponent
-                texto="Cargando interfaz">
-                {mostrar && <InterfazDeNuevoItem
-                    state={state}
-                    agregarItem={agregarItem}
-                    editarItem={editarItem}
-                    alternarMostrar={alternarMostrar}
-                    mostrar={mostrar}
-                    parametrosEdit={parametros} />
-                }
-            </SuspenseLoadingComponent>
-
-        </div>
-    );
-};
-
-export default wrapperNotificaciones(TablaDeItems)

@@ -1,30 +1,27 @@
 import axios from "axios";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import shortUUID from "short-uuid";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const usePromiseHandler = ({ listaDePromesas = [], establecerAlerta }) => {
-
+export const usePromiseHandler = ({ establecerAlerta = () => { } }) => {
 
     const [data, setData] = useState({});
 
-    const [loader, setLoader] = useState(true);
+    const [loader, setLoader] = useState(false);
 
     const id = useMemo(() => {
         return shortUUID.generate()
     }, [])
 
 
-    const obtenerDatos = async ({ promesa, intentos } = {}) => {
+    const obtenerDatos = useCallback(async ({ promesas, intentos } = {}) => {
 
-        loader && setLoader(false)
-
-        const actual = promesa || listaDePromesas
+        !loader && setLoader(true)
 
         try {
             const responses = await Promise.all(
-                actual.map(({ method, url, data, cancelToken, params }) =>
+                promesas.map(({ method, url, data = {}, cancelToken, params = {} }) =>
                     axios({
                         method,
                         params: {
@@ -42,15 +39,15 @@ export const usePromiseHandler = ({ listaDePromesas = [], establecerAlerta }) =>
             setData(prev => {
                 return responses.reduce((acc, response, index) => {
 
-                    if (!Array.isArray(response?.data)) return { ...acc, [actual[index].id]: response?.data }
+                    if (!Array.isArray(response?.data)) return { ...acc, [promesas[index].id]: response?.data }
 
-                    const id = actual[index].id;
+                    const id = promesas[index].id;
                     return { ...acc, [id]: [...(acc[id] || []), ...response.data] };
                 }, prev)
             })
 
 
-            setLoader(true)
+            setLoader(false)
 
 
             return {
@@ -69,27 +66,20 @@ export const usePromiseHandler = ({ listaDePromesas = [], establecerAlerta }) =>
                 establecerAlerta({
                     id: id,
                     data: res || { message: error.message, code: error.code },
-                    obtenerDatos: ({ intentos }) => obtenerDatos({ promesa: actual, intentos })
+                    obtenerDatos: ({ intentos }) => obtenerDatos({ promesa: promesas, intentos })
                 })
             }
         }
-    };
+    }, [])
 
-    const removerData = ({ id }) => {
-        setLoader(false)
+    const removerData = useCallback(({ id }) => {
+        setLoader(true)
         setData(prev => {
             const copied = { ...prev }
             delete copied[id]
             return copied
         })
-    }
-
-    useEffect(() => {
-        if (listaDePromesas.length > 0) {
-            obtenerDatos();
-        }
-
-    }, []);
+    }, [])
 
     return {
         data,

@@ -1,8 +1,7 @@
-import { useEffect } from "react"
-import { Col, Container, Row } from "react-bootstrap"
 import SpinnerLoader from "@/components/SpinnerLoader"
+import { forwardRef, useEffect, useState } from "react"
 
-const scrollObserver = ({ ApiCall, validationLength }) => {
+const scrollObserver = ({ ApiCall, validationLength, setLoading }) => {
     const config = {
         root: null,
         rootMargin: "0px",
@@ -15,28 +14,32 @@ const scrollObserver = ({ ApiCall, validationLength }) => {
             if (entry.intersectionRatio >= 0.5 && !entry.target.hasVisited && validationLength == 0) {
                 ApiCall();
                 entry.target.hasVisited = true;
+                setLoading(true)
             }
         })
     }, config)
 }
 
 
-const ScrollingInfinite = ({
+const ScrollingInfinite = forwardRef(({
     children,
     ApiCall,
     dataLength,
-    loader,
-    elementToObserve,
+    loaderComponent,
     step = 1 //Define la cantidad que hace por llamada en la function A
-} = {}) => {
+} = {},
+    ref
+) => {
 
-    const { loaderStatus, color, size } = loader
+    const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
 
-        const items = elementToObserve.current
+        dataLength > 0 && setLoading(false)
 
-        const observer = scrollObserver({ ApiCall, validationLength: dataLength % step })
+        const items = ref.current
+
+        const observer = scrollObserver({ ApiCall, validationLength: dataLength % step, setLoading })
 
 
         if (items && dataLength !== 0) {
@@ -55,42 +58,16 @@ const ScrollingInfinite = ({
     }, [dataLength])
 
     return (
-        <Container
-
-            className=" p-0 d-flex h-100 position-relative fluid flex-column">
+        <div className="d-flex flex-column position-relative h-100 w-100 scrollbar">
+            {children}
             {
-                !loaderStatus && dataLength == 0 &&
-                <Row
-                    className="m-0 h-100 justify-content-center align-items-center overflow-hidden">
-                    <SpinnerLoader
-                        size={size}
-                        color={color} />
-                </Row>
+                isLoading && dataLength > 0 &&
+                (loaderComponent ? loaderComponent : <SpinnerLoader />)
 
             }
-
-
-            <Row className={` justify-content-center m-0  align-items-center scrollbar`}>
-
-                <Col className="d-flex flex-column p-0 align-items-center align-content-start  justify-content-center">
-                    {/*El contenedor children tiene que esta envuelto por un contenedor, el cual contenga el mapeo de los items, ademas en no debe tener el 100% del heigth, puede generar errores visuales*/}
-                    {children}
-                    <span className=" p-1 overflow-hidden">
-                        {
-                            !loaderStatus && dataLength > 0 && <SpinnerLoader
-                                size={size}
-                                color={color} />
-                        }
-
-                    </span>
-                </Col>
-            </Row>
-
-
-
-        </Container>
+        </div>
     )
 
-}
+})
 
 export default ScrollingInfinite

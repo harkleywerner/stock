@@ -1,23 +1,20 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "@/hooks/useForm";
 import { memo } from "react";
-import shortUUID from "short-uuid";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 
 const InterfazDeRetiroDeProducto = memo((
     {
         alternarMostrar,
         mostrar,
-        setListaDeRetirados,
+        setCantidadActual,
+        cantidadActual,
         establecerToast,
-        parametros,
-        listaDeRetirados
+        nombre
     }
 ) => {
 
-    const buscarLista = listaDeRetirados[parametros.nombre] || parametros
-
-    const { nombre, cantidad_total, devoluciones_permitidas } = buscarLista
+    const { devoluciones_permitidas, cantidad_total } = cantidadActual
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
@@ -37,16 +34,10 @@ const InterfazDeRetiroDeProducto = memo((
         if (evaluarCantidad == 0) return
 
         const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
+        
         const calcularCantidad = cantidad_total - evaluarCantidad
 
-        setListaDeRetirados({
-            ...listaDeRetirados,
-            [nombre]: {
-                ...parametros,
-                cantidad_total: calcularCantidad,
-                devoluciones_permitidas: devolucionesTotal
-            }
-        })
+        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: calcularCantidad })
 
         const text = cantidadEnt < 0 ? "Devolviste" : "Retiraste"
 

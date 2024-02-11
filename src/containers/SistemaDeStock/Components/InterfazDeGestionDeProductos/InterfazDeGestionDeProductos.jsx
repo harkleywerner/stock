@@ -1,11 +1,11 @@
 import { Button, Modal } from "react-bootstrap";
-import { BuscadorItem } from "./BuscadorItem";
+import { BuscadorDeProductos } from "./BuscadorDeProductos/BuscadorDeProductos";
 import { memo, useEffect, useRef } from "react";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import wrapperNotificaciones from "@/provider//NotificacionesProvider/wrapperNotificaciones";
 import { ModalBody } from "./ModalBody";
 
-const InterfazDeNuevoItem = memo((
+const InterfazDeGestionDeProductos = wrapperNotificaciones(memo((
     {
         alternarMostrar,
         mostrar,
@@ -25,19 +25,19 @@ const InterfazDeNuevoItem = memo((
         insertarParametros({ ...parametrosEdit })
     }, [parametrosEdit])
 
-
     const refImperative = useRef()
 
     const onClick = () => {
 
         const keys = Object.keys(parametros)
 
+  
         const verificaSiSeEncuentra = state.some(item => item.id_producto == parametros.id_producto)
-
+     
         const refCantidad = parseInt(refImperative.current.cantidad)
 
         if (refCantidad <= 0) return
-      
+
 
         if (keys.length == 0) {
             return establecerToast({ texto: "Debes agregar un item para continuar", tipo: "warning" })
@@ -46,14 +46,13 @@ const InterfazDeNuevoItem = memo((
 
             const { nombre, categoria, id_producto } = parametros
 
-  
+
             establecerToast({ texto: `Item ${parametrosEdit.nombre} editado exitosamente `, tipo: "success" })
 
             editarItem({
+                ...parametros,
                 id_producto: parametrosEdit.id_producto,
                 id_actual: id_producto,
-                nombre,
-                categoria,
                 cantidad: refCantidad
             })
         }
@@ -73,7 +72,7 @@ const InterfazDeNuevoItem = memo((
             show={mostrar}
             onHide={alternarMostrar}>
             <Modal.Header className="d-flex justify-content-center h-100 w-100 px-0" >
-                    <BuscadorItem insertarParametros={insertarParametros} />
+                <BuscadorDeProductos insertarParametros={insertarParametros} />
             </Modal.Header>
             <Modal.Body style={{ height: "350px" }}>
                 <ModalBody
@@ -98,7 +97,7 @@ const InterfazDeNuevoItem = memo((
             </Modal.Footer>
         </Modal>
     );
-})
+}))
 
 
-export default wrapperNotificaciones(InterfazDeNuevoItem)
+export default wrapperNotificaciones(InterfazDeGestionDeProductos)
