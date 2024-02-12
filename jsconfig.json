@@ -26,6 +26,9 @@
       "@/utils/*": [
         "src/utls*"
       ],
+      "@/redux/*": [
+        "src/redux*"
+      ],
     }
   }
 }

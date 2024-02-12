@@ -1,37 +1,39 @@
-import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
-import { Suspense, lazy, useState } from 'react';
-import { NotificacionesProvider } from './provider/NotificacionesProvider/NotificacionesProvider';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Suspense, lazy } from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
+import './App.css';
+import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
+import { store } from './redux/store.';
+import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';
+import { ContenedorDeToast } from '@/components/ContenedorDeToast/ContenedorDeToast';
 
 const Sucursales = lazy(() => import('./screens/Sucursales'))
-const Stock = lazy(() => import("./screens/SistemaDeStock/SistemaDeStock"))
-const ContenedorDeGestion = lazy(() => import("./containers/SistemaDeStock/ContenedorDeGestion/ContenedorDeGestion"))
-const ContendoDeNuevoStock = lazy(() => import("./containers/SistemaDeStock/ContenedorDeNuevoStock/ContendoDeNuevoStock"))
-const ContenedorDeProductos = lazy(() => import('./containers/SistemaDeStock/ContenedorDeProductos/ContenedorDeProductos'))
-
+const StockScreen = lazy(() => import("./screens/SistemaDeStock/Stock.screen"))
+const NuevoStockScreen = lazy(() => import("./screens/SistemaDeStock/screens/NuevoStock.screen"))
+const ProductosScreen = lazy(() => import("@/screens/SistemaDeStock/screens/Productos.screen"))
+const GestionStockScreen = lazy(() => import("./screens/SistemaDeStock/screens/GestionStock.screen"))
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL
 
 const router = createBrowserRouter([
   {
     path: "/stock",
-    element: <SuspenseLoadingComponent > <Stock /> </SuspenseLoadingComponent>,
+    element: <SuspenseLoadingComponent > <StockScreen /> </SuspenseLoadingComponent>,
     children: [
       {
         path: "productos",
-        element: <SuspenseLoadingComponent texto={"Cargando productos"}><ContenedorDeProductos /> </SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent texto={"Cargando productos"}><ProductosScreen /> </SuspenseLoadingComponent>,
       },
 
       {
         path: "gestion",
-        element: <SuspenseLoadingComponent texto={"Cargando gestor de stock"}> <ContenedorDeGestion /> </SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent texto={"Cargando gestor de stock"}> <GestionStockScreen /> </SuspenseLoadingComponent>,
       },
       {
         path: "nuevo",
-        element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><ContendoDeNuevoStock /></SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><NuevoStockScreen /></SuspenseLoadingComponent>,
       },
 
     ]
@@ -50,13 +52,18 @@ const router = createBrowserRouter([
   },
 ])
 
+
 function App() {
 
   return (
     <Suspense fallback="">
-      <NotificacionesProvider>
-        <RouterProvider router={router}></RouterProvider>
-      </NotificacionesProvider>
+      <AlertaRertyProvider>
+        <Provider store={store}>
+          <ContenedorDeToast>
+            <RouterProvider router={router}></RouterProvider>
+          </ContenedorDeToast>
+        </Provider>
+      </AlertaRertyProvider>
     </Suspense>
   )
 }

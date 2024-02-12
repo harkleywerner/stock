@@ -8,17 +8,17 @@ export const usePromiseHandler = ({ establecerAlerta = () => { } }) => {
 
     const [data, setData] = useState({});
 
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
 
     const id = useMemo(() => {
         return shortUUID.generate()
     }, [])
 
 
-    const obtenerDatos = useCallback(async ({ promesas, intentos } = {}) => {
+    const generatePromise = useCallback(async ({ promesas, intentos } = {}) => {
+
 
         !loader && setLoader(true)
-
         try {
             const responses = await Promise.all(
                 promesas.map(({ method, url, data = {}, cancelToken, params = {} }) =>
@@ -36,6 +36,7 @@ export const usePromiseHandler = ({ establecerAlerta = () => { } }) => {
                 )
             );
 
+
             setData(prev => {
                 return responses.reduce((acc, response, index) => {
 
@@ -51,22 +52,22 @@ export const usePromiseHandler = ({ establecerAlerta = () => { } }) => {
 
 
             return {
-                rowAffected: responses.map(item => item.data.length),
+                // rowAffected: responses.map(item => item.data.length),
                 status: "success"
             }
 
         } catch (error) {
             const request = error?.request?.status ?? 200
 
-
             if (!intentos && [502, 503, 504, 500, 429, 500, 0, 400].includes(request)) {
+
 
                 const res = error?.response?.data
 
                 establecerAlerta({
                     id: id,
                     data: res || { message: error.message, code: error.code },
-                    obtenerDatos: ({ intentos }) => obtenerDatos({ promesa: promesas, intentos })
+                    generatePromise: ({ intentos }) => generatePromise({ promesas, intentos })
                 })
             }
         }
@@ -81,10 +82,11 @@ export const usePromiseHandler = ({ establecerAlerta = () => { } }) => {
         })
     }, [])
 
+
     return {
         data,
         loader,
-        obtenerDatos,
+        generatePromise,
         removerData
     }
 
