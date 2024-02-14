@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap"
 import { useSearchParams } from "react-router-dom"
-import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula"
+import { PrimeraLetraMayusculaUtils } from "@/utils/PrimeraLetraMayuscula.utils"
 
 const categorias = [
     { id: 1, nombre: "cremas" },
@@ -33,7 +33,7 @@ const DropdownItems = ({ nombre }) => {
             onClick={onClick}
             className="fs-5 pe-5  d-flex align-items-center  py-1  bg-white bg-hoverdark position-relative ">
             <div className="position-relative d-flex align-items-center">
-                <p className="m-0 fw-normal text-secondary ">{PrimeraLetraMayuscula(nombre)}</p>
+                <p className="m-0 fw-normal text-secondary ">{PrimeraLetraMayusculaUtils(nombre)}</p>
 
                 {
                     nombre == search.get("categoria") &&

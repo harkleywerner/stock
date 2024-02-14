@@ -5,9 +5,10 @@ import { Provider } from 'react-redux';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import './App.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
-import { store } from './redux/store.';
 import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';
-import { ContenedorDeToast } from '@/components/ContenedorDeToast/ContenedorDeToast';
+import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
+import { store } from './store/store.';
+import { axiosInterceptor } from './helpers/axios.interceptor';
 
 const Sucursales = lazy(() => import('./screens/Sucursales'))
 const StockScreen = lazy(() => import("./screens/SistemaDeStock/Stock.screen"))
@@ -53,15 +54,16 @@ const router = createBrowserRouter([
 ])
 
 
+axiosInterceptor()
+
 function App() {
 
   return (
     <Suspense fallback="">
       <AlertaRertyProvider>
         <Provider store={store}>
-          <ContenedorDeToast>
-            <RouterProvider router={router}></RouterProvider>
-          </ContenedorDeToast>
+          <ContenedorDeToast />
+          <RouterProvider router={router} />
         </Provider>
       </AlertaRertyProvider>
     </Suspense>

@@ -1,6 +1,6 @@
+import styles from "@/styles/AlertaRetry.module.css";
 import { memo, useEffect, useState } from "react";
 import { Badge, Button, Modal } from "react-bootstrap";
-import styles from "@/styles/Notificaciones.module.css"
 
 
 const RestoDelMensaje = memo(({ message }) => {
@@ -30,7 +30,15 @@ const RestoDelMensaje = memo(({ message }) => {
   )
 })
 
-const AlertaRetry = memo(({ removerAlerta, data, id, intentos, establecerIntentos, generatePromise }) => {
+const AlertaRetry = (
+  {
+    removerAlerta,
+    data,
+    id,
+    intentos,
+    establecerIntentos,
+    generatePromise
+  }) => {
 
   const { code, message } = data || {}
 
@@ -73,7 +81,8 @@ const AlertaRetry = memo(({ removerAlerta, data, id, intentos, establecerIntento
         closeButton={intentos > 0}>
         <Badge bg="none" style={{ background: "#E84A7A" }} >#{code}</Badge>
       </Modal.Header>
-      <Modal.Body className={`shadow d-flex flex-column justify-content-center align-items-center `}>
+      <Modal.Body
+        className={`shadow d-flex flex-column justify-content-center align-items-center `}>
         <div style={{ border: "1px solid #E84A7A" }} className=" p-3  rounded-circle px-4 border-5">
           <i style={{ color: "#E84A7A" }} className="fa-solid fa-x fs-1"></i>
         </div>
@@ -97,6 +106,6 @@ const AlertaRetry = memo(({ removerAlerta, data, id, intentos, establecerIntento
     </Modal>
 
   );
-})
+}
 
 export default AlertaRetry

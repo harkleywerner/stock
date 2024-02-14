@@ -58,11 +58,11 @@ const ScrollingInfinite = forwardRef(({
     }, [dataLength])
 
     return (
-        <div className="d-flex flex-column position-relative h-100 w-100 scrollbar">
+        <div className="d-flex flex-column position-relative h-100 w-100 ">
             {children}
             {
                 isLoading && dataLength > 0 &&
-                (loaderComponent ? loaderComponent : <SpinnerLoader />)
+                (loaderComponent ? loaderComponent : <SpinnerLoader position = "centered" />)
 
             }
         </div>

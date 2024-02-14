@@ -2,71 +2,82 @@ import { DropDownSucursal } from "@/components//DropDownSucursal";
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "../components/DropDownFilterCategoria";
+import { addProducto, changeInicializado, editProducto, removerStock } from "@/store//reducer/nuevoStock/nuevoStock.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { memo } from "react";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 
 const InterfazDeGestionDeProductos = lazy(() => import("../Components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
-
-const InterfazContext = ({ alternarMostrar, mostrar }) => {
-
-    // const { agregarItem, editarItem, state } = useContext(gestionDeStockContext)["nuevaTabla"]
-
-    return (
-        <SuspenseLoadingComponent texto="Cargando interfaz">
-            {/* {
-                mostrar &&
-                <InterfazDeGestionDeProductos
-                    alternarMostrar={alternarMostrar}
-                    mostrar={mostrar}
-                    agregarItem={agregarItem}
-                    editarItem={editarItem}
-                    state={state}
-                />
-            } */}
-        </SuspenseLoadingComponent>
-    )
-}
 
 const NuevoItem = () => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
+    const { stock, inicializado } = useSelector(state => state.nuevo_stock)
+
+    const verificarStock = () => {
+        if (!inicializado) return
+        alternarMostrar()
+    }
+
     return (
         <>
             <Nav.Item
-                onClick={alternarMostrar}
-                className="cursor-pointer hover-rosa fs-3 transition p-1 justify-content-center  d-flex align-items-center" >
-                <p className="m-0  fw-normal fs-5 mx-1">Agregar item</p>
-                <i className="fa-regular  fs-4 fa-square-plus"></i>
+                onClick={verificarStock}
+                className={`
+                ${inicializado ? "hover-rosa transition cursor-pointer" : "opacity-50 cursor-block"}
+                 p-1 justify-content-center d-flex align-items-center
+                `}>
+                <p className="m-0 fw-normal fs-5 mx-1">Agregar item</p>
+                <i className="fa-regular fs-4 fa-square-plus"></i>
             </Nav.Item>
-            <InterfazContext
-                alternarMostrar={alternarMostrar}
-                mostrar={mostrar} />
+
+            <SuspenseLoadingComponent>
+                {
+                    mostrar &&
+                    <InterfazDeGestionDeProductos
+                        alternarMostrar={alternarMostrar}
+                        mostrar={mostrar}
+                        inicializado = {inicializado}
+                        addProducto={addProducto}
+                        editProducto={editProducto}
+                        stock={stock}
+                    />
+                }
+            </SuspenseLoadingComponent>
         </>
     )
 }
 
-const SubirNuevoStockItem = ({ establecerToast, loader, obtenerDatos, data }) => {
+const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, generatePromise, data }) => {
 
-    // const { state, reinicarLista } = useContext(gestionDeStockContext)["nuevaTabla"]
 
-    // useEffect(() => {
+    const { stock } = useSelector(state => state.nuevo_stock)
 
-    //     if (data["stock/nuevo"]?.message == "success") {
-    //         reinicarLista()
-    //         establecerToast({ texto: "El lote  se subio con exito", tipo: "success", id: "succes-subirstock-1" })
-    //     }
+    const responseStock = data["stock/nuevo"] || {}
 
-    // }, [data])
+    const dispatch = useDispatch()
 
-    const subirStock = async () => {
+    const dispatchToast = (input) => dispatch(generarToast(input))
 
-        if (state.length == 0) {
-            establecerToast({ texto: "No puedes subir un stock vacio", tipo: "warning", id: "warning-subirstock-1" })
+    useEffect(() => {
+        if (Object.keys(responseStock).length == 0) return
+        dispatchToast({ texto: `El lote ${responseStock.lote} se subio con exito`, tipo: "success" })
+        dispatch(removerStock())
+    }, [JSON.stringify(responseStock)])
+
+    const subirStock = () => {
+
+        if (stock.length == 0) {
+            dispatchToast({ texto: "No puedes subir un stock vacio", tipo: "warning" })
         }
         else {
-            await obtenerDatos({ promesa: [{ method: "POST", url: "/stock/nuevo", data: { listaDeNuevoStock: [...state] }, id: "stock/nuevo" }] })
+            dispatch(changeInicializado())
+            generatePromise({ promesas: [{ method: "POST", url: "stock/nuevo", data: { listaDeNuevoStock: stock }, id: "stock/nuevo" }] })
         }
     }
 
@@ -74,7 +85,7 @@ const SubirNuevoStockItem = ({ establecerToast, loader, obtenerDatos, data }) =>
         <>
             {
                 loader ? <SpinnerLoader
-                    position={["y"]}
+                    position="y"
                     size="md" /> :
                     <Nav.Item
                         onClick={subirStock}
@@ -86,9 +97,9 @@ const SubirNuevoStockItem = ({ establecerToast, loader, obtenerDatos, data }) =>
         </>
 
     )
-}
+}))
 
- const NavDeNuevoStockContainer = () => {
+const NavDeNuevoStockContainer = () => {
 
     return (
         <Navbar

@@ -1,5 +1,6 @@
 import { useSearchParams } from "react-router-dom"
-import pipe from "@/utils/pipe"
+import { pipeUtils } from "@/utils/pipe.utils.js"
+
 
 
 export const useFiltroProductos = (state) => {
@@ -28,6 +29,6 @@ export const useFiltroProductos = (state) => {
 
     }
 
-    return pipe(filtradoPorCategoria, filtradoPorNombre)(state)
+    return pipeUtils(filtradoPorCategoria, filtradoPorNombre)(state)
 
 }

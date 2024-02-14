@@ -1,5 +1,5 @@
 import { Button, Card } from "react-bootstrap";
-import styles from "@/styles/ContenedorDeProductos.module.css"
+import { cardButton } from "@/styles/SistemaStock.module.css"
 import { lazy, useState } from "react";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
@@ -29,7 +29,7 @@ const CardDeProductos = ({ item }) => {
                 <Card.Body className="d-flex justify-content-between  align-items-center">
                     <Button
                         onClick={alternarMostrar}
-                        className={styles.cardButton}
+                        className={cardButton}
                         variant="none">Retirar</Button>
                     <span
                         style={{ border: "1px solid #814937", fontSize: "18px", color: "#555", width: "40px", height: "40px", letterSpacing: "0px" }}

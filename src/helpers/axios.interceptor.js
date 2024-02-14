@@ -1,22 +1,21 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
-export const axiosInterceptor = (callback = () => { }) => {
+export const axiosInterceptor = () => {
    axios.interceptors.request.use((request) => {
-
+      console.debug(request.url,request.method)
       return request
    })
 
-   axios.interceptors.response.use((response) => {
+   // axios.interceptors.response.use((response) => {
 
-         callback(response)
- 
-      return response
-   },
-      (error) => {
 
-         return error
-      }
-   )
+   //    return response
+   // },
+   //    (error) => {
 
-   return axios
+   //       return error
+   //    }
+   // )
+
+   // return axios
 };

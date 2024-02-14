@@ -1,10 +1,9 @@
+import { lazy } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { Await, useLoaderData } from "react-router-dom";
+import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent";
 import { CardDeSucursales } from "../containers/Sucursales/CardDeSucursales";
 import { useAlternarComponentes } from "../hooks/useAlternarComponentes";
-import { SuspenseLoadingComponent } from "../components/SuspenseLoadingComponent";
-import { lazy, memo} from "react";
-import { Await,useLoaderData } from "react-router-dom";
-import wrapperNotificaciones from "../provider/NotificacionesProvider/wrapperNotificaciones";
 
 
 const InterfazDeLogeo = lazy(() => import("../containers/Sucursales/InterfazDeLogeo"))
@@ -34,7 +33,7 @@ const ContenedorCard = ({ nombre, id_sucursal }) => {
 }
 
 
-const Sucursales = wrapperNotificaciones(memo(({ establecerAlerta, removerAlerta }) => {
+const Sucursales = () => {
 
     const { lista_de_sucursales } = useLoaderData()
 
@@ -56,6 +55,6 @@ const Sucursales = wrapperNotificaciones(memo(({ establecerAlerta, removerAlerta
             </Container>
         </SuspenseLoadingComponent>
     );
-}))
+}
 
 export default Sucursales

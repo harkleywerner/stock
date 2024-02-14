@@ -1,25 +1,35 @@
-
-
+/*Producto*/
 @media (min-width : 1px) {
-    #contenedorNav {
+    #NavProductoContenedor {
         width: 100% !important;
     }
 }
 
 @media (min-width : 1280px) {
-    #contenedorNav {
+    #NavProductoContenedor {
         width: 75% !important;
     }
 }
 
 @media (min-width : 1366px){
-    #contenedorNav {
+    #NavProductoContenedor {
         width: 80% !important;
     }
 }
 
 @media (min-width : 1660px){
-    #contenedorNav {
+    #NavProductoContenedor {
         width: 50% !important;
     }
 }
+
+.cardButton {
+    color: #814937;
+    border: 1px solid #814937;
+}
+
+.cardButton:hover {
+    background-color: #814937;
+    color: white;
+}
+

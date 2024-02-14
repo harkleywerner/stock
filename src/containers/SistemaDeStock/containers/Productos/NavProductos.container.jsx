@@ -1,6 +1,6 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
-import styles from "@/styles/NavBarSecciones.module.css"
+import { NavProductoContenedor } from "@/styles/SistemaStock.module.css"
 import { memo, useCallback, useEffect } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { NavLink, useSearchParams } from "react-router-dom"
@@ -56,7 +56,7 @@ const NavItems = wrapperNotificacionesServidor(memo(({ data, loader, generatePro
         <Nav className="px-1 text-white fs-2  w-100 d-flex justify-content-between  align-items-center">
             {
                 loader ?
-                    <SpinnerLoader size="md" />
+                    <SpinnerLoader size="md" position = "centered" />
                     :
                     categorias.map(item => <NavItemImg key={item.id_categoria} onNavigate={onNavigate} rutaActual={categoria == item.id_categoria} {...item} />)
             }
@@ -64,13 +64,16 @@ const NavItems = wrapperNotificacionesServidor(memo(({ data, loader, generatePro
     )
 }))
 
- const NavProductosContainer = () => {
+const NavProductosContainer = () => {
 
     return (
         <Navbar
             expand="lg"
             className="d-flex justify-content-center align-items-center position-relative p-0 ">
-            <Container id={styles.contenedorNav} fluid className="m-0 shadow  fondo-verde  py-3">
+            <Container
+                id={NavProductoContenedor}
+                fluid
+                className="m-0 shadow  fondo-verde  py-3">
                 <div className="d-flex justify-content-between d-lg-none w-100">
                     <Navbar.Toggle
                         aria-controls="basic-navbar-nav"

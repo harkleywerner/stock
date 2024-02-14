@@ -8,7 +8,7 @@ import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { memo } from "react";
 
 
-const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editProducto, }) => {
+const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editProducto, inicializado }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
@@ -17,9 +17,8 @@ const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editPr
     return (
         <div
             style={{ maxWidth: "min-content" }}
-            className="table-resposive mt-lg-3  w-100 scrollbar">
+            className="table-resposive mt-lg-3  w-100 ">
             <Table
-                // id={styles.tablaDeItems}
                 bordered
                 striped
                 hover
@@ -30,6 +29,7 @@ const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editPr
                         stock.map((item, index) =>
                             <TbodyTablaDeProductos
                                 deleteProducto={deleteProducto}
+                                inicializado={inicializado}
                                 insertarParametros={() => { insertarParametros(item), alternarMostrar() }}
                                 key={index}
                                 {...item} />)
@@ -38,7 +38,7 @@ const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editPr
             </Table>
 
             <SuspenseLoadingComponent>
-                {mostrar && <InterfazDeGestionDeProductos
+                {mostrar && inicializado && <InterfazDeGestionDeProductos
                     stock={stock}
                     addProducto={addProducto}
                     editProducto={editProducto}

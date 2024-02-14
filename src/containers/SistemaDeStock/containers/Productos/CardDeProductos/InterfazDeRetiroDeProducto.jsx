@@ -3,7 +3,7 @@ import { memo } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
 import { useDispatch } from "react-redux";
-import { generarToast } from "@/redux//slice/toastNotificaciones/toastNotificaciones.slice";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 
 const InterfazDeRetiroDeProducto = memo((
     {

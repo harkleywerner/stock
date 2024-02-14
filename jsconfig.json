@@ -26,9 +26,9 @@
       "@/utils/*": [
         "src/utls*"
       ],
-      "@/redux/*": [
-        "src/redux*"
-      ],
+      "@/store/*": [
+        "src/store*"
+    ]
     }
   }
 }

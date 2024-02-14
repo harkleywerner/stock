@@ -3,7 +3,7 @@ import { useForm } from "@/hooks/useForm"
 import { memo, useEffect } from "react"
 import { useLocation, useSearchParams } from "react-router-dom"
 
-const FormBuscador = ({ texto }) => {
+const Input = () => {
 
     const { form, changeForm,restablecerFormulario } = useForm({ "buscador": "" })
 
@@ -41,16 +41,14 @@ const FormBuscador = ({ texto }) => {
             className={` font border-0  d-sm-inline text-white fw-medium fs-5`}
             style={{ boxShadow: "none", background: "transparent" }}
             onChange={changeForm}
-            placeholder={`Buscar ${texto}`}
+            placeholder={`Buscar`}
             autoComplete="off"
-            aria-label={`Busqueda de ${texto}`} />
+            aria-label={`Busqueda`} />
     )
 
 }
 
-const BuscadorInput = memo(({ texto = "", }) => {
-
-
+const BuscadorInput = memo(() => {
 
     return (
         <div
@@ -62,7 +60,7 @@ const BuscadorInput = memo(({ texto = "", }) => {
                     className="text-center border-0 m-auto m-md-0 p-0" >
                     <i className="fa-solid text-white p-2 mx-1 fa-magnifying-glass "></i>
                 </InputGroup.Text>
-                <FormBuscador texto={texto} />
+                <Input />
             </InputGroup>
         </div>
     )

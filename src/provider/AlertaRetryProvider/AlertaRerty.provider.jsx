@@ -9,11 +9,14 @@ export const AlertaRertyProvider = ({ children }) => {
 
     const { alertas, establecerAlerta, establecerIntentos, removerAlerta } = useAlerta()
 
+
     return (
         <AlertaRetryContext.Provider value={{ establecerAlerta }}>
+
             {
                 alertas && <AlertaRetry
                     {...alertas}
+           
                     establecerIntentos={establecerIntentos}
                     removerAlerta={removerAlerta} />
             }

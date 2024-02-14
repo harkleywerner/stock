@@ -1,7 +1,7 @@
-import { generarToast } from "@/redux//slice/toastNotificaciones/toastNotificaciones.slice"
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice"
 import { memo } from "react"
 import { useDispatch } from "react-redux"
-import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula"
+import { PrimeraLetraMayusculaUtils } from "@/utils/PrimeraLetraMayuscula.utils"
 
 generarToast()
 
@@ -12,11 +12,15 @@ const TbodyTablaDeProductos = memo(({
     insertarParametros,
     deleteProducto,
     id_producto,
+    inicializado
 }) => {
+
+    
 
     const dispatch = useDispatch()
 
     const onRemoveItem = () => {
+        if(!inicializado) return
         dispatch(deleteProducto({ id_producto }))
         const toast = { texto: `Item ${nombre} fue removido`, tipo: "danger" }
         dispatch(generarToast(toast))
@@ -33,7 +37,7 @@ const TbodyTablaDeProductos = memo(({
             <td
                 style={{ maxWidth: "300px", minWidth: "150px", }}
                 className="text-secondary text-nowrap text-truncate ">
-                {PrimeraLetraMayuscula(categoria)}
+                {PrimeraLetraMayusculaUtils(categoria)}
             </td>
             <td className="text-center   ">
                 <p

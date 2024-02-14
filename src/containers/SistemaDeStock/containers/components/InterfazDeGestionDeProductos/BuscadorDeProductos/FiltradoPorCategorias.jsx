@@ -1,6 +1,6 @@
 import { Dropdown } from "react-bootstrap"
-import { PrimeraLetraMayuscula } from "@/utils/PrimeraLetraMayuscula"
 import { memo } from "react"
+import { PrimeraLetraMayusculaUtils } from "@/utils/PrimeraLetraMayuscula.utils"
 
 const categoriasss = [
     { id: 2, nombre: "cremas" },
@@ -22,7 +22,7 @@ const DropdownItems = memo(({
             onClick={() => establecerCategoria(id)}
             className="fs-5 pe-5  d-flex align-items-center  py-1  bg-white bg-hoverdark position-relative ">
             <div className="position-relative d-flex align-items-center">
-                <p className="m-0 fw-normal text-secondary ">{PrimeraLetraMayuscula(nombre)}</p>
+                <p className="m-0 fw-normal text-secondary ">{PrimeraLetraMayusculaUtils(nombre)}</p>
 
                 {
                     verificarCategoriaSeleccionada &&

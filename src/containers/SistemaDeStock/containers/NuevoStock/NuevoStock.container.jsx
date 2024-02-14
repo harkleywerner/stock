@@ -1,19 +1,36 @@
 
-import { gestionDeStockContext } from "@/provider//GestionDeStockProvider/GestionDeStockProvider";
-import { useContext } from "react";
 import { Col } from "react-bootstrap";
-import { useFiltrosParams } from "../hooks/useFiltroProductos";
-import ContenedorDeTabla from "../components/ContenedorDeTabla/ContenedorDeTabla";
+import TablaDeProductos from "../components/ContenedorDeTabla/TablaDeProductos";
+import { useSelector } from "react-redux";
+import { addProducto, editProducto, deleteProducto } from "@/store//reducer/nuevoStock/nuevoStock.slice";
+import { useFiltroProductos } from "../hooks/useFiltroProductos";
+import { memo } from "react";
+
+const Message = memo(() => (
+    <p className="text-white h-100  d-flex justify-content-center align-items-center  fs-5 m-auto text-center">No se encontraron  productos en la tabla...</p>
+))
 
 const NuevoStockContainer = () => {
 
-    const props = useContext(gestionDeStockContext)["nuevaTabla"]
+    const { stock,inicializado} = useSelector(state => state.nuevo_stock)
 
-    const filtros = useFiltrosParams(props.state)
+    const nuevoEstado = useFiltroProductos(stock)
 
     return (
-        <Col className="p-0 overflow-hidden h-100">
-            <ContenedorDeTabla {...props} state={filtros} />
+        <Col className="p-0 overflow-hidden d-flex justify-content-center h-100">
+            <section className="scrollbar h-100">
+                {
+                    nuevoEstado.length == 0 ?
+                        <Message />
+                        : <TablaDeProductos
+                            inicializado={inicializado}
+                            addProducto={addProducto}
+                            editProducto={editProducto}
+                            deleteProducto={deleteProducto}
+                            stock={nuevoEstado}>
+                        </TablaDeProductos>
+                }
+            </section>
         </Col>
     );
 };

@@ -4,14 +4,14 @@ import { useEffect, useRef } from "react";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { ModalBody } from "./ModalBody";
 import { useDispatch } from "react-redux";
-import { generarToast } from "@/redux//slice/toastNotificaciones/toastNotificaciones.slice";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import verificacionStock from "./helpers/verificiarStock.helper";
 
 const InterfazDeGestionDeProductos = (
     {
         alternarMostrar,
         mostrar,
-        productoSeleccionado,
+        productoSeleccionado = {},
         stock,
         editProducto,
         addProducto
@@ -21,7 +21,7 @@ const InterfazDeGestionDeProductos = (
     const { insertarParametros, parametros } = useEstablecerParametros()
 
     useEffect(() => {
-        if (!productoSeleccionado) return
+        if (Object.keys(productoSeleccionado).length == 0) return
         insertarParametros({ ...productoSeleccionado })
     }, [productoSeleccionado])
 

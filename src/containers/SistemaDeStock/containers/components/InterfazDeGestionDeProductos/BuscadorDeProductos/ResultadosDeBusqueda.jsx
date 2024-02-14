@@ -72,7 +72,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
 
     const nuevoPromesa = [{ ...listaDePromesas[0], data: { ...listaDePromesas[0].data, offset: productos.length } }]
 
-    const spinner = (<SpinnerLoader color="dark" size="md" />)
+    const spinner = (<SpinnerLoader color="dark" position="centered" size="md" />)
 
     return (
         <div
@@ -91,7 +91,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                         ApiCall={() => generatePromise({ promesas: nuevoPromesa })}>
                         <section
                             ref={refListado}
-                            className="m-0  p-0 d-block w-100  justify-content-start ">
+                            className="m-0  p-0 d-block w-100 scrollbar justify-content-start ">
                             {
                                 productos.map(item =>
                                     <Listado

@@ -1,24 +1,22 @@
 const verificacionStock = ({ stock, parametros, productoSeleccionado, }) => {
 
-    const keys = Object.keys(parametros)
-
     const verificaSiSeEncuentra = stock.find(item => item.id_producto == parametros.id_producto)
 
-    if (keys.length == 0) {
+    if (Object.keys(parametros).length == 0) {
         return {
             toast: { texto: "Debes agregar un item para continuar", tipo: "warning" },
             tipo: "empty"
         }
     }
 
-    else if (verificaSiSeEncuentra?.id_producto == productoSeleccionado?.id_producto) {
+    else if (verificaSiSeEncuentra && verificaSiSeEncuentra.id_producto == productoSeleccionado.id_producto) {
 
         return {
-            toast: { texto: `Item ${productoSeleccionado.nombre} editado  `, tipo: "success" },
+            toast: { texto: `Item ${productoSeleccionado?.nombre} editado  `, tipo: "success" },
             tipo: "edit"
         }
     }
-    else if (!productoSeleccionado && !verificaSiSeEncuentra) {
+    else if (Object.keys(productoSeleccionado).length == 0 && !verificaSiSeEncuentra) {
 
         return {
             toast: { texto: `${parametros.nombre} agregado  `, tipo: "success" },

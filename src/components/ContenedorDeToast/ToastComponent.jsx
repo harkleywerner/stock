@@ -1,8 +1,9 @@
 import { memo } from "react";
 import { Toast } from "react-bootstrap";
-import styles from "@/styles/Notificaciones.module.css"
+import styles from "@/styles/ToastNotificaciones.module.css"
 import { useDispatch } from "react-redux";
-import { removerToast } from "@/redux//slice/toastNotificaciones/toastNotificaciones.slice";
+import { removerToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import { createPortal } from "react-dom";
 
 const icon = {
     warning: "fa-solid fa-triangle-exclamation",

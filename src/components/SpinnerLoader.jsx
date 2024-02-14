@@ -11,24 +11,25 @@ const sizes = {
 const positions = {
   "y": "my-auto",
   "x": "mx-auto",
+  "centered": "mx-auto my-auto"
 }
 
 const SpinnerLoader = memo((
   {
     color,
     size = "lg",
-    position = ["x", "y"]
+    position = ""
   }
 ) => {
 
-  const reducePosition = position.reduce((acc, current) => acc + positions[current] + " ", "")
+  const positionActual = positions[position]
 
   return (
-    <Spinner 
+    <Spinner
       variant={color || "white"}
       className={`
     ${sizes[size]}
-    ${reducePosition}
+    ${positionActual}
      `} />
 
   );

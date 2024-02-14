@@ -1,17 +1,17 @@
 import { DropDownSucursal } from "@/components//DropDownSucursal";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
-
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy } from "react";
 import { Badge, Container, Nav, NavItem, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "../components/DropDownFilterCategoria";
-import { addProducto, editProducto } from "@/redux//slice/gestionDeStock/gestionDeStock.slice";
+import { addProducto, editProducto } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { generarToast } from "@/redux//slice/toastNotificaciones/toastNotificaciones.slice";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import axios from "axios";
+import { calcularNuevoStockHelper } from "./helper/calcularNuevoStock.helper";
 
 const InterfazDeGestionDeProductos = lazy(() => import("../components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
-
 
 const NuevoItem = () => {
 
@@ -52,22 +52,42 @@ const NuevoItem = () => {
     )
 }
 
-const GuardarCambiosItem = wrapperNotificacionesServidor(({ loader, data, generatePromise }) => {
+const GuardarCambiosItem = wrapperNotificacionesServidor((
+    {
+        loader,
+        data,
+        generatePromise
+    }
+) => {
 
-    const { stock, inicializado } = useSelector(state => state.gestion_stock)
+    const { stock, inicializado, stock_data_base = [] } = useSelector(state => state.gestion_stock)
+
+    const cancelSoruce = axios.CancelToken.source()
 
     const dispatch = useDispatch()
 
     const dispatchToast = (input) => dispatch(generarToast(input))
 
+
+
     const subirStock = () => {
 
         if (!inicializado) return
 
-        if (stock.length == 0) {
-            dispatchToast(({ texto: "No puedes subir un stock vacio", tipo: "warning" }))
+        const cambios = calcularNuevoStockHelper({ stock, stock_data_base })
+
+        const promesa = {
+            method: "PUT", url: `stock/gestion`, id: "stock/gestion",
+            data: { id_stock: 476, lista_de_cambios: cambios },
+            cancelToken: cancelSoruce.token,
+        }
+
+        if (cambios.length == 0) {
+            dispatchToast(({ texto: "Debes realizar algun cambio primero.", tipo: "warning" }))
         }
         else {
+
+            generatePromise({ promesas: [promesa] })
             dispatchToast({ texto: "El stock  403 se guardo con exito", tipo: "success" })
         }
 
