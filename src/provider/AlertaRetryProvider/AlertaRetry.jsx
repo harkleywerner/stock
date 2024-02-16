@@ -37,7 +37,7 @@ const AlertaRetry = (
     id,
     intentos,
     establecerIntentos,
-    generatePromise
+    generatePromise,
   }) => {
 
   const { code, message } = data || {}
@@ -49,7 +49,7 @@ const AlertaRetry = (
     const timeOUT = setTimeout(async () => {
       const datos = await generatePromise({ intentos })
 
-      if (intentos <= 0) return
+      if (intentos <= 0 || !intentos) return
 
       if (datos?.status == "success") {
 
@@ -63,7 +63,7 @@ const AlertaRetry = (
 
     return () => clearTimeout(timeOUT)
 
-  }, [intentos])
+  }, [intentos,id])
 
   const reloadPage = () => {
     window.location.reload()

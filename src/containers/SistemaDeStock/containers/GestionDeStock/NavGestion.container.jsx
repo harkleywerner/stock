@@ -4,12 +4,13 @@ import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy } from "react";
 import { Badge, Container, Nav, NavItem, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "../components/DropDownFilterCategoria";
-import { addProducto, editProducto } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { addProducto, editProducto, sincronizarStockDb } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import axios from "axios";
 import { calcularNuevoStockHelper } from "./helper/calcularNuevoStock.helper";
+import SpinnerLoader from "@/components//SpinnerLoader";
 
 const InterfazDeGestionDeProductos = lazy(() => import("../components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
 
@@ -60,15 +61,11 @@ const GuardarCambiosItem = wrapperNotificacionesServidor((
     }
 ) => {
 
-    const { stock, inicializado, stock_data_base = [] } = useSelector(state => state.gestion_stock)
-
-    const cancelSoruce = axios.CancelToken.source()
+    const { stock, inicializado, stock_data_base = [], stock_info } = useSelector(state => state.gestion_stock)
 
     const dispatch = useDispatch()
 
     const dispatchToast = (input) => dispatch(generarToast(input))
-
-
 
     const subirStock = () => {
 
@@ -78,34 +75,51 @@ const GuardarCambiosItem = wrapperNotificacionesServidor((
 
         const promesa = {
             method: "PUT", url: `stock/gestion`, id: "stock/gestion",
-            data: { id_stock: 476, lista_de_cambios: cambios },
-            cancelToken: cancelSoruce.token,
+            data: { id_stock: stock_info.id_stock, lista_de_cambios: cambios },
         }
 
         if (cambios.length == 0) {
-            dispatchToast(({ texto: "Debes realizar algun cambio primero.", tipo: "warning" }))
+            dispatchToast(({ texto: "Debes realizar algun cambio.", tipo: "warning" }))
         }
         else {
-
             generatePromise({ promesas: [promesa] })
-            dispatchToast({ texto: "El stock  403 se guardo con exito", tipo: "success" })
+            dispatchToast({ texto: `El lote #${stock_info.lote} se guardo con exito`, tipo: "success" })
+            dispatch(sincronizarStockDb(stock))
         }
 
     }
 
     return (
-        <Nav.Item
-            onClick={subirStock}
-            className={`
+        <>
+            {
+                loader ? <SpinnerLoader position="y" /> :
+
+                    <Nav.Item
+                        onClick={subirStock}
+                        className={`
             ${inicializado ? "hover-rosa transition cursor-pointer" : "opacity-50 cursor-block"}
               fs-5  p-1 justify-content-center  d-flex align-items-center
             `}>
-            <p className="m-0 fw-normal mx-1">Guardar cambios</p>
-            <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
-        </Nav.Item>
+                        <p className="m-0 fw-normal mx-1">Guardar cambios</p>
+                        <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
+                    </Nav.Item>
+            }
+        </>
     )
 })
 
+const StockLoteItem = () => {
+
+    const { stock_info } = useSelector(state => state.gestion_stock)
+
+    return (
+        <NavItem
+            className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center">
+            <Badge style={{ backgroundColor: "#814937" }} bg="none" className="shadow">Lote #{stock_info.lote}</Badge>
+        </NavItem>
+
+    )
+}
 
 const NavDeGestionContainer = () => {
     return (
@@ -127,11 +141,7 @@ const NavDeGestionContainer = () => {
                 <Navbar.Collapse
                     id="basic-navbar-nav">
                     <Nav className="px-1 text-white fs-2 d-flex justify-content-around align-items-center w-100">
-
-                        <NavItem
-                            className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center">
-                            <Badge style={{ backgroundColor: "#814937" }} bg="none" className="shadow">Stock #555</Badge>
-                        </NavItem>
+                        <StockLoteItem />
 
                         <NuevoItem />
 

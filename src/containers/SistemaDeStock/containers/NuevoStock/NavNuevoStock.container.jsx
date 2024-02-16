@@ -66,7 +66,7 @@ const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, genera
 
     useEffect(() => {
         if (Object.keys(responseStock).length == 0) return
-        dispatchToast({ texto: `El lote ${responseStock.lote} se subio con exito`, tipo: "success" })
+        dispatchToast({ texto: `El lote #${responseStock.lote} se subio con exito`, tipo: "success" })
         dispatch(removerStock())
     }, [JSON.stringify(responseStock)])
 

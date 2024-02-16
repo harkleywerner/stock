@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const analizarIntentos = ({ code, method }) => {
+
     if ([422, 400, 401,403,429].includes(code)) {
         return 0
-    } else if (method == "get") {
+    } else if (method == "get" || !method) {
         return 5
     }
 }
@@ -13,9 +14,9 @@ export const useAlerta = () => {
 
     const establecerAlerta = (nuevaAlerta) => {
 
-        const { data, method } = nuevaAlerta
+        const { data = {}, method } = nuevaAlerta
 
-        const intentos = analizarIntentos({ method, code: data.code })
+        const intentos = analizarIntentos({ method, code: data?.code })
 
         setAlertas(prev => {
             const busqueda = prev.some(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos }]
@@ -23,12 +24,12 @@ export const useAlerta = () => {
         })
     }
 
-    const removerAlerta = (id) => {
+    const removerAlerta = useCallback((id) => {
 
         setAlertas(prev => {
             return prev.filter(i => i.id !== id)
         })
-    }
+    })
 
     const establecerIntentos = (id) => {
 
@@ -42,6 +43,7 @@ export const useAlerta = () => {
         })
     }
 
+   
     return {
         establecerAlerta,
         alertas: alertas[0],

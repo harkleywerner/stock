@@ -1,9 +1,11 @@
 import { useForm } from "@/hooks/useForm";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
 import { useDispatch } from "react-redux";
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import SpinnerLoader from "@/components//SpinnerLoader";
 
 const InterfazDeRetiroDeProducto = memo((
     {
@@ -11,7 +13,11 @@ const InterfazDeRetiroDeProducto = memo((
         mostrar,
         setCantidadActual,
         cantidadActual,
-        nombre
+        nombre,
+        generatePromise,
+        data,
+        loader,
+        id_producto
     }
 ) => {
 
@@ -27,15 +33,25 @@ const InterfazDeRetiroDeProducto = memo((
 
     const { evaluarCantidad } = verificarCantidadesHelper({ cantidadActual, cantidadEnt })
 
-    const enviarCantidad = () => {
+    const transsaciones = data["trassaciones"] || []
 
-        if (evaluarCantidad == 0) return
+
+    const enviarCantidad = async () => {
+
+        if (evaluarCantidad == 0 || loader) return
 
         const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
 
-        const calcularCantidad = cantidad_total - evaluarCantidad
+        const retiroTotal = cantidad_total - evaluarCantidad
 
-        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: calcularCantidad })
+        const promesa = {
+            method: "post", url: "trassaciones", id: "trassaciones",
+            data: { cantidad: evaluarCantidad, id_producto },
+        }
+
+        await generatePromise({ promesas: [promesa] })
+
+        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: retiroTotal })
 
         const text = cantidadEnt < 0 ? "Devolviste" : "Retiraste"
 
@@ -51,7 +67,7 @@ const InterfazDeRetiroDeProducto = memo((
             show={mostrar}
             animation={true}
             onHide={alternarMostrar}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton={!loader}>
                 <Modal.Title className="d-flex align-items-center flex-column">
                     <div className="d-flex justify-content-start w-100">
                         <p className="m-0 text-secondary fw-normal">
@@ -66,11 +82,10 @@ const InterfazDeRetiroDeProducto = memo((
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-
                 <Form.Control
                     type="number"
-                    className="fs-4 font text-secondary"
-                    onChange={changeForm}
+                    className="fs-4 text-secondary"
+                    onChange={(e) => !loader && changeForm(e)}
                     name="cantidad"
                     value={evaluarCantidad == 0 ? "" : evaluarCantidad}
                     placeholder="Ingresa la cantidad"
@@ -80,15 +95,24 @@ const InterfazDeRetiroDeProducto = memo((
                     className=" text-danger fw-normal  mx-1 ">Puedes devolver {Math.abs(devoluciones_permitidas)} unidade/s</small>
             </Modal.Body>
             <Modal.Footer>
-                <Button
-                    onClick={enviarCantidad}
-                    style={{ background: "#57BDC6" }}
-                    className="w-100 border-0 fs-5 transition">
-                    Enviar
-                </Button>
+                {
+                    loader ?
+                        <SpinnerLoader
+                            position="centered"
+                            color="danger"
+                            size="md" />
+                        :
+                        <Button
+                            onClick={enviarCantidad}
+                            style={{ background: "#57BDC6" }}
+                            className="w-100 border-0 fs-5 transition">
+                            Enviar
+                        </Button>
+                }
+
             </Modal.Footer>
         </Modal>
     );
 })
 
-export default InterfazDeRetiroDeProducto
+export default wrapperNotificacionesServidor(InterfazDeRetiroDeProducto)

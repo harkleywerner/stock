@@ -1,14 +1,15 @@
+import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Suspense, lazy } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import './App.css';
+import { ErrorElementAlert } from './components/ErrorElementAlert';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
-import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';
-import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
-import { store } from './store/store.';
 import { axiosInterceptor } from './helpers/axios.interceptor';
+import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';
+import { store } from './store/store.';
 
 const Sucursales = lazy(() => import('./screens/Sucursales'))
 const StockScreen = lazy(() => import("./screens/SistemaDeStock/Stock.screen"))
@@ -25,16 +26,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: "productos",
-        element: <SuspenseLoadingComponent texto={"Cargando productos"}><ProductosScreen /> </SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent ><ProductosScreen /> </SuspenseLoadingComponent>,
       },
 
       {
         path: "gestion",
-        element: <SuspenseLoadingComponent texto={"Cargando gestor de stock"}> <GestionStockScreen /> </SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent> <GestionStockScreen /> </SuspenseLoadingComponent>,
       },
-      {
+        {
         path: "nuevo",
-        element: <SuspenseLoadingComponent texto="Cargando nueva tabla"><NuevoStockScreen /></SuspenseLoadingComponent>,
+        element: <SuspenseLoadingComponent ><NuevoStockScreen /></SuspenseLoadingComponent>,
       },
 
     ]
@@ -44,7 +45,6 @@ const router = createBrowserRouter([
     element: <SuspenseLoadingComponent ><Sucursales /></SuspenseLoadingComponent>,
     loader: async () => {
       const response = axios.get(`${BACK_END_URL}/sucursales`)
-
 
       return defer({
         lista_de_sucursales: response
@@ -59,7 +59,7 @@ axiosInterceptor()
 function App() {
 
   return (
-    <Suspense fallback="">
+    <Suspense fallback="HOLAAA">
       <AlertaRertyProvider>
         <Provider store={store}>
           <ContenedorDeToast />

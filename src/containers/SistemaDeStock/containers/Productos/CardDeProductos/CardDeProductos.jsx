@@ -8,7 +8,8 @@ const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProduc
 
 const CardDeProductos = ({ item }) => {
 
-    const { nombre, cantidad_total, devoluciones_permitidas } = item
+    const { nombre, cantidad_total, devoluciones_permitidas,id_producto } = item
+
 
     const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total })
 
@@ -38,6 +39,7 @@ const CardDeProductos = ({ item }) => {
             </Card>
             <SuspenseLoadingComponent>
                 {mostrar && <InterfazDeRetiroDeProducto
+                    id_producto = {id_producto}
                     setCantidadActual={setCantidadActual}
                     cantidadActual={cantidadActual}
                     nombre={nombre}

@@ -1,8 +1,8 @@
 import { Container, Nav, Navbar, Stack } from "react-bootstrap"
-import { DropwDownUsuario } from "./components/DropwDownUsuario"
+import { DropwDownUsuario } from "./DropwDownUsuario"
 import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { NavLink } from "react-router-dom"
-import { BuscadorResponsive } from "./components/BuscadorResponsive"
+import { BuscadorResponsive } from "./BuscadorResponsive"
 
  const NavStockContainer = () => {
 
