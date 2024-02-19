@@ -33,9 +33,6 @@ const InterfazDeRetiroDeProducto = memo((
 
     const { evaluarCantidad } = verificarCantidadesHelper({ cantidadActual, cantidadEnt })
 
-    const transsaciones = data["trassaciones"] || []
-
-
     const enviarCantidad = async () => {
 
         if (evaluarCantidad == 0 || loader) return
@@ -69,15 +66,16 @@ const InterfazDeRetiroDeProducto = memo((
             onHide={alternarMostrar}>
             <Modal.Header closeButton={!loader}>
                 <Modal.Title className="d-flex align-items-center flex-column">
-                    <div className="d-flex justify-content-start w-100">
-                        <p className="m-0 text-secondary fw-normal">
-                            {nombre}
-                        </p>
-                        <p className="m-0 fs-5 font text-secondary fw-normal mt-1 mx-2">
+                    <div className="d-flex align-items-center justify-content-start w-100">
+                        <p className="m-0 fs-5 font text-secondary fw-normal mx-2">
                             {evaluarCantidad == "" ? 0 : evaluarCantidad}
                             /
                             {cantidad_total}
                         </p>
+                        <p className="m-0 fs-5 text-secondary lh-1 fw-normal">
+                            {nombre}
+                        </p>
+
                     </div>
                 </Modal.Title>
             </Modal.Header>

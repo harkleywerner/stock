@@ -16,19 +16,20 @@ const sliceStock = createSlice({
         inicilizarStock: (state, action) => {
             const stock = action.payload
             state.stock = stock
+            state.stock_data_base = stock
             state.inicializado = true
         },
-        sincronizarStockDb: (state, action) => {
+        sincronizarStock: (state, action) => {
             const stock = action.payload
+            state.stock = stock
             state.stock_data_base = stock
         },
         establecerStockInfo: (state, action) => {
             const stockInfo = action.payload
-            state.stock_info = stockInfo
-            state.inicializado = false //Se establece en false para que se inicialice al 100% con los detalles del  stock
+            state.stock_info = {...state.stock_info,...stockInfo}
         }
     }
 })
 
-export const { addProducto, deleteProducto, editProducto, inicilizarStock, establecerStockInfo, sincronizarStockDb } = sliceStock.actions
+export const { addProducto, deleteProducto, editProducto, inicilizarStock, establecerStockInfo, sincronizarStock } = sliceStock.actions
 export default sliceStock.reducer

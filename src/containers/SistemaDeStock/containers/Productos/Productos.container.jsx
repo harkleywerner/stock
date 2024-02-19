@@ -37,7 +37,7 @@ const ProductosContainer = wrapperNotificacionesServidor(memo(({ loader, data, g
 
     useEffect(() => {
 
-        if (productos.length >= 0) {
+        if (productos.length > 0) {
             removerData({ id: "productos" })
         }
 

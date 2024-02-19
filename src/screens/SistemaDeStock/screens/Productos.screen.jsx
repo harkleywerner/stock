@@ -12,7 +12,7 @@ const ProductosScreen = () => {
                 <NavProductosContainer />
             </Row>
 
-            <Row className="m-0 h-100  flex-grow-1  ">
+            <Row as = "main" className="m-0 h-100  flex-grow-1  ">
                 <ProductosContainer />
             </Row>
         </Container>

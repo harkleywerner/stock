@@ -1,9 +1,7 @@
 import GestionStockContainer from "@/containers//SistemaDeStock/containers/GestionDeStock/GestionStock.container";
 import GestionStockLoader from "@/containers//SistemaDeStock/containers/GestionDeStock/GestionStock.loader";
-import NavDeGestionContainer from "@/containers//SistemaDeStock/containers/GestionDeStock/NavGestion.container";
+import NavDeGestionContainer from "@/containers//SistemaDeStock/containers/GestionDeStock/NavGestion/NavGestion.container";
 import { Container, Row } from "react-bootstrap";
-
-
 
 const GestionStockScreen = () => {
     return (
@@ -12,7 +10,7 @@ const GestionStockScreen = () => {
                 <Row className="m-0 flex-grow-0">
                     <NavDeGestionContainer />
                 </Row>
-                <Row className="m-0 flex-grow-1 overflow-hidden  h-100 ">
+                <Row as = "main" className="m-0 flex-grow-1 overflow-hidden  h-100 ">
                     <GestionStockContainer />
                 </Row>
             </GestionStockLoader>

@@ -1,9 +1,8 @@
+import { removerToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import styles from "@/styles/ToastNotificaciones.module.css";
 import { memo } from "react";
 import { Toast } from "react-bootstrap";
-import styles from "@/styles/ToastNotificaciones.module.css"
 import { useDispatch } from "react-redux";
-import { removerToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
-import { createPortal } from "react-dom";
 
 const icon = {
     warning: "fa-solid fa-triangle-exclamation",
@@ -12,8 +11,13 @@ const icon = {
     success: "fa-solid fa-circle-check"
 }
 
-export const ToastComponent = memo(({ texto, tipo, id }) => {
-
+export const ToastComponent = memo((
+    {
+        texto,
+        tipo,
+        id,
+        children
+    }) => {
     const dispatch = useDispatch()
 
     const dispatchRemoveToast = () => {
@@ -28,7 +32,10 @@ export const ToastComponent = memo(({ texto, tipo, id }) => {
                 <i className={`${icon[tipo]} text-${tipo} fs-2 `}></i>
                 <strong className="me-auto text-uppercase mx-2 ">{tipo}</strong>
             </Toast.Header>
-            <Toast.Body style={{ fontSize: "15px" }}>{texto}</Toast.Body>
+            <Toast.Body style={{ fontSize: "15px" }}>
+                <p className="m-0">{texto}</p>
+                {children}
+            </Toast.Body>
         </Toast>
     );
 })

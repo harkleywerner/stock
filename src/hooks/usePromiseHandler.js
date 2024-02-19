@@ -18,6 +18,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
     const generatePromise = useCallback(async ({ promesas, intentos } = {}) => {
 
         setLoader(true)
+
         try {
             const responses = await axios.all(
                 promesas.map(({ method, url, data = {}, cancelToken, params = {} }) =>
@@ -62,6 +63,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
             }
 
         } catch (error) {
+
             const request = error?.request?.status ?? 200
             if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422,404].includes(request)) {
                 const res = error?.response?.data

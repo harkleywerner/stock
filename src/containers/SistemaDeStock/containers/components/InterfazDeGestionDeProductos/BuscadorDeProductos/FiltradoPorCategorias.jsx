@@ -19,6 +19,7 @@ const DropdownItems = memo(({
 
     return (
         <Dropdown.Item
+            id="item-categorias"
             onClick={() => establecerCategoria(id)}
             className="fs-5 pe-5  d-flex align-items-center  py-1  bg-white bg-hoverdark position-relative ">
             <div className="position-relative d-flex align-items-center">
@@ -44,6 +45,7 @@ export const FiltradoPorCategorias = ({
             style={{ backgroundColor: "#57BDC6" }}
             className="mx-1 h-100 rounded-2">
             <Dropdown.Toggle
+                id="dropwdown-categorias"
                 variant="none"
                 className="d-flex  py-2 text-white h-100 ">
                 <i className="fa-solid fs-5 fa-filter"></i>

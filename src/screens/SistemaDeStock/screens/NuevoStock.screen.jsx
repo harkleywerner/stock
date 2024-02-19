@@ -12,7 +12,7 @@ const NuevoStockScreen = () => {
             <Row className="m-0 flex-grow-0">
                 <NavDeNuevoStockContainer />
             </Row>
-            <Row className="m-0 flex-grow-1 overflow-hidden  h-100 ">
+            <Row as  = "main" className="m-0 flex-grow-1 overflow-hidden  h-100 ">
                 <NuevoStockContainer />
             </Row>
         </Container>

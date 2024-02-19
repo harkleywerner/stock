@@ -2,6 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { ToastComponent } from "@/components/ContenedorDeToast/ToastComponent";
 import { useEffect } from "react";
 import { removerToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import limpiarToastAutomaticoThunks from "@/store//reducer/toastNotificaciones/limpiarToastAutomatico.thunks";
+
+
 
 
 export const ContenedorDeToast = () => {
@@ -14,12 +17,23 @@ export const ContenedorDeToast = () => {
 
         if (listaToast.length == 0) return
 
+        const windowEsc = (e) => {
+            if (e.key == "Escape") {
+                dispatch(limpiarToastAutomaticoThunks({}))
+            }
+        }
+
         const timeOut = setTimeout(() => {
             const id = listaToast[0]?.id
             dispatch(removerToast({ id }))
         }, 3000);
 
-        return () => clearTimeout(timeOut)
+        window.addEventListener("keydown", windowEsc)
+
+        return () => {
+            window.removeEventListener("keydown", windowEsc)
+            clearTimeout(timeOut)
+        }
     }, [JSON.stringify(listaToast)])
 
 
@@ -27,7 +41,7 @@ export const ContenedorDeToast = () => {
         listaToast.length > 0 && <div
             id="contenedor-toast"
             className="position-fixed "
-            style={{ zIndex: "5000", maxHeight: "h-100", right: "0.5%", top: "0%" }} >
+            style={{ zIndex: "5000", maxHeight: "h-100", left: "0.5%", top: "0%" }} >
             {
                 listaToast.length > 0 && listaToast.map(item => <ToastComponent key={item.id} {...item} />)
             }

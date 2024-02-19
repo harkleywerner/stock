@@ -5,11 +5,12 @@ import SpinnerLoader from "@/components//SpinnerLoader"
 import { Stack } from "react-bootstrap"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
 
-const Listado = ({ insertarParametros, item }) => {
+const Listado = ({ insertarParametros, item, alternarMostrar }) => {
 
     const { nombre } = item
 
     const onClick = () => {
+        alternarMostrar(false)
         insertarParametros(item)
     }
 
@@ -40,6 +41,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
     categoria,
     data,
     loader,
+    alternarMostrar,
     generatePromise,
     removerData,
 }) => {
@@ -48,7 +50,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
     const refListado = useRef(null)
 
     const listaDePromesas = [
-        { method: "POST", url: `/productos`, id: "productos", data: { buscador, categoria }, cancelToken: cancelSoruce.token }]
+        { method: "POST", url: `/productos`, id: "productos", data: { buscador, categoria }, cancelToken: cancelSoruce.token, concatenate: true }]
 
     const { productos = [] } = data
 
@@ -95,6 +97,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                             {
                                 productos.map(item =>
                                     <Listado
+                                        alternarMostrar={alternarMostrar}
                                         insertarParametros={insertarParametros}
                                         key={item.id_producto}
                                         item={item}

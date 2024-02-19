@@ -16,7 +16,6 @@ const sliceToast = createSlice({
 
             const verificarLago = state.listaToast.length > 2 ? state.listaToast.slice(1) : state.listaToast
 
-
             state.listaToast = [
                 ...verificarLago,
                 {

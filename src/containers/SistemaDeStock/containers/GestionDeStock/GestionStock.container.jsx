@@ -1,12 +1,11 @@
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData, useSearchParams } from "react-router-dom";
 import TablaDeProductos from "../components/ContenedorDeTabla/TablaDeProductos";
 import { Col } from "react-bootstrap";
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { useFiltroProductos } from "../hooks/useFiltroProductos";
-import { addProducto, deleteProducto, editProducto, inicilizarStock, sincronizarStockDb } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { addProducto, deleteProducto, editProducto, inicilizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 
 
 const Message = memo(() => (
@@ -42,13 +41,14 @@ const GestionStockContainer = wrapperNotificacionesServidor(memo(({
 
     const { stock, inicializado, stock_info } = useSelector(state => state.gestion_stock)
 
-    const { detalleStock = [] } = data
+    const { detalleStock } = data
 
     const listaDePromesas = [
         {
             method: "GET", url: "detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
         }
     ]
+
 
     useEffect(() => {
         if (!inicializado) {
@@ -57,17 +57,18 @@ const GestionStockContainer = wrapperNotificacionesServidor(memo(({
     }, [stock])
 
     useEffect(() => {
-        if (!inicializado && stock.length == 0 && detalleStock.length > 0) {
+
+        if (!inicializado && detalleStock) {
+
             dispatch(inicilizarStock(detalleStock))
-            dispatch(sincronizarStockDb(detalleStock))
         }
-    }, [JSON.stringify(detalleStock), inicializado, stock])
+    }, [detalleStock])
 
 
     return (
         <Col className="p-0 d-flex h-100 justify-content-center">
             {
-                loader && stock.length == 0 || !inicializado && stock.length == 0 ?
+                loader || !inicializado && stock.length == 0 ?
                     <SpinnerLoader position="centered" /> :
                     <Tabla stock={stock} inicializado={inicializado} />
             }

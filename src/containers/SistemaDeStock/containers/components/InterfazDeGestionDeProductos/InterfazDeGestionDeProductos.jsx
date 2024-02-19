@@ -59,6 +59,7 @@ const InterfazDeGestionDeProductos = (
         <Modal
             size="lg"
             show={mostrar}
+            backdrop="static"
             onHide={alternarMostrar}>
             <Modal.Header className="d-flex justify-content-center h-100 w-100 px-0" >
                 <BuscadorDeProductos insertarParametros={insertarParametros} />

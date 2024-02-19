@@ -20,9 +20,10 @@ const GestionStockLoader = memo(({
 
     const id_stock = search.get("id_stock")
 
-    const stock = data["stock/gestion"] || []
+    const stock = data["stock/gestion"]
 
     useEffect(() => {
+
 
         if (stock_info || stock_info?.id_stock === id_stock) return
 
@@ -30,11 +31,11 @@ const GestionStockLoader = memo(({
 
         generatePromise({ promesas: [consulta] })
 
-    }, [])
+    }, [id_stock])
 
     useEffect(() => {
 
-        if (stock.length == 0 || stock_info?.id_stock === id_stock) return
+        if (!stock || stock_info?.id_stock === id_stock) return
 
         dispatch(establecerStockInfo(stock[0]))
 
@@ -43,7 +44,7 @@ const GestionStockLoader = memo(({
     return (
         <>
             {
-                loader || stock.length == 0 || !stock_info ? <SpinnerLoader position="centered" /> : children
+                loader && !stock || !stock_info ? <SpinnerLoader position="centered" /> : children
             }
         </>
     )

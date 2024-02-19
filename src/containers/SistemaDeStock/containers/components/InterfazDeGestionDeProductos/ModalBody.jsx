@@ -6,15 +6,16 @@ const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => 
 
     const { changeForm, form } = useForm({ cantidad: Math.abs(parametroCantidad) })
 
+    const verificarCantidad = form.cantidad <= 0 ? 0 : parseInt(Math.abs(form.cantidad))
+
     useImperativeHandle(ref, () => ({
-        cantidad: form.cantidad
+        cantidad: verificarCantidad
     }))
 
     useEffect(() => {
         changeForm({ target: { name: "cantidad", value: Math.abs(parametroCantidad) } })
     }, [parametroCantidad])
 
-    const verificarCantidad = form.cantidad <= 0 ? 0 : parseInt(Math.abs(form.cantidad))
 
     const onClick = (number) => {
         changeForm({ target: { name: "cantidad", value: verificarCantidad + number } })
@@ -28,9 +29,8 @@ const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => 
                 className="fa-regular fs-3 mx-2 cursor-pointer  zoom fa-square-minus"></i>
             <Form.Control
                 onChange={changeForm}
-                value={verificarCantidad}
+                value={verificarCantidad == 0 ? "" : verificarCantidad}
                 type="number"
-                className="font"
                 name="cantidad">
 
             </Form.Control>

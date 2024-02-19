@@ -47,9 +47,10 @@ const AlertaRetry = (
   useEffect(() => {
     setShow(true)
     const timeOUT = setTimeout(async () => {
-      const datos = await generatePromise({ intentos })
 
       if (intentos <= 0 || !intentos) return
+
+      const datos = await generatePromise({ intentos })
 
       if (datos?.status == "success") {
 
@@ -63,7 +64,7 @@ const AlertaRetry = (
 
     return () => clearTimeout(timeOUT)
 
-  }, [intentos,id])
+  }, [intentos, id])
 
   const reloadPage = () => {
     window.location.reload()

@@ -1,9 +1,9 @@
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice"
-import { memo } from "react"
-import { useDispatch } from "react-redux"
 import { PrimeraLetraMayusculaUtils } from "@/utils/PrimeraLetraMayuscula.utils"
+import { Suspense, lazy, memo } from "react"
+import { useDispatch } from "react-redux"
 
-generarToast()
+const SincronizacionItems = lazy(() => import("./SincronizacionesItem"))
 
 const TbodyTablaDeProductos = memo(({
     nombre,
@@ -12,15 +12,16 @@ const TbodyTablaDeProductos = memo(({
     insertarParametros,
     deleteProducto,
     id_producto,
-    inicializado
+    inicializado,
+    sincronizacion
 }) => {
 
-    
+
 
     const dispatch = useDispatch()
 
     const onRemoveItem = () => {
-        if(!inicializado) return
+        if (!inicializado) return
         dispatch(deleteProducto({ id_producto }))
         const toast = { texto: `Item ${nombre} fue removido`, tipo: "danger" }
         dispatch(generarToast(toast))
@@ -39,9 +40,18 @@ const TbodyTablaDeProductos = memo(({
                 className="text-secondary text-nowrap text-truncate ">
                 {PrimeraLetraMayusculaUtils(categoria)}
             </td>
-            <td className="text-center   ">
-                <p
-                    className="m-0 rounded-5 text-dark">{cantidad}</p>
+            <td className="text-center d-flex  justify-content-center ">
+                <div className="position-relative">
+                    {
+                        sincronizacion && <Suspense>
+                            <SincronizacionItems tipo={sincronizacion} />
+                        </Suspense>
+                    }
+
+
+                    <p
+                        className="m-0 rounded-5 text-dark">{cantidad}</p>
+                </div>
             </td>
             <td>
                 <div className="d-flex justify-content-center">
