@@ -28,10 +28,6 @@ export const BuscadorDeProductos = memo(({ insertarParametros }) => {
         return () => clearTimeout(timeOut)
     }
 
-
-
-
-
     return (
         <section
             className="h-100 w-100 d-flex align-items-center justify-content-center">
@@ -45,7 +41,8 @@ export const BuscadorDeProductos = memo(({ insertarParametros }) => {
                 <Form.Control
                     id="input_buscador"
                     onFocus={() => alternarMostrar(true)}
-                    className="font py-2 fs-5"
+                    style={{border : `${mostrar ? "1px solid #57BDC67F" : ""}`,boxShadow : "none"}}
+                    className="font py-2 fs-5 "
                     name="buscador"
                     type="search"
                     placeholder="Buscar un item..."

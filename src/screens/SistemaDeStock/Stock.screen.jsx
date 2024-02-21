@@ -1,7 +1,7 @@
+import StockContainer from "@/containers//SistemaDeStock/Stock/BodyStockContainer/BodyStock.container";
+import NavStockContainer from "@/containers/SistemaDeStock/Stock/NavStockContainer/NavStock.container";
 import { Container, Row } from "react-bootstrap";
 import { Outlet, useLocation } from "react-router-dom";
-import NavStockContainer from "@/containers/SistemaDeStock/Stock/NavStockContainer/NavStock.container";
-import StockContainer from "@/containers//SistemaDeStock/Stock/BodyStockContainer/BodyStock.container";
 
 const OuletContainer = () => {
 
@@ -21,6 +21,8 @@ const OuletContainer = () => {
 const StockScreen = () => {
 
 
+
+
     return (
         <Container
             style={{ maxHeight: "100vh" }}
@@ -35,7 +37,7 @@ const StockScreen = () => {
 
             <Row
                 as={"main"}
-                className='h-100 m-0 flex-grow-1 overflow-hidden'>
+                className='h-100 scrollbar m-0  '>
                 <OuletContainer />
             </Row>
         </Container >

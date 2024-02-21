@@ -1,11 +1,12 @@
-import { useForm } from "@/hooks/useForm";
-import { memo, useEffect } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
-import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
-import { useDispatch } from "react-redux";
-import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import SpinnerLoader from "@/components//SpinnerLoader";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { useForm } from "@/hooks/useForm";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import { memo } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
+import DropDownLote from "./DropDownLote";
 
 const InterfazDeRetiroDeProducto = memo((
     {
@@ -15,7 +16,6 @@ const InterfazDeRetiroDeProducto = memo((
         cantidadActual,
         nombre,
         generatePromise,
-        data,
         loader,
         id_producto
     }
@@ -64,8 +64,9 @@ const InterfazDeRetiroDeProducto = memo((
             show={mostrar}
             animation={true}
             onHide={alternarMostrar}>
-            <Modal.Header closeButton={!loader}>
+            <Modal.Header  closeButton={!loader}>
                 <Modal.Title className="d-flex align-items-center flex-column">
+                <DropDownLote id_producto={id_producto} />
                     <div className="d-flex align-items-center justify-content-start w-100">
                         <p className="m-0 fs-5 font text-secondary fw-normal mx-2">
                             {evaluarCantidad == "" ? 0 : evaluarCantidad}

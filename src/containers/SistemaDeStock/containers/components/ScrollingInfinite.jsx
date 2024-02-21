@@ -10,7 +10,6 @@ const scrollObserver = ({ ApiCall, validationLength, setLoading }) => {
 
     return new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-
             if (entry.intersectionRatio >= 0.5 && !entry.target.hasVisited && validationLength == 0) {
                 ApiCall();
                 entry.target.hasVisited = true;
@@ -26,7 +25,7 @@ const ScrollingInfinite = forwardRef(({
     ApiCall,
     dataLength,
     loaderComponent,
-    step = 1 //Define la cantidad que hace por llamada en la function A
+    step = 1 //Define la cantidad que hace cada llamada de apiCall
 } = {},
     ref
 ) => {

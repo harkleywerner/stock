@@ -16,7 +16,7 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
 
             delete groupBy[producto.id_producto] //Borramos directamente la propiedad de la memoria del objecto.  
             //Este enfoque sirve para indicarle luego cuales del productos stock con respecto al data base son los nuevos.
-            if (producto.cantidad != item.cantidad || item.sincronizacion == "put") return { ...producto, accion: "put" }
+            if (producto.cantidad != item.cantidad || item.sincronizacion == "expecting") return { ...producto, accion: "put" }
         }
 
     }).filter(item => item !== undefined)

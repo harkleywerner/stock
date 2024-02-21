@@ -19,8 +19,15 @@ export const calcularStockEntranteHelper = ({
 
         const success = succes_commit_put[item.id_producto]
 
+
+
         if (failed) {
-            return { ...failed, sincronizacion: failed.accion }
+
+            return {
+                ...failed, sincronizacion:
+                    failed.accion == "put" && failed.cantidad != item.cantidad ? "expecting" :
+                        failed.accion == "delete" ? "denied" : "warning"
+            }
         }
         else if (success) {
             return { ...success, sincronizacion: "success" }

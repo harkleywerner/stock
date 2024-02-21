@@ -3,7 +3,6 @@ import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacion
 import { establecerStockInfo } from "@/store//reducer/gestionDeStock/gestionDeStock.slice"
 import { memo, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useSearchParams } from "react-router-dom"
 
 const GestionStockLoader = memo(({
     children,
@@ -16,26 +15,22 @@ const GestionStockLoader = memo(({
 
     const dispatch = useDispatch()
 
-    const [search] = useSearchParams()
-
-    const id_stock = search.get("id_stock")
-
     const stock = data["stock/gestion"]
 
     useEffect(() => {
 
 
-        if (stock_info || stock_info?.id_stock === id_stock) return
+        if (stock_info) return
 
-        const consulta = { method: "GET", url: "stock/gestion", id: "stock/gestion", params: { id_stock } }
+        const consulta = { method: "GET", url: "stock/gestion", id: "stock/gestion" }
 
         generatePromise({ promesas: [consulta] })
 
-    }, [id_stock])
+    }, [stock_info])
 
     useEffect(() => {
 
-        if (!stock || stock_info?.id_stock === id_stock) return
+        if (!stock) return
 
         dispatch(establecerStockInfo(stock[0]))
 

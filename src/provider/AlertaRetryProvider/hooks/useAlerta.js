@@ -4,7 +4,7 @@ const analizarIntentos = ({ code, method }) => {
 
     if ([422, 400, 401,403,429].includes(code)) {
         return 0
-    } else if (method == "get" || !method) {
+    } else {
         return 5
     }
 }

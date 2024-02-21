@@ -13,7 +13,12 @@ const Message = memo(({ getBuscador }) => {
     )
 })
 
-const ProductosContainer = wrapperNotificacionesServidor(memo(({ loader, data, generatePromise, removerData }) => {
+const ProductosContainer = wrapperNotificacionesServidor(memo(({
+    loader,
+    data,
+    generatePromise,
+    removerData
+}) => {
 
     const [search] = useSearchParams()
 
@@ -26,12 +31,12 @@ const ProductosContainer = wrapperNotificacionesServidor(memo(({ loader, data, g
     const cancelSoruce = axios.CancelToken.source()
 
     const promesa =
-        {
-            method: "GET", url: `/productos`, id: "productos",
-            params: { search: getBuscador, categoria: getCategoria, offset: 0 },
-            cancelToken: cancelSoruce.token,
-            concatenate: true
-        }
+    {
+        method: "GET", url: `/productos`, id: "productos",
+        params: { search: getBuscador, categoria: getCategoria, offset: 0 },
+        cancelToken: cancelSoruce.token,
+        concatenate: true
+    }
 
     const productos = data["productos"] || []
 
@@ -54,7 +59,7 @@ const ProductosContainer = wrapperNotificacionesServidor(memo(({ loader, data, g
 
     }, [getBuscador, getCategoria])
 
-    const nuevoPromesa = [{ ...promesa, params: { ...promesa.params, offset: productos.length } }]
+    const nuevoPromesa = { ...promesa, params: { ...promesa.params, offset: productos.length } }
 
     return (
         <Col className="p-0 h-100 d-flex">
@@ -64,7 +69,7 @@ const ProductosContainer = wrapperNotificacionesServidor(memo(({ loader, data, g
 
                     :
                     <ScrollingInfinite
-                        ApiCall={() => generatePromise({ promesas: nuevoPromesa })}
+                        ApiCall={() => generatePromise({ promesas: [nuevoPromesa] })}
                         dataLength={productos.length}
                         ref={elementToObserve}
                         step={15}>

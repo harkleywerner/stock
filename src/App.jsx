@@ -1,11 +1,11 @@
 import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/js/bootstrap.bundle.js"
 import { Suspense, lazy } from 'react';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
 import './App.css';
-import { ErrorElementAlert } from './components/ErrorElementAlert';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { axiosInterceptor } from './helpers/axios.interceptor';
 import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';

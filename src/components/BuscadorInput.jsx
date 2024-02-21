@@ -5,13 +5,16 @@ import { useLocation, useSearchParams } from "react-router-dom"
 
 const Input = () => {
 
-    const { form, changeForm,restablecerFormulario } = useForm({ "buscador": "" })
-
     const [search, setSearch] = useSearchParams()
+
+    const getSearch = search.get("search") || ""
+
+    const { form, changeForm,restablecerFormulario } = useForm({ "buscador": getSearch  })
 
     const {pathname} = useLocation()
 
     const { buscador } = form
+      
 
     useEffect(()=>{
 
@@ -36,7 +39,7 @@ const Input = () => {
     return (
         <Form.Control
             type="search"
-            value={buscador}
+            value={getSearch.length == 0 ? "" : buscador}
             name="buscador"
             className={` font border-0  d-sm-inline text-white fw-medium fs-5`}
             style={{ boxShadow: "none", background: "transparent" }}

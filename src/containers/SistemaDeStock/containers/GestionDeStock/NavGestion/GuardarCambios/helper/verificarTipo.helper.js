@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { calcularStockEntranteHelper } from "./calculalStockEntrante.helper";
-import { useDispatch } from "react-redux";
-import { establecerStockInfo, sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { establecerPendientes, sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { calcularStockEntranteHelper } from "./calculalStockEntrante.helper";
+import { calcularSincronizacionesHelper } from "./calcularSincronizacionEntres.helper";
 
 export const verificarTipoHelper = ({
     loader,
@@ -30,11 +31,13 @@ export const verificarTipoHelper = ({
             const stockEntrante = calcularStockEntranteHelper({ success_commit, stock_data_base, failed_commit })
 
             keysFailedTotal == 0 && dispatchToast({ texto: `Todos los cambios del lote #${lote} se guardaron exitosamente`, tipo: "success" })
-            
+
+            const calcularSincronizaciones = calcularSincronizacionesHelper({ stockEntrante })
+
             dispatch(sincronizarStock(stockEntrante))
 
-            dispatch(establecerStockInfo({ sync_pendientes : keyFailedPut }))
-            
+            dispatch(establecerPendientes({sync_pendientes : calcularSincronizaciones}))
+
             keysFailedTotal > 0 && dispatchToast({ texto: `Fallo, ${keysFailedTotal} producto/s debido a la cantidad ingresada o el producto eliminado,no se puede guardar.`, tipo: "danger" })
         }
 

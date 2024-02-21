@@ -78,8 +78,8 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
 
     return (
         <div
-            style={{ minHeight: "200px", top: "100%" }}
-            className="position-absolute z-1 d-flex  w-100 h-100  bg-white shadow" >
+            style={{ minHeight: "200px", top: "100%",border : "1px solid #57BDC67F"}}
+            className="position-absolute z-1 d-flex  w-100 mt-1  rounded-4 overflow-hidden  h-100  bg-white shadow" >
 
             {
                 productos.length == 0 ?
@@ -93,7 +93,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                         ApiCall={() => generatePromise({ promesas: nuevoPromesa })}>
                         <section
                             ref={refListado}
-                            className="m-0  p-0 d-block w-100 scrollbar justify-content-start ">
+                            className="m-0  p-0 d-block w-100 scrollbar  justify-content-start ">
                             {
                                 productos.map(item =>
                                     <Listado
