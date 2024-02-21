@@ -4,7 +4,12 @@ import { memo } from "react"
 import { useForm } from "../hooks/useForm"
 import { useValidarForm } from "../hooks/useValidarForm"
 
-const ButtonIngreso = memo(({ onSubmit, validated }) => {
+const ButtonIngreso = memo((
+    { 
+        onSubmit,
+        validated
+     }
+) => {
 
     return (
         <Button
