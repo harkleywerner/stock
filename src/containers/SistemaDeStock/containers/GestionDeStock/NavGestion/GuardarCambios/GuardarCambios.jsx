@@ -12,7 +12,7 @@ const Sincronizar = lazy(() => import("./Sincronizar"))
 const GuardarCambios = (
     {
         loader,
-        data: dataFecth,
+        apiData: dataFecth,
         generatePromise
     }
 

@@ -13,11 +13,11 @@ const Message = memo(({ getBuscador }) => {
     )
 })
 
-const ProductosContainer = wrapperNotificacionesServidor(memo(({
+const ProductosContainer = memo(({
     loader,
-    data,
+    apiData,
     generatePromise,
-    removerData
+    removerApiData
 }) => {
 
     const [search] = useSearchParams()
@@ -28,62 +28,66 @@ const ProductosContainer = wrapperNotificacionesServidor(memo(({
 
     const getCategoria = search.get("categoria")
 
-    const cancelSoruce = axios.CancelToken.source()
+    const cancelSource = axios.CancelToken.source()
 
-    const promesa =
-    {
-        method: "GET", url: `/productos`, id: "productos",
-        params: { search: getBuscador, categoria: getCategoria, offset: 0 },
-        cancelToken: cancelSoruce.token,
-        concatenate: true
+    const { data = [], tipo } = apiData["productos"] || {}
+
+
+
+    const apiCall = (reset) => {
+
+        const promesa =
+        {
+            method: "GET", url: `/productos`, id: "productos",
+            params: { search: getBuscador, categoria: getCategoria, offset: reset ?? data.length },
+            cancelToken: cancelSource.token,
+            concatenate: true
+        }
+
+        generatePromise({ promesas: [promesa] })
     }
-
-    const productos = data["productos"] || []
 
     useEffect(() => {
 
-        if (productos.length > 0) {
-            removerData({ id: "productos" })
-        }
+        removerApiData({ id: "productos" })
 
         const timeOut = setTimeout(() => {
 
-            generatePromise({ promesas: [promesa] })
+            apiCall(0)
 
         }, 600);
 
         return () => {
             clearTimeout(timeOut)
-            cancelSoruce.cancel()
+            cancelSource.cancel()
         }
 
     }, [getBuscador, getCategoria])
 
-    const nuevoPromesa = { ...promesa, params: { ...promesa.params, offset: productos.length } }
 
     return (
         <Col className="p-0 h-100 d-flex">
             {
-                productos.length == 0 ?
-                    getBuscador.length > 0 && !loader ? <Message getBuscador={getBuscador} /> : <SpinnerLoader position="centered" />
+                data.length == 0 ?
+                    tipo == "success" && !loader ? <Message getBuscador={getBuscador} /> : <SpinnerLoader position="centered" />
 
                     :
                     <ScrollingInfinite
-                        ApiCall={() => generatePromise({ promesas: [nuevoPromesa] })}
-                        dataLength={productos.length}
+                        ApiCall={apiCall}
+                        dataLength={data.length}
                         ref={elementToObserve}
                         step={15}>
                         <section
                             className="justify-content-center px-1 align-content-start align-items-center flex-wrap d-flex"
                             ref={elementToObserve}>
                             {
-                                productos.map(item => <CardDeProductos key={item.id_producto} item={item} />)
+                                data.map(item => <CardDeProductos key={item.id_producto} item={item} />)
                             }
                         </section>
                     </ScrollingInfinite>
             }
         </Col>
     )
-}))
+})
 
-export default ProductosContainer
+export default wrapperNotificacionesServidor(ProductosContainer)

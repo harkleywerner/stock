@@ -6,7 +6,7 @@ const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const usePromiseHandler = ({ establecerAlerta }) => {
 
-    const [data, setData] = useState({});
+    const [apiData, setApiData] = useState({});
 
     const [loader, setLoader] = useState(false);
 
@@ -37,18 +37,18 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 )
             );
 
-
-
-            setData(prev => {
+            setApiData(prev => {
                 return responses.reduce((acc, response, index) => {
 
                     const id = promesas[index].id;
-                    const concatenacion = promesas[index]?.concatenate //Esto por defecto es false, cuando es true indica que debe ingresar la nueva data con la anterior.
 
-                    // if (!Array.isArray(response?.data)) return { ...acc, [id]: response?.data }
+                    const concatenacion = promesas[index]?.concatenate //Esto por defecto es false, cuando es true indica que debe concatenar la nueva data con la anterior.
 
+                    const { data = [] } = response.data
 
-                    return { ...acc, [id]: concatenacion ? [...(acc[id] || []), ...response.data] : response.data };
+                    const nuevaData = concatenacion ? [...(acc[id]?.data || []), ...data] : data
+
+                    return { ...acc, [id]: { ...response.data, data: nuevaData } };
 
                 }, prev)
             })
@@ -65,12 +65,12 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
         } catch (error) {
 
             const request = error?.request?.status ?? 200
-            if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422,404].includes(request)) {
+            if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
                 const res = error?.response?.data
                 establecerAlerta({
                     id: id,
                     data: res || { message: error.message, code: error.code },
-                    url : error.config.url,
+                    url: error.config.url,
                     method: error.config.method,
                     generatePromise: ({ intentos }) => generatePromise({ promesas, intentos })
                 })
@@ -78,9 +78,9 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
         }
     }, [])
 
-    const removerData = useCallback(({ id }) => {
+    const removerApiData = useCallback(({ id }) => {
         setLoader(true)
-        setData(prev => {
+        setApiData(prev => {
             const copied = { ...prev }
             delete copied[id]
             return copied
@@ -89,10 +89,10 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
 
     return {
-        data,
+        apiData,
         loader,
         generatePromise,
-        removerData
+        removerApiData
     }
 
 }

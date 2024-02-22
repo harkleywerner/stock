@@ -31,8 +31,8 @@ const Tabla = memo(({ stock, inicializado }) => {
 })
 
 
-const GestionStockContainer = wrapperNotificacionesServidor(memo(({
-    data,
+const GestionStockContainer = memo(({
+    apiData,
     loader,
     generatePromise
 }) => {
@@ -41,7 +41,7 @@ const GestionStockContainer = wrapperNotificacionesServidor(memo(({
 
     const { stock, inicializado, stock_info } = useSelector(state => state.gestion_stock)
 
-    const { detalleStock } = data
+    const { data } = apiData["detalleStock"] || {}
 
     const listaDePromesas = [
         {
@@ -58,11 +58,11 @@ const GestionStockContainer = wrapperNotificacionesServidor(memo(({
 
     useEffect(() => {
 
-        if (!inicializado && detalleStock) {
+        if (!inicializado && data) {
 
-            dispatch(inicilizarStock(detalleStock))
+            dispatch(inicilizarStock(data))
         }
-    }, [detalleStock])
+    }, [data])
 
 
     return (
@@ -74,7 +74,7 @@ const GestionStockContainer = wrapperNotificacionesServidor(memo(({
             }
         </Col>
     )
-}))
+})
 
 
-export default GestionStockContainer
+export default wrapperNotificacionesServidor(GestionStockContainer)

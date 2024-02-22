@@ -24,7 +24,7 @@ const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
     )
 })
 
-const NavItems = wrapperNotificacionesServidor(memo(({ data, loader, generatePromise }) => {
+const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generatePromise }) => {
 
     const [search, setSearch] = useSearchParams()
 
@@ -36,7 +36,7 @@ const NavItems = wrapperNotificacionesServidor(memo(({ data, loader, generatePro
         generatePromise({ promesas: listaDePromesas })
     }, [])
 
-    const categorias = data["productos/categorias"] || []
+    const { data = [] } = apiData["productos/categorias"] || {}
 
     const onNavigate = useCallback((categoriaActual) => {
 
@@ -56,9 +56,9 @@ const NavItems = wrapperNotificacionesServidor(memo(({ data, loader, generatePro
         <Nav className="px-1 text-white fs-2  w-100 d-flex justify-content-between  align-items-center">
             {
                 loader ?
-                    <SpinnerLoader size="md" position = "centered" />
+                    <SpinnerLoader size="md" position="centered" />
                     :
-                    categorias.map(item => <NavItemImg key={item.id_categoria} onNavigate={onNavigate} rutaActual={categoria == item.id_categoria} {...item} />)
+                    data.map(item => <NavItemImg key={item.id_categoria} onNavigate={onNavigate} rutaActual={categoria == item.id_categoria} {...item} />)
             }
         </Nav>
     )

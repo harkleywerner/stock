@@ -42,7 +42,7 @@ const NuevoItem = () => {
                     <InterfazDeGestionDeProductos
                         alternarMostrar={alternarMostrar}
                         mostrar={mostrar}
-                        inicializado = {inicializado}
+                        inicializado={inicializado}
                         addProducto={addProducto}
                         editProducto={editProducto}
                         stock={stock}
@@ -53,12 +53,12 @@ const NuevoItem = () => {
     )
 }
 
-const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, generatePromise, data }) => {
+const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, generatePromise, apiData }) => {
 
 
     const { stock } = useSelector(state => state.nuevo_stock)
 
-    const responseStock = data["stock/nuevo"] || {}
+    const responseStock = apiData["stock/nuevo"] || {}
 
     const dispatch = useDispatch()
 
