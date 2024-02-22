@@ -1,8 +1,8 @@
-import { Button, Form, Modal } from "react-bootstrap"
-import wrapperAlerta from "../provider/NotificacionesProvider/wrapperNotificaciones"
 import { memo } from "react"
+import { Button, Form, Modal } from "react-bootstrap"
 import { useForm } from "../hooks/useForm"
 import { useValidarForm } from "../hooks/useValidarForm"
+import { wrapperNotificacionesServidor } from "./wrapperNotificacionesServidor"
 
 const ButtonIngreso = memo((
     { 
@@ -81,4 +81,4 @@ const InterfazDeIngresoDeUsuario = memo(({
 
 
 
-export default wrapperAlerta(InterfazDeIngresoDeUsuario)
+export default wrapperNotificacionesServidor(InterfazDeIngresoDeUsuario)
