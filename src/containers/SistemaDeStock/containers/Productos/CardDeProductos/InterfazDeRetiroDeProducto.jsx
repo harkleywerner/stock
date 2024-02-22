@@ -66,7 +66,7 @@ const InterfazDeRetiroDeProducto = memo((
             onHide={alternarMostrar}>
             <Modal.Header  closeButton={!loader}>
                 <Modal.Title className="d-flex align-items-center flex-column">
-                <DropDownLote id_producto={id_producto} />
+                {/* <DropDownLote id_producto={id_producto} /> */}
                     <div className="d-flex align-items-center justify-content-start w-100">
                         <p className="m-0 fs-5 font text-secondary fw-normal mx-2">
                             {evaluarCantidad == "" ? 0 : evaluarCantidad}
