@@ -39,63 +39,71 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
     buscador,
     insertarParametros,
     categoria,
-    data,
+    apiData,
     loader,
     alternarMostrar,
     generatePromise,
-    removerData,
+    removerApiData,
 }) => {
-    const cancelSoruce = axios.CancelToken.source()
+    const cancelSource = axios.CancelToken.source()
 
     const refListado = useRef(null)
 
-    const listaDePromesas = [
-        { method: "POST", url: `/productos`, id: "productos", data: { buscador, categoria }, cancelToken: cancelSoruce.token, concatenate: true }]
+    const { data = [], tipo } = apiData["productos"] || {}
 
-    const { productos = [] } = data
+    const apiCall = (reset) => {
+
+        const promesa =
+        {
+            method: "POST",
+            url: `/productos`,
+            id: "productos",
+            data: { buscador, categoria, offset: reset ?? data.length },
+            cancelToken: cancelSource.token,
+            concatenate: true,
+        }
+
+        generatePromise({ promesas: [promesa] })
+    }
 
     useEffect(() => {
 
-        if (productos.length > 0) {
-            removerData({ id: "productos" })
-        }
+        removerApiData({ id: "productos" })
 
         const timeoutSearch = setTimeout(() => {
 
-            generatePromise({ promesas: listaDePromesas })
+            apiCall(0)
 
         }, 600);
 
         return () => {
             clearTimeout(timeoutSearch)
-            cancelSoruce.cancel()
+            cancelSource.cancel()
         }
     }, [buscador, categoria])
-
-    const nuevoPromesa = [{ ...listaDePromesas[0], data: { ...listaDePromesas[0].data, offset: productos.length } }]
 
     const spinner = (<SpinnerLoader color="dark" position="centered" size="md" />)
 
     return (
         <div
-            style={{ minHeight: "200px", top: "100%",border : "1px solid #57BDC67F"}}
+            style={{ minHeight: "200px", top: "100%", border: "1px solid #57BDC67F" }}
             className="position-absolute z-1 d-flex  w-100 mt-1  rounded-4 overflow-hidden  h-100  bg-white shadow" >
 
             {
-                productos.length == 0 ?
-                    !loader && productos.length == 0 && buscador.length > 0 ? <Message /> : spinner :
+                data.length == 0 ?
+                    !loader && tipo == "success" ? <Message /> : spinner :
 
                     <ScrollingInfinite
-                        dataLength={productos.length}
+                        dataLength={data.length}
                         ref={refListado}
                         step={15}
                         loaderComponent={spinner}
-                        ApiCall={() => generatePromise({ promesas: nuevoPromesa })}>
+                        ApiCall={apiCall}>
                         <section
                             ref={refListado}
                             className="m-0  p-0 d-block w-100 scrollbar  justify-content-start ">
                             {
-                                productos.map(item =>
+                                data.map(item =>
                                     <Listado
                                         alternarMostrar={alternarMostrar}
                                         insertarParametros={insertarParametros}

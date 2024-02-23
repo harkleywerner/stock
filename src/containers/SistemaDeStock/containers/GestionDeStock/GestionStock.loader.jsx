@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 const GestionStockLoader = memo(({
     children,
-    data,
+    apiData,
     loader,
     generatePromise
 }) => {
@@ -15,10 +15,9 @@ const GestionStockLoader = memo(({
 
     const dispatch = useDispatch()
 
-    const stock = data["stock/gestion"]
+    const { data } = apiData["stock/gestion"] || {}
 
     useEffect(() => {
-
 
         if (stock_info) return
 
@@ -28,18 +27,20 @@ const GestionStockLoader = memo(({
 
     }, [stock_info])
 
+
     useEffect(() => {
 
-        if (!stock) return
+        if (!data) return
 
-        dispatch(establecerStockInfo(stock[0]))
+        dispatch(establecerStockInfo(data))
 
-    }, [stock])
+    }, [data])
+
 
     return (
         <>
             {
-                loader && !stock || !stock_info ? <SpinnerLoader position="centered" /> : children
+                loader && !data || !stock_info ? <SpinnerLoader position="centered" /> : children
             }
         </>
     )
