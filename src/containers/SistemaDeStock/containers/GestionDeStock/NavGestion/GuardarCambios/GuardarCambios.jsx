@@ -4,15 +4,15 @@ import { Suspense, lazy } from "react";
 import { Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Guardar } from "./Guadar";
+import { stockEntranteHelper } from "./helper/stockEntrante.helper";
 import { subirStockHelper } from "./helper/subirStock.helper";
-import { verificarTipoHelper } from "./helper/verificarTipo.helper";
 
 const Sincronizar = lazy(() => import("./Sincronizar"))
 
 const GuardarCambios = (
     {
         loader,
-        apiData: dataFecth,
+        apiData,
         generatePromise
     }
 
@@ -21,9 +21,9 @@ const GuardarCambios = (
 
     const { lote, id_stock, sync_pendientes = 0, cambios_pendientes = 0 } = stock_info
 
-    const stockGestion = dataFecth["stock/gestion"] || {}
+    const stockGestion = apiData["stock/gestion"] || {}
 
-    verificarTipoHelper({ loader, stockGestion, stock_data_base, lote })
+    stockEntranteHelper({ loader, stockGestion, stock_data_base, lote,stock})
 
     const subirStock = subirStockHelper({ inicializado, generatePromise, stock, stock_data_base, id_stock,cambios_pendientes })
 

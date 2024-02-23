@@ -15,18 +15,17 @@ export const subirStockHelper = ({
 
     const dispatch = useDispatch()
 
-    const cambios = calcularStockSalienteHelper({ stock, stock_data_base })
-
+    const {contador_de_cambios,cambios} = calcularStockSalienteHelper({ stock, stock_data_base })
 
     useEffect(() => {
-        if (cambios.length == cambios_pendientes) return
-          dispatch(establecerPendientes({cambios_pendientes : cambios.length}))
-    }, [cambios.length])
+        if (contador_de_cambios == cambios_pendientes) return
+          dispatch(establecerPendientes({cambios_pendientes : contador_de_cambios}))
+    }, [contador_de_cambios])
 
     return () => {
         if (!inicializado) return
         const promesa = {
-            method: "PUT", url: `stock/gestion`, id: "stock/gestion",
+            method: "PATCH", url: `stock/gestion`, id: "stock/gestion",
             data: { id_stock, lista_de_cambios: cambios },
         }
         if (cambios.length == 0) {

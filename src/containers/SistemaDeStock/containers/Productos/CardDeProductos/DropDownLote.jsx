@@ -30,10 +30,10 @@ const ListaDeLotesItems = ({ lote }) => {
 }
 
 const DropDownLote = memo(({
-    data,
+    apiData,
     loader,
     generatePromise,
-    removerData,
+    removerApiData,
     id_producto
 }) => {
 
@@ -45,27 +45,30 @@ const DropDownLote = memo(({
 
     const elementoToObserver = useRef(null)
 
-    const listaDeLotes = data["stock/lote"] || []
+    const { tipo, data = [] } = apiData["stock/lote"] || {}
 
-    const promesa = {
-        method: "POST",
-        url: "stock",
-        id: "stock/lote",
-        concatenate: true,
-        data: { offset: 0, id_producto, lote },
-        cancelToken: cancelToken.token,
+    const apiCall = (reset) => {
+
+        const promesa = {
+            method: "POST",
+            url: "stock",
+            id: "stock/lote",
+            concatenate: true,
+            data: { offset: reset ?? data.length, id_producto, lote },
+            cancelToken: cancelToken.token,
+        }
+        generatePromise({ promesas: [promesa] })
     }
 
     useEffect(() => {
 
-        if (listaDeLotes.length > 0) {
-            removerData({ id: "stock/lote" })
+        if (data.length > 0) {
+            removerApiData({ id: "stock/lote" })
         }
 
         const timeOut = setTimeout(() => {
-            generatePromise({ promesas: [promesa] })
+             apiCall(0)
         }, 300);
-
 
         return () => {
             clearTimeout(timeOut)
@@ -73,26 +76,27 @@ const DropDownLote = memo(({
         }
     }, [lote])
 
-    const nuevaPromesa = { ...promesa, data: { ...promesa.data, offset: listaDeLotes.length } }
 
     const loaderCustom = <SpinnerLoader size="sm" position="centered" color="dark" />
 
     return (
         <div className="dropdown">
+            
             <button
                 type="button"
-                style={{maxWidth : "230px",minWidth : "200px"}}
+                style={{ maxWidth: "230px", minWidth: "200px" }}
                 className="btn btn-dark d-flex align-items-center justify-content-between dropdown-toggle"
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i className="fa-solid text-secondary fs-5 fa-box-open"></i>
                 <span className="m-0 text-truncate">Lote #!</span>
             </button>
-            <ScrollingInfinite
+
+                <ScrollingInfinite
                 ref={elementoToObserver}
                 loaderComponent={loaderCustom}
-                ApiCall={() => generatePromise({ promesas: [nuevaPromesa] })}
-                dataLength={listaDeLotes.length}
+                ApiCall={apiCall}
+                dataLength={data.length}
                 step={15}
             >
                 <ul
@@ -105,13 +109,20 @@ const DropDownLote = memo(({
                             lote={lote} />
                     </li>
                     {
+                        data.length == 0 && tipo == "success" && !loader &&
+                         <li className="text-center">No hay hay ningun lote</li>
+                        
+                    }
+                    {
                         loader ? <span className="my-3 d-flex">{loaderCustom}</span> :
-                            listaDeLotes.map(item => <ListaDeLotesItems key={item.id_stock} {...item} />)
+                            data.map(item => <ListaDeLotesItems key={item.id_stock} {...item} />)
 
                     }
                 </ul>
 
             </ScrollingInfinite>
+            
+            
         </div>
     );
 })

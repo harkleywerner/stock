@@ -31,12 +31,17 @@ const StockContainer = ({
 
   const { tipo, data = [] } = apiData["stock"] || {}
 
-  const promesa =
-  {
-    method: "GET", url: `/stock`, id: "stock",
-    params: { search: getSearch, offset: 0 },
-    cancelToken: cancelSource.token,
-    concatenate: true
+  const apiCall = (reset) => {
+
+    const promesa =
+    {
+      method: "GET", url: `/stock`, id: "stock",
+      params: { search: getSearch, offset: reset ?? data.length },
+      cancelToken: cancelSource.token,
+      concatenate: true
+    }
+
+    generatePromise({ promesas: [promesa] })
   }
 
   useEffect(() => {
@@ -77,7 +82,7 @@ const StockContainer = ({
               }
             </section>
           </ScrollingInfinite>
-      }
+          }
     </Col>
 
   );

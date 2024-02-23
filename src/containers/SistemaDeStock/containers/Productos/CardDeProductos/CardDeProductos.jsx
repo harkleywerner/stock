@@ -10,7 +10,6 @@ const CardDeProductos = ({ item }) => {
 
     const { nombre, cantidad_total, devoluciones_permitidas,id_producto } = item
 
-
     const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total })
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
@@ -20,7 +19,7 @@ const CardDeProductos = ({ item }) => {
     return (
         <>
             <Card
-                className={`m-3 transition  cursor-pointer shadow`}
+                className={`m-3 transition  cursor-pointer `}
                 style={{ width: '18rem', opacity: "0.9", height: "7rem" }}>
                 <Card.Title className=" m-0 d-flex justify-content-center p-1 ">
                     <p

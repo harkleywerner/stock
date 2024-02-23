@@ -32,8 +32,6 @@ const ProductosContainer = memo(({
 
     const { data = [], tipo } = apiData["productos"] || {}
 
-
-
     const apiCall = (reset) => {
 
         const promesa =

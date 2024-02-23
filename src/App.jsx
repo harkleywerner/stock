@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         path: "gestion",
         element: <SuspenseLoadingComponent> <GestionStockScreen /> </SuspenseLoadingComponent>,
       },
-        {
+      {
         path: "nuevo",
         element: <SuspenseLoadingComponent ><NuevoStockScreen /></SuspenseLoadingComponent>,
       },
@@ -57,6 +57,7 @@ const router = createBrowserRouter([
 axiosInterceptor()
 
 function App() {
+
 
   return (
     <Suspense fallback="HOLAAA">
