@@ -25,7 +25,7 @@ const StockContainer = ({
 
   const getSearch = search.get("search") || ""
 
-  const cancelSoruce = axios.CancelToken.source()
+  const cancelSource = axios.CancelToken.source()
 
   const elementToObserve = useRef(null)
 
@@ -35,7 +35,7 @@ const StockContainer = ({
   {
     method: "GET", url: `/stock`, id: "stock",
     params: { search: getSearch, offset: 0 },
-    cancelToken: cancelSoruce.token,
+    cancelToken: cancelSource.token,
     concatenate: true
   }
 
@@ -53,7 +53,7 @@ const StockContainer = ({
 
     return () => {
       clearTimeout(timeOut)
-      cancelSoruce.cancel()
+      cancelSource.cancel()
     }
 
   }, [getSearch])
