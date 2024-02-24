@@ -1,10 +1,8 @@
+import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
+import { useEffect, useRef } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { BuscadorDeProductos } from "./BuscadorDeProductos/BuscadorDeProductos";
-import { useEffect, useRef } from "react";
-import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { ModalBody } from "./ModalBody";
-import { useDispatch } from "react-redux";
-import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import verificacionStock from "./helpers/verificiarStock.helper";
 
 const InterfazDeGestionDeProductos = (
@@ -14,7 +12,7 @@ const InterfazDeGestionDeProductos = (
         productoSeleccionado = {},
         stock,
         editProducto,
-        addProducto
+        addProducto,
     }
 ) => {
 
@@ -27,30 +25,15 @@ const InterfazDeGestionDeProductos = (
 
     const refImperative = useRef()
 
-    const dispatch = useDispatch()
-
-    const dispatchToast = (input) => dispatch(generarToast(input))
+    const verificacion = verificacionStock({ parametros, productoSeleccionado, stock, addProducto, editProducto })
 
     const onClick = () => {
 
         const refCantidad = parseInt(refImperative.current.cantidad)
 
-        const { tipo, toast } = verificacionStock({ parametros, productoSeleccionado, refCantidad, stock })
+        const validacion = verificacion({ refCantidad })
 
-        if (tipo == "edit") {
-            dispatch(editProducto({
-                ...parametros,
-                id_producto: productoSeleccionado.id_producto,
-                id_actual: parametros.id_producto,
-                cantidad: refCantidad
-            }))
-        } else if (tipo == "add") {
-            dispatch(addProducto({ ...parametros, cantidad: refCantidad }))
-        }
-
-        dispatchToast(toast)
-
-        if (["empty", "found"].includes(tipo)) return
+        if (!validacion) return
 
         alternarMostrar()
     }

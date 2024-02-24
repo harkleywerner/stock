@@ -3,6 +3,7 @@ import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotifica
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calcularStockEntranteHelper } from "./calculalStockEntrante.helper";
+import { calcularFailedTotalHelper } from "./calcularFailedTotal.helper";
 
 export const stockEntranteHelper = ({
     loader,
@@ -18,27 +19,23 @@ export const stockEntranteHelper = ({
 
     const { tipo, data = {} } = stockGestion
 
-    const { failed_commit = {}} = data
-
     useEffect(() => {
 
         if (loader) return
 
         if (tipo == "success") {
 
-            const keyFailedPut = Object.keys(failed_commit["f_patch"]).length
+            const { failedTotal } = calcularFailedTotalHelper(data["failed_commit"])
 
-            const keysFailedTotal = Object.keys(failed_commit["f_delete"]).length + keyFailedPut
+            const { nuevoStock, contador_sync_pendientes } = calcularStockEntranteHelper({ stock, stock_data_base, data })
 
-            const {nuevoStock,contador_sync_pendientes} = calcularStockEntranteHelper({ stock ,stock_data_base, data })
-
-            keysFailedTotal == 0 && dispatchToast({ texto: `Todos los cambios del lote #${lote} se guardaron exitosamente`, tipo: "success" })
+            failedTotal == 0 && dispatchToast({ texto: `Todos los cambios del lote #${lote} se guardaron exitosamente`, tipo: "success" })
 
             dispatch(sincronizarStock(nuevoStock))
 
             dispatch(establecerPendientes({ sync_pendientes: contador_sync_pendientes }))
 
-            keysFailedTotal > 0 && dispatchToast({ texto: `Fallo, ${keysFailedTotal} producto/s debido a la cantidad ingresada o el producto eliminado,no se puede guardar.`, tipo: "danger" })
+            failedTotal > 0 && dispatchToast({ texto: `Fallo, ${failedTotal} producto/s debido a algun parametro incorrecto..`, tipo: "danger" })
         }
 
     }, [loader])
