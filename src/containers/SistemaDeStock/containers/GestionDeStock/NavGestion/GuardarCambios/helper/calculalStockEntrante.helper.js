@@ -31,7 +31,7 @@ export const calcularStockEntranteHelper = ({
 
             const verificarSincronizacion =  item.cantidad == faildCantidad ? "warning" : "expecting"
             
-            if(verificarSincronizacion == "expecting") contador_sync_pendientes++;
+            verificarSincronizacion == "expecting" &&  contador_sync_pendientes++;
 
             return {
                 ...item, cantidad: faildCantidad,
@@ -42,7 +42,6 @@ export const calcularStockEntranteHelper = ({
         }
 
         return item
-
     })
 
     stock.forEach(i => {

@@ -1,20 +1,27 @@
 import { Button, Card } from "react-bootstrap";
 import { cardButton } from "@/styles/SistemaStock.module.css"
-import { lazy, useState } from "react";
+import { lazy, useCallback, useRef, useState } from "react";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 
-const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto"))
+const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto/InterfazDeRetiroDeProducto"))
 
 const CardDeProductos = ({ item }) => {
 
-    const { nombre, cantidad_total, devoluciones_permitidas,id_producto } = item
+    const { nombre, cantidad_total, devoluciones_permitidas, id_producto } = item
 
-    const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total })
+    const cantidadBackUp = useRef(item) // => Sirve para guardar el total de todos los lotes sin tener que volver hacer una llamada.
+
+    const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total, id_stock: null })
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
     const verificarCantidad = cantidadActual.cantidad_total > 100 ? "99+" : cantidadActual.cantidad_total
+
+    const setCantidad  = useCallback((data)=>{
+        setCantidadActual(data)
+    },[])
+
 
     return (
         <>
@@ -38,11 +45,12 @@ const CardDeProductos = ({ item }) => {
             </Card>
             <SuspenseLoadingComponent>
                 {mostrar && <InterfazDeRetiroDeProducto
-                    id_producto = {id_producto}
-                    setCantidadActual={setCantidadActual}
+                    id_producto={id_producto}
+                    setCantidadActual={setCantidad}
                     cantidadActual={cantidadActual}
                     nombre={nombre}
                     alternarMostrar={alternarMostrar}
+                    cantidadBackUp={cantidadBackUp}
                     mostrar={mostrar} />}
             </SuspenseLoadingComponent>
         </>

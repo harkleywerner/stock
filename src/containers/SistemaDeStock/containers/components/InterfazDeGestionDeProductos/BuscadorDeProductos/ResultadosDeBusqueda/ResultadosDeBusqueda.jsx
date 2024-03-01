@@ -1,30 +1,9 @@
-import axios from "axios"
-import { memo, useEffect, useRef } from "react"
-import ScrollingInfinite from "../../ScrollingInfinite"
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { Stack } from "react-bootstrap"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
-
-const Listado = ({ insertarParametros, item, alternarMostrar }) => {
-
-    const { nombre } = item
-
-    const onClick = () => {
-        alternarMostrar(false)
-        insertarParametros(item)
-    }
-
-    return (
-        <Stack
-            onClick={onClick}
-            direction="horizontal"
-            className=" bg-hoverdark py-1 bg-white cursor-pointer">
-            <i style={{ background: "#57BDC6", padding: "6px" }}
-                className="fa-solid mx-1 rounded-circle text-white text-ligthdark fa-magnifying-glass"></i>
-            <p className="m-0 fw-normal bg-hoverdark w-100 p-2  text-truncate font">{nombre}</p>
-        </Stack>
-    )
-}
+import { memo, useRef } from "react"
+import ScrollingInfinite from "../../../ScrollingInfinite"
+import { scrollBusquedaHelper } from "./helpers/scrollBusqueda.helper"
+import ItemsBusqueda from "./ItemsBusqueda"
 
 const Message = memo(() => {
     return (
@@ -45,42 +24,12 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
     generatePromise,
     removerApiData,
 }) => {
-    const cancelSource = axios.CancelToken.source()
 
     const refListado = useRef(null)
 
     const { data = [], tipo } = apiData["productos"] || {}
 
-    const apiCall = (reset) => {
-
-        const promesa =
-        {
-            method: "POST",
-            url: `/productos`,
-            id: "productos",
-            data: { buscador, categoria, offset: reset ?? data.length },
-            cancelToken: cancelSource.token,
-            concatenate: true,
-        }
-
-        generatePromise({ promesas: [promesa] })
-    }
-
-    useEffect(() => {
-
-        removerApiData({ id: "productos" })
-
-        const timeoutSearch = setTimeout(() => {
-
-            apiCall(0)
-
-        }, 600);
-
-        return () => {
-            clearTimeout(timeoutSearch)
-            cancelSource.cancel()
-        }
-    }, [buscador, categoria])
+    const apiCall = scrollBusquedaHelper({ buscador, categoria, data, generatePromise, removerApiData })
 
     const spinner = (<SpinnerLoader color="dark" position="centered" size="md" />)
 
@@ -104,7 +53,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                             className="m-0  p-0 d-block w-100 scrollbar  justify-content-start ">
                             {
                                 data.map(item =>
-                                    <Listado
+                                    <ItemsBusqueda
                                         alternarMostrar={alternarMostrar}
                                         insertarParametros={insertarParametros}
                                         key={item.id_producto}

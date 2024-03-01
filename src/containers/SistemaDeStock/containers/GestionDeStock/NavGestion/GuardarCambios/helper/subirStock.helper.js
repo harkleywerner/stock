@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { calcularStockSalienteHelper } from "./calcularStockSaliente.helper";
 import { establecerPendientes } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import axios from "axios";
 
 export const subirStockHelper = ({
     inicializado,
@@ -15,11 +16,18 @@ export const subirStockHelper = ({
 
     const dispatch = useDispatch()
 
-    const {contador_de_cambios,cambios} = calcularStockSalienteHelper({ stock, stock_data_base })
+    const cancelToken = axios.CancelToken.source()
+
+    const { contador_de_cambios, cambios } = calcularStockSalienteHelper({ stock, stock_data_base })
 
     useEffect(() => {
-        if (contador_de_cambios == cambios_pendientes) return
-          dispatch(establecerPendientes({cambios_pendientes : contador_de_cambios}))
+        if (contador_de_cambios !== cambios_pendientes) {
+            dispatch(establecerPendientes({ cambios_pendientes: contador_de_cambios }))
+        }
+        return () => {
+            cancelToken.cancel()
+        }
+
     }, [contador_de_cambios])
 
     return () => {
@@ -27,6 +35,7 @@ export const subirStockHelper = ({
         const promesa = {
             method: "PATCH", url: `stock/gestion`, id: "stock/gestion",
             data: { id_stock, lista_de_cambios: cambios },
+            cancelToken: cancelToken.token
         }
         if (cambios.length == 0) {
             dispatch(generarToast(({ texto: "Debes realizar algun cambio.", tipo: "warning" })))

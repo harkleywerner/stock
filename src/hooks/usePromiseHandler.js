@@ -53,18 +53,16 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 }, prev)
             })
 
-
             setLoader(false)
 
-
             return {
-                // rowAffected: responses.map(item => item.data.length),
                 status: "success"
             }
 
         } catch (error) {
 
             const request = error?.request?.status ?? 200
+
             if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
                 const res = error?.response?.data
                 establecerAlerta({
@@ -74,6 +72,9 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                     method: error.config.method,
                     generatePromise: ({ intentos }) => generatePromise({ promesas, intentos })
                 })
+            }
+            return {
+                status: "failed"
             }
         }
     }, [])

@@ -11,7 +11,7 @@ const verificacionStock = ({
 
     const dispatch = useDispatch()
 
-    const verificacion = ({refCantidad}) => {
+    const verificacion = ({ refCantidad }) => {
 
         const verificaSiSeEncuentra = stock.find(item => item.id_producto == parametros.id_producto)
 
@@ -31,10 +31,10 @@ const verificacionStock = ({
             return true
         }
         else if (Object.keys(productoSeleccionado).length == 0 && !verificaSiSeEncuentra) {
-            dispatch(addProducto({ ...parametros, cantidad: refCantidad, sincronizacion: "expecting" }))
-            
+            dispatch(addProducto({ ...parametros, cantidad: refCantidad }))
+
             return true
-        
+
         } else {
             const text = { texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", tipo: "warning" }
             dispatch(generarToast(text))

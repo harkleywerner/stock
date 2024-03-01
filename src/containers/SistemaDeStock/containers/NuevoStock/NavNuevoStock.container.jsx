@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import { memo } from "react";
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
+import axios from "axios";
 
 const InterfazDeGestionDeProductos = lazy(() => import("../Components/InterfazDeGestionDeProductos/InterfazDeGestionDeProductos"))
 
@@ -60,14 +61,21 @@ const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, genera
 
     const responseStock = apiData["stock/nuevo"] || {}
 
+    const cancelToken = axios.CancelToken.source()
+
     const dispatch = useDispatch()
 
     const dispatchToast = (input) => dispatch(generarToast(input))
 
     useEffect(() => {
-        if (Object.keys(responseStock).length == 0) return
-        dispatchToast({ texto: `El lote #${responseStock.lote} se subio con exito`, tipo: "success" })
-        dispatch(removerStock())
+        if (Object.keys(responseStock).length > 0) {
+            dispatchToast({ texto: `El lote #${responseStock.lote} se subio con exito`, tipo: "success" })
+            dispatch(removerStock())
+        }
+
+        return () => {
+            cancelToken.cancel()
+        }
     }, [JSON.stringify(responseStock)])
 
     const subirStock = () => {
@@ -77,7 +85,7 @@ const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, genera
         }
         else {
             dispatch(changeInicializado())
-            generatePromise({ promesas: [{ method: "POST", url: "stock/nuevo", data: { listaDeNuevoStock: stock }, id: "stock/nuevo" }] })
+            generatePromise({ promesas: [{ method: "POST", url: "stock/nuevo", data: { listaDeNuevoStock: stock }, id: "stock/nuevo", cancelToken: cancelToken.token }] })
         }
     }
 

@@ -5,11 +5,9 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
 
     const groupBy = groupByUtils({ propiedad: "id_producto", array: stock })
 
-
-    
     const propiedad_utiles = (input) => {
-       const { id_detalle_de_stock , cantidad, id_producto } = input
-        return {id_detalle_de_stock,cantidad,id_producto}    
+        const { id_detalle_de_stock, cantidad, id_producto } = input
+        return { id_detalle_de_stock, cantidad, id_producto }
     }
 
     const cambios = {
@@ -35,8 +33,9 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
             //Este enfoque sirve para indicarle luego cuales del productos stock con respecto al data base son los nuevos.
             if (producto.cantidad != item.cantidad || item.sincronizacion == "expecting") {
                 const patch = cambios.patch
-                cambios.patch = [...patch,propiedad_utiles(producto) ]
-                contador_de_cambios++;
+                cambios.patch = [...patch, propiedad_utiles(producto)]
+
+                !item.sincronizacion && contador_de_cambios++;
             }
         }
     })
@@ -44,7 +43,7 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
 
     for (const i in groupBy) {
         const post = cambios.post
-        cambios.post = [...post,propiedad_utiles(groupBy[i])]
+        cambios.post = [...post, propiedad_utiles(groupBy[i])]
         contador_de_cambios++;
     }
 

@@ -1,12 +1,12 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import { useForm } from "@/hooks/useForm";
-import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import { memo } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import DropDownLote from "./DropDownLote/DropDownLote";
 import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
-import DropDownLote from "./DropDownLote";
+import { envioCantidadHelper } from "./helper/envioCantidad.helper";
+import ProductoContext from "./context/Producto.context";
 
 const InterfazDeRetiroDeProducto = memo((
     {
@@ -16,14 +16,14 @@ const InterfazDeRetiroDeProducto = memo((
         cantidadActual,
         nombre,
         generatePromise,
+        apiData, //Falta agregar para indicar si sale un error
         loader,
-        id_producto
+        id_producto,
+        cantidadBackUp
     }
 ) => {
 
-    const dispatch = useDispatch()
-
-    const { devoluciones_permitidas, cantidad_total } = cantidadActual
+    const { devoluciones_permitidas, cantidad_total, id_stock, lote } = cantidadActual
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
@@ -33,40 +33,33 @@ const InterfazDeRetiroDeProducto = memo((
 
     const { evaluarCantidad } = verificarCantidadesHelper({ cantidadActual, cantidadEnt })
 
-    const enviarCantidad = async () => {
-
-        if (evaluarCantidad == 0 || loader) return
-
-        const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
-
-        const retiroTotal = cantidad_total - evaluarCantidad
-
-        const promesa = {
-            method: "post", url: "trassaciones", id: "trassaciones",
-            data: { cantidad: evaluarCantidad, id_producto },
-        }
-
-        await generatePromise({ promesas: [promesa] })
-
-        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: retiroTotal })
-
-        const text = cantidadEnt < 0 ? "Devolviste" : "Retiraste"
-
-        const toast = { texto: `${text} ${Math.abs(evaluarCantidad)} unidade/s de ${nombre}`, tipo: "success" }
-
-        dispatch(generarToast({ ...toast }))
-
-        restablecerFormulario()
-    }
+    const enviar = envioCantidadHelper({
+        devoluciones_permitidas,
+        loader,
+        evaluarCantidad,
+        cantidad_total,
+        cantidadBackUp,
+        generatePromise,
+        setCantidadActual,
+        restablecerFormulario,
+        id_stock,
+        id_producto
+    })
 
     return (
         <Modal
             show={mostrar}
             animation={true}
             onHide={alternarMostrar}>
-            <Modal.Header  closeButton={!loader}>
-                <Modal.Title className="d-flex align-items-center flex-column">
-                <DropDownLote id_producto={id_producto} />
+            <Modal.Header closeButton={!loader}>
+                <Modal.Title className="d-flex flex-column align-items-start">
+                    <ProductoContext.Provider value={{ cantidadBackUp, setCantidadActual, loteActual: lote }}>
+                        <DropDownLote
+                            id_producto={id_producto}
+                            lote={lote}
+                        />
+
+                    </ProductoContext.Provider>
                     <div className="d-flex align-items-center justify-content-start w-100">
                         <p className="m-0 fs-5 font text-secondary fw-normal mx-2">
                             {evaluarCantidad == "" ? 0 : evaluarCantidad}
@@ -78,8 +71,10 @@ const InterfazDeRetiroDeProducto = memo((
                         </p>
 
                     </div>
+
                 </Modal.Title>
             </Modal.Header>
+
             <Modal.Body>
                 <Form.Control
                     type="number"
@@ -93,6 +88,7 @@ const InterfazDeRetiroDeProducto = memo((
                     style={{ fontSize: "12px" }}
                     className=" text-danger fw-normal  mx-1 ">Puedes devolver {Math.abs(devoluciones_permitidas)} unidade/s</small>
             </Modal.Body>
+
             <Modal.Footer>
                 {
                     loader ?
@@ -102,14 +98,15 @@ const InterfazDeRetiroDeProducto = memo((
                             size="md" />
                         :
                         <Button
-                            onClick={enviarCantidad}
+                            onClick={enviar}
                             style={{ background: "#57BDC6" }}
-                            className="w-100 border-0 fs-5 transition">
+                            className="w-100 border-secondary fs-5 transition">
                             Enviar
                         </Button>
                 }
 
             </Modal.Footer>
+
         </Modal>
     );
 })
