@@ -23,7 +23,7 @@ export const scrollBusquedaHelper = (
             cancelToken: cancelSource.token,
             concatenate: true,
         }
-        generatePromise({ promesas: [promesa] })
+        generatePromise({ promesa })
     }
 
     useEffect(() => {

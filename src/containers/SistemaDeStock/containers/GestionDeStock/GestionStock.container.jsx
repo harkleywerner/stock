@@ -46,17 +46,16 @@ const GestionStockContainer = memo(({
 
     const cancelToken = axios.CancelToken.source()
 
-    const listaDePromesas = [
+    const promesa = 
         {
             method: "GET", url: "detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
             cancelToken : cancelToken.token
         }
-    ]
 
 
     useEffect(() => {
         if (!inicializado) {
-            generatePromise({ promesas: listaDePromesas })
+            generatePromise({ promesa})
         }
         return () => {
             cancelToken.cancel()

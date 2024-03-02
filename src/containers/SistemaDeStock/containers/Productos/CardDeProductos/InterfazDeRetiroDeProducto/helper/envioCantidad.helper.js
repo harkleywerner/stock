@@ -13,7 +13,8 @@ export const envioCantidadHelper = (
         setCantidadActual,
         restablecerFormulario,
         id_stock,
-        id_producto
+        id_producto,
+        lote
     }
 ) => {
 
@@ -32,7 +33,7 @@ export const envioCantidadHelper = (
             cantidad_total: cantidadBackUp.current.cantidad_total - evaluarCantidad
         }
 
-        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: retiroTotal })
+        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: retiroTotal,lote })
 
         const text = evaluarCantidad < 0 ? "Devolviste" : "Retiraste"
 
@@ -52,7 +53,7 @@ export const envioCantidadHelper = (
             data: { cantidad: evaluarCantidad, id_producto, id_stock },
         }
 
-        generatePromise({ promesas: [promesa] })
+        generatePromise({ promesa })
 
 
     }

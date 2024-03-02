@@ -18,7 +18,7 @@ const Items = memo(({
     const onClick = () => {
 
         if (loteActual) {
-            setCantidadActual(cantidadBackUp)
+            setCantidadActual(cantidadBackUp.current)
             selectLote({})
         } else {
             selectLote({ lote, id_stock })
@@ -80,7 +80,7 @@ const ListaDeLotes = ({
             data: { id_producto, id_stock },
             cancelToken: cancelToken.token
         }
-        generatePromise({ promesas: [promesa] })
+        generatePromise({ promesa })
 
         return () => {
             if (cancelToken) {
@@ -94,15 +94,21 @@ const ListaDeLotes = ({
 
         if (data.length > 0) {
             const { cantidad_total, devoluciones_permitidas } = data[0]
-
             setCantidadActual({ cantidad_total, devoluciones_permitidas, lote: loteSeleccionado.lote })
         }
     }, [data])
 
+
+    const sortBy = (array) => {
+        return array.sort((a, b) => {
+            if (a.lote == loteActual) return -1
+        })
+    }
+
     return (
         <>
             {
-                lista.map(item => <Items
+                sortBy([...lista]).map(item => <Items
                     selectLote={selectLote}
                     loader={loader && item.lote == lote}
                     loteActual={loteActual == item.lote}

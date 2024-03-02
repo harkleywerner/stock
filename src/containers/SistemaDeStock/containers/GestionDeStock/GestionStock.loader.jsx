@@ -24,9 +24,9 @@ const GestionStockLoader = memo(({
 
         if (stock_info) return
 
-        const consulta = { method: "GET", url: "stock/gestion", id: "stock/gestion",cancelToken : cancelToken.token }
+        const promesa = { method: "GET", url: "stock/gestion", id: "stock/gestion", cancelToken: cancelToken.token }
 
-        generatePromise({ promesas: [consulta] })
+        generatePromise({ promesa })
 
         return () => {
             cancelToken.cancel()

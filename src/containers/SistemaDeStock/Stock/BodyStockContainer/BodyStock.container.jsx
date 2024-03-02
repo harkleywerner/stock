@@ -41,7 +41,7 @@ const StockContainer = ({
       concatenate: true
     }
 
-    generatePromise({ promesas: [promesa] })
+    generatePromise({ promesa })
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const StockContainer = ({
               }
             </section>
           </ScrollingInfinite>
-          }
+      }
     </Col>
 
   );

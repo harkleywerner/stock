@@ -24,7 +24,7 @@ export const scrollingHelper = (
             cancelToken: cancelToken.token,
         }
 
-        generatePromise({ promesas: [promesa] })
+        generatePromise({ promesa })
     }
 
     useEffect(() => {

@@ -30,13 +30,14 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
     const [search, setSearch] = useSearchParams()
 
     const cancelToken = axios.CancelToken.source()
+    
     const categoria = search.get("categoria")
 
-    const listaDePromesas = [{ method: "GET", url: `/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }]
-
     useEffect(() => {
-        
-        generatePromise({ promesas: listaDePromesas })
+
+        const promesa = { method: "GET", url: `/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
+
+        generatePromise({ promesa })
         return () => {
             cancelToken.cancel()
         }

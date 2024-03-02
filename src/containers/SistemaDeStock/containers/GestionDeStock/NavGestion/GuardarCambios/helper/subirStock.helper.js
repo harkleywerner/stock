@@ -41,7 +41,7 @@ export const subirStockHelper = ({
             dispatch(generarToast(({ texto: "Debes realizar algun cambio.", tipo: "warning" })))
         }
         else {
-            generatePromise({ promesas: [promesa] })
+            generatePromise({ promesa })
         }
     }
 

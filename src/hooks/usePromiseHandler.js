@@ -15,42 +15,29 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
     }, [])
 
 
-    const generatePromise = useCallback(async ({ promesas, intentos } = {}) => {
+    const generatePromise = useCallback(async ({ promesa, intentos } = {}) => {
 
         setLoader(true)
-
         try {
-            const responses = await axios.all(
-                promesas.map(({ method, url, data = {}, cancelToken, params = {} }) =>
-                    axios({
-                        method,
-                        params: {
-                            ...params
-                        },
-                        url,
-                        baseURL: BACK_END_URL,
-                        data: {
-                            ...data
-                        },
-                        cancelToken,
-                    })
-                )
-            );
+
+            const response = await
+                axios({
+                    ...promesa,
+                    baseURL: BACK_END_URL
+                });
+
 
             setApiData(prev => {
-                return responses.reduce((acc, response, index) => {
 
-                    const id = promesas[index].id;
+                const idActual = prev[promesa.id]
 
-                    const concatenacion = promesas[index]?.concatenate //Esto por defecto es false, cuando es true indica que debe concatenar la nueva data con la anterior.
+                const concatenacion = promesa?.concatenate //=> Sirve para indicar si quiero concatenar la data anterior con la nueva
 
-                    const { data = [] } = response.data
+                const { data = [] } = response.data //=> Esto es la data total que llega desde el back.
 
-                    const nuevaData = concatenacion ? [...(acc[id]?.data || []), ...data] : data
+                const nuevaData = concatenacion ? [...(idActual?.data || []), ...data] : data
 
-                    return { ...acc, [id]: { ...response.data, data: nuevaData } };
-
-                }, prev)
+                return { ...prev, [promesa.id]: { ...response.data, data: nuevaData } };
             })
 
             setLoader(false)
@@ -70,7 +57,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                     data: res || { message: error.message, code: error.code },
                     url: error.config.url,
                     method: error.config.method,
-                    generatePromise: ({ intentos }) => generatePromise({ promesas, intentos })
+                    generatePromise: ({ intentos }) => generatePromise({ promesa, intentos })
                 })
             }
             return {

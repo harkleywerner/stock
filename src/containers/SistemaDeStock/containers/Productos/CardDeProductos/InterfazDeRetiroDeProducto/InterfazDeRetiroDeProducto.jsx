@@ -43,7 +43,8 @@ const InterfazDeRetiroDeProducto = memo((
         setCantidadActual,
         restablecerFormulario,
         id_stock,
-        id_producto
+        id_producto,
+        lote
     })
 
     return (
