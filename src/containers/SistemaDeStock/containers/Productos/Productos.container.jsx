@@ -42,7 +42,7 @@ const ProductosContainer = memo(({
             concatenate: true
         }
 
-        generatePromise({ promesas: [promesa] })
+        generatePromise({ promesa: promesa })
     }
 
     useEffect(() => {

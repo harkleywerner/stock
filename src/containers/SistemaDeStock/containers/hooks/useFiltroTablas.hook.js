@@ -3,7 +3,9 @@ import { pipeUtils } from "@/utils/pipe.utils.js"
 
 
 
-export const useFiltroProductos = (state) => {
+export const useFiltroProductosHook = (state) => { 
+    //=> Sirve para cuando cargamos la tabla al 100% de la base de datos.
+    //=> Se hace asi por cuestiones de diseño de la pagina,ya que debe verificar si el producto esta en la lista sin tener que llamar a la base de datos.
 
     const [search] = useSearchParams()
 

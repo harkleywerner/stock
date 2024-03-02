@@ -5,6 +5,7 @@ import { memo, useCallback, useEffect } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import axios from "axios"
 
 const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
 
@@ -28,12 +29,18 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
 
     const [search, setSearch] = useSearchParams()
 
+    const cancelToken = axios.CancelToken.source()
+    
     const categoria = search.get("categoria")
 
-    const listaDePromesas = [{ method: "GET", url: `/productos/categorias`, id: "productos/categorias" }]
-
     useEffect(() => {
-        generatePromise({ promesas: listaDePromesas })
+
+        const promesa = { method: "GET", url: `/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
+
+        generatePromise({ promesa })
+        return () => {
+            cancelToken.cancel()
+        }
     }, [])
 
     const { data = [] } = apiData["productos/categorias"] || {}
@@ -45,7 +52,6 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
         if (categoria != categoriaActual) {
             search.append("categoria", categoriaActual)
         }
-
         setSearch(`?${search.toString()}`)
 
     }, [categoria])

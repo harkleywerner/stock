@@ -32,7 +32,6 @@ const StockContainer = ({
   const { tipo, data = [] } = apiData["stock"] || {}
 
   const apiCall = (reset) => {
-
     const promesa =
     {
       method: "GET", url: `/stock`, id: "stock",
@@ -41,7 +40,7 @@ const StockContainer = ({
       concatenate: true
     }
 
-    generatePromise({ promesas: [promesa] })
+    generatePromise({ promesa })
   }
 
   useEffect(() => {
@@ -82,7 +81,7 @@ const StockContainer = ({
               }
             </section>
           </ScrollingInfinite>
-          }
+      }
     </Col>
 
   );

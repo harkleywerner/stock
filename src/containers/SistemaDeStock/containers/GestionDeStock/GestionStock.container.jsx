@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import TablaDeProductos from "../components/ContenedorDeTabla/TablaDeProductos";
 import { Col } from "react-bootstrap";
 import SpinnerLoader from "@/components//SpinnerLoader";
-import { useFiltroProductos } from "../hooks/useFiltroProductos";
 import { addProducto, deleteProducto, editProducto, inicilizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { useFiltroProductosHook } from "../hooks/useFiltroTablas.hook";
+import axios from "axios";
 
 
 const Message = memo(() => (
@@ -14,7 +15,7 @@ const Message = memo(() => (
 
 const Tabla = memo(({ stock, inicializado }) => {
 
-    const nuevoEstado = useFiltroProductos(stock)
+    const nuevoEstado = useFiltroProductosHook(stock)
     return (
         <section className="scrollbar h-100">
             {
@@ -43,16 +44,21 @@ const GestionStockContainer = memo(({
 
     const { data } = apiData["detalleStock"] || {}
 
-    const listaDePromesas = [
+    const cancelToken = axios.CancelToken.source()
+
+    const promesa = 
         {
             method: "GET", url: "detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
+            cancelToken : cancelToken.token
         }
-    ]
 
 
     useEffect(() => {
         if (!inicializado) {
-            generatePromise({ promesas: listaDePromesas })
+            generatePromise({ promesa})
+        }
+        return () => {
+            cancelToken.cancel()
         }
     }, [stock])
 

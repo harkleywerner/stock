@@ -1,9 +1,9 @@
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes"
 import { useForm } from "@/hooks//useForm"
-import { memo, useCallback, useEffect, useState } from "react"
-import { Button, Form } from "react-bootstrap"
+import { memo, useCallback, useState } from "react"
+import { Form } from "react-bootstrap"
 import { FiltradoPorCategorias } from "./FiltradoPorCategorias"
-import { ResultadosDeBusqueda } from "./ResultadosDeBusqueda"
+import { ResultadosDeBusqueda } from "./ResultadosDeBusqueda/ResultadosDeBusqueda"
 
 export const BuscadorDeProductos = memo(({ insertarParametros }) => {
 
@@ -15,12 +15,9 @@ export const BuscadorDeProductos = memo(({ insertarParametros }) => {
         setCategoria(prev => id !== prev ? id : undefined)
     }, [])
 
-
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-
     const onBlur = (e) => {
-
         const timeOut = setTimeout(() => {
             alternarMostrar(false)
         }, 100)
