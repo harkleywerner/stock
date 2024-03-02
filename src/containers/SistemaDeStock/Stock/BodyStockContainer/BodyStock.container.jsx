@@ -32,7 +32,6 @@ const StockContainer = ({
   const { tipo, data = [] } = apiData["stock"] || {}
 
   const apiCall = (reset) => {
-
     const promesa =
     {
       method: "GET", url: `/stock`, id: "stock",

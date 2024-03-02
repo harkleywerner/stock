@@ -23,7 +23,8 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
             const response = await
                 axios({
                     ...promesa,
-                    baseURL: BACK_END_URL
+                    baseURL: BACK_END_URL,
+                    withCredentials : true
                 });
 
 
@@ -48,6 +49,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
         } catch (error) {
 
+            console.log(error)
             const request = error?.request?.status ?? 200
 
             if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {

@@ -1,8 +1,14 @@
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
 import { useForm } from "@/hooks//useForm";
+import { memo } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
-const InterfazDeLogeo = ({ alternarMostrar, mostrar, nombre, id_sucursal }) => {
+const InterfazDeLogeo = ({
+    alternarMostrar,
+    mostrar,
+    nombre,
+    id_sucursal
+}) => {
 
     const { changeForm, form } = useForm({ password: "" })
 
@@ -31,22 +37,23 @@ const InterfazDeLogeo = ({ alternarMostrar, mostrar, nombre, id_sucursal }) => {
                     className="m-0 text-danger pt-2 ms-1  fw-normal ">Contraseña incorrecta</p>
             </Modal.Body>
             <Modal.Footer className="d-flex justify-content-center border-3">
+
                 <Button
                     style={{ background: "#4BB9B7" }}
-                    className="w-100 transition fs-4 border-0">
+                    className="w-100 transition fs-4 border-dark">
                     Ingresar
                 </Button>
-                <Link to={`/stock/?id=${id_sucursal}`}>
-                    <Button
-                        variant="none"
-                        className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
-                        <span className="mx-1 fw-normal">Ingresar como invitado</span>
-                        <i className="fa-solid fs-4 fa-user-clock"></i>
-                    </Button>
-                </Link>
+
+                <Button
+                    variant="none"
+                    className="border-bottom fs-5 border-0 transition  p-0 text-secondary rounded-0">
+                    <span className="mx-1 fw-normal">Ingresar como invitado</span>
+                    <i className="fa-solid fs-4 fa-user-clock"></i>
+                </Button>
+
             </Modal.Footer>
         </Modal>
     );
 };
 
-export default InterfazDeLogeo
+export default wrapperNotificacionesServidor(memo(InterfazDeLogeo))
