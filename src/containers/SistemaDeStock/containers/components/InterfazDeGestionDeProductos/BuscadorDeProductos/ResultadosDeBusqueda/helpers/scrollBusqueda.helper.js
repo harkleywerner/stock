@@ -17,7 +17,7 @@ export const scrollBusquedaHelper = (
         const promesa =
         {
             method: "POST",
-            url: `/productos`,
+            url: `stock/productos`,
             id: "productos",
             data: { buscador, categoria, offset: reset ?? data.length },
             cancelToken: cancelSource.token,

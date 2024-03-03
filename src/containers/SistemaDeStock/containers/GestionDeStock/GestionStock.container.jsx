@@ -48,7 +48,7 @@ const GestionStockContainer = memo(({
 
     const promesa = 
         {
-            method: "GET", url: "detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
+            method: "GET", url: "stock/detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
             cancelToken : cancelToken.token
         }
 

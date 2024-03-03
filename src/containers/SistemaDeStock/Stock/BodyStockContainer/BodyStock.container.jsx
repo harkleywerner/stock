@@ -1,11 +1,11 @@
-import { Col } from "react-bootstrap";
-import ScrollingInfinite from "../../containers/components/ScrollingInfinite";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
-import { memo, useEffect, useRef } from "react";
-import { CardStock } from "./CardStock";
-import { useSearchParams } from "react-router-dom";
-import axios from "axios";
 import SpinnerLoader from "@/components//SpinnerLoader";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { memo, useRef } from "react";
+import { Col } from "react-bootstrap";
+import { useSearchParams } from "react-router-dom";
+import ScrollingInfinite from "../../containers/components/ScrollingInfinite";
+import { CardStock } from "./CardStock";
+import scrollingStockHelper from "./helpers/scrollingStock.helper";
 
 
 const Message = memo(({ getSearch }) => {
@@ -25,41 +25,11 @@ const StockContainer = ({
 
   const getSearch = search.get("search") || ""
 
-  const cancelSource = axios.CancelToken.source()
-
-  const elementToObserve = useRef(null)
-
   const { tipo, data = [] } = apiData["stock"] || {}
 
-  const apiCall = (reset) => {
-    const promesa =
-    {
-      method: "GET", url: `/stock`, id: "stock",
-      params: { search: getSearch, offset: reset ?? data.length },
-      cancelToken: cancelSource.token,
-      concatenate: true
-    }
+  const apiCall = scrollingStockHelper({ dataLength: data.length, generatePromise, removerApiData,getSearch})
 
-    generatePromise({ promesa })
-  }
-
-  useEffect(() => {
-
-    removerApiData({ id: "stock" })
-
-    const timeOut = setTimeout(() => {
-
-      apiCall(0)
-
-    }, 600);
-
-    return () => {
-      clearTimeout(timeOut)
-      cancelSource.cancel()
-    }
-
-  }, [getSearch])
-
+  const elementToObserve = useRef(null)
 
   return (
     <Col className="p-0 h-100 d-flex">

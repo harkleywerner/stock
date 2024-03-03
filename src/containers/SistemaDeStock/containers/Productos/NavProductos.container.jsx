@@ -35,7 +35,7 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
 
     useEffect(() => {
 
-        const promesa = { method: "GET", url: `/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
+        const promesa = { method: "GET", url: `stock/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
 
         generatePromise({ promesa })
         return () => {

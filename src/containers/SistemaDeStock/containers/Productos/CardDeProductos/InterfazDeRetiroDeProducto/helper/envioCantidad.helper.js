@@ -49,7 +49,7 @@ export const envioCantidadHelper = (
         if (evaluarCantidad == 0 || loader) return
 
         const promesa = {
-            method: "post", url: "trassaciones", id: "trassaciones",
+            method: "post", url: "stock/trassaciones", id: "trassaciones",
             data: { cantidad: evaluarCantidad, id_producto, id_stock },
         }
 

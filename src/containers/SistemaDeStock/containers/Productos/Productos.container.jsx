@@ -36,7 +36,7 @@ const ProductosContainer = memo(({
 
         const promesa =
         {
-            method: "GET", url: `/productos`, id: "productos",
+            method: "GET", url: `/stock/productos`, id: "productos",
             params: { search: getBuscador, categoria: getCategoria, offset: reset ?? data.length },
             cancelToken: cancelSource.token,
             concatenate: true

@@ -20,7 +20,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
             setLoader(true)
 
-            const { method, url, data = {}, cancelToken, params = {}, cocatenate } = promesa
+            const { method, url, data = {}, cancelToken, params = {}, cocatenate, id } = promesa
 
             try {
 
@@ -35,19 +35,17 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                         withCredentials: true
                     });
 
-                    console.log(response)
-
                 setApiData(prev => {
 
-                    const idActual = prev[promesa.id]
+                    const idActual = prev[id]
 
                     const concatenacion = promesa?.concatenate //=> Sirve para indicar si quiero concatenar la data anterior con la nueva
 
-                    const { data = [] } = response.data //=> Esto es la data total que llega desde el back.
+                    const { data = [] } = response?.data //=> Esto es la data total que llega desde el back.
 
                     const nuevaData = concatenacion ? [...(idActual?.data || []), ...data] : data
 
-                    return { ...prev, [promesa.id]: { ...response.data, data: nuevaData } };
+                    return { ...prev, [id]: { ...response.data, data: nuevaData } };
                 })
 
                 setLoader(false)
@@ -72,7 +70,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 }
 
                 setLoader(false)
-                
+
                 return {
                     status: "failed"
                 }
