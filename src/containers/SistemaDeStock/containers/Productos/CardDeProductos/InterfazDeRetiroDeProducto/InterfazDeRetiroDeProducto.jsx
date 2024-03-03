@@ -16,10 +16,9 @@ const InterfazDeRetiroDeProducto = memo((
         cantidadActual,
         nombre,
         generatePromise,
-        apiData, 
+        apiData,
         loader,
         id_producto,
-        cantidadBackUp
     }
 ) => {
 
@@ -38,7 +37,6 @@ const InterfazDeRetiroDeProducto = memo((
     const enviar = envioCantidadHelper({
         loader,
         evaluarCantidad,
-        cantidadBackUp,
         generatePromise,
         setCantidadActual,
         restablecerFormulario,
@@ -54,12 +52,11 @@ const InterfazDeRetiroDeProducto = memo((
             onHide={alternarMostrar}>
             <Modal.Header closeButton={!loader}>
                 <Modal.Title className="d-flex flex-column align-items-start">
-                    <ProductoContext.Provider value={{ cantidadBackUp, setCantidadActual, loteActual: lote }}>
+                    <ProductoContext.Provider value={{ setCantidadActual, loteActual: lote }}>
                         <DropDownLote
                             id_producto={id_producto}
                             lote={lote}
                         />
-
                     </ProductoContext.Provider>
                     <div className="d-flex align-items-center justify-content-start w-100">
                         <p className="m-0 fs-5 font text-secondary fw-normal mx-2">

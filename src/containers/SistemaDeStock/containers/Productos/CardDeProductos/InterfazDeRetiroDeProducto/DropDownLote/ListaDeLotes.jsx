@@ -7,7 +7,6 @@ import { listaDeLotesHelper } from "./helpers/listaDeLotes.helper"
 const Items = memo(({
     lote,
     loader,
-    cantidadBackUp,
     loteActual,
     id_stock,
     establecerLote,
@@ -17,8 +16,13 @@ const Items = memo(({
     const onClick = () => {
 
         if (loteActual) {
-            setCantidadActual(cantidadBackUp.current)
-            establecerLote({})
+            establecerLote({}),
+                setCantidadActual(prev => {
+                    return {
+                        ...prev.copia,
+                        copia: prev.copia
+                    }
+                })
         } else {
             establecerLote({ lote, id_stock })
         }
@@ -54,7 +58,7 @@ const ListaDeLotes = ({
     loader,
 }) => {
 
-    const { cantidadBackUp, setCantidadActual, loteActual } = useContext(ProductoContext)
+    const { setCantidadActual, loteActual } = useContext(ProductoContext)
 
     const [loteSeleccionado, setLote] = useState({})
 
@@ -83,7 +87,6 @@ const ListaDeLotes = ({
                     loteActual={loteActual == item.lote}
                     id_producto={id_producto}
                     setCantidadActual={setCantidadActual}
-                    cantidadBackUp={cantidadBackUp}
                     key={item.id_stock}
                     {...item} />)
             }

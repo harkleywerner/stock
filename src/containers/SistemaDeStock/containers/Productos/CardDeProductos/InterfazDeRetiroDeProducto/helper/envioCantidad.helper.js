@@ -6,7 +6,6 @@ export const envioCantidadHelper = (
     {
         loader,
         evaluarCantidad,
-        cantidadBackUp,
         generatePromise,
         setCantidadActual,
         restablecerFormulario,
@@ -22,22 +21,21 @@ export const envioCantidadHelper = (
 
     useEffect(() => {
 
-        if (!loader || tipo != "success") return
+        if (tipo != "success" || loader) return
 
         const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
 
         const retiroTotal = cantidad_total - evaluarCantidad
 
-        cantidadBackUp.current = {
-            devoluciones_permitidas: cantidadBackUp.current.devoluciones_permitidas - evaluarCantidad,
-            cantidad_total: cantidadBackUp.current.cantidad_total - evaluarCantidad
-        }
-
         setCantidadActual(prev => {
             return {
                 ...prev,
                 devoluciones_permitidas: devolucionesTotal,
-                cantidad_total: retiroTotal
+                cantidad_total: retiroTotal,
+                copia: {
+                    devoluciones_permitidas: prev.copia.devoluciones_permitidas - evaluarCantidad,
+                    cantidad_total: prev.copia.cantidad_total - evaluarCantidad,
+                }
             }
         })
 
@@ -48,7 +46,7 @@ export const envioCantidadHelper = (
         dispatch(generarToast({ ...toast }))
 
         restablecerFormulario()
-    }, [loader])
+    }, [loader, tipo])
 
     return () => {
 

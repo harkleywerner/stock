@@ -1,8 +1,8 @@
-import { Button, Card } from "react-bootstrap";
-import { cardButton } from "@/styles/SistemaStock.module.css"
-import { lazy, useCallback, useRef, useState } from "react";
-import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
+import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
+import { cardButton } from "@/styles/SistemaStock.module.css";
+import { lazy, useCallback, useState } from "react";
+import { Button, Card } from "react-bootstrap";
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto/InterfazDeRetiroDeProducto"))
 
@@ -12,18 +12,12 @@ const CardDeProductos = ({ item }) => {
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const cantidadBackUp = useRef() // => Sirve para guardar el total de todos los lotes sin tener que volver hacer una llamada.
+    const [cantidadActual, setCantidadActual] = useState({
+        devoluciones_permitidas, cantidad_total, id_stock: null, lote: null,
+        copia: { devoluciones_permitidas, cantidad_total } //=> Sirve para guardar una copia del cantidad original.
+    })
 
-    const onClick = () => {
-        if (!cantidadBackUp.current) {
-            cantidadBackUp.current = item
-        }
-        alternarMostrar()
-    }
-
-    const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total, id_stock: null, lote: null })
-
-    const verificarCantidad = cantidad_total > 99 ? "99+" : cantidad_total
+    const verificarCantidad = cantidadActual.cantidad_total > 99 ? "99+" : cantidadActual.cantidad_total
 
     const setCantidad = useCallback((data) => {
         setCantidadActual(data)
@@ -42,7 +36,7 @@ const CardDeProductos = ({ item }) => {
                 </Card.Title>
                 <Card.Body className="d-flex justify-content-between  align-items-center">
                     <Button
-                        onClick={onClick}
+                        onClick={alternarMostrar}
                         className={cardButton}
                         variant="none">Retirar</Button>
                     <span
@@ -57,7 +51,6 @@ const CardDeProductos = ({ item }) => {
                     cantidadActual={cantidadActual}
                     nombre={nombre}
                     alternarMostrar={alternarMostrar}
-                    cantidadBackUp={cantidadBackUp}
                     mostrar={mostrar} />}
             </SuspenseLoadingComponent>
         </>

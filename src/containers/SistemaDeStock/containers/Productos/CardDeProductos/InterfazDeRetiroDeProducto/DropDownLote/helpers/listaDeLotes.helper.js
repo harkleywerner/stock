@@ -34,8 +34,15 @@ export const listaDeLotesHelper = ({
     useEffect(() => {
 
         if (data.length > 0) {
-            const { cantidad_total, devoluciones_permitidas } = data[0]
-            setCantidadActual({ cantidad_total, devoluciones_permitidas, ...loteSeleccionado })
+
+            setCantidadActual(prev => {
+
+                return {
+                    ...prev,
+                    ...loteSeleccionado,
+                    ...(data[0] || {})
+                }
+            })
         }
     }, [data])
 
