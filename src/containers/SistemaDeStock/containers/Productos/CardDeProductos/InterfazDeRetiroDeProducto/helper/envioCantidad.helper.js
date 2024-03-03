@@ -4,25 +4,25 @@ import { useDispatch } from "react-redux"
 
 export const envioCantidadHelper = (
     {
-        devoluciones_permitidas,
         loader,
         evaluarCantidad,
-        cantidad_total,
         cantidadBackUp,
         generatePromise,
         setCantidadActual,
         restablecerFormulario,
-        id_stock,
         id_producto,
-        lote
+        cantidadActual,
+        tipo
     }
 ) => {
 
     const dispatch = useDispatch()
 
+    const { devoluciones_permitidas, cantidad_total, id_stock } = cantidadActual
+
     useEffect(() => {
 
-        if (!loader) return
+        if (!loader || tipo != "success") return
 
         const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
 
@@ -33,7 +33,13 @@ export const envioCantidadHelper = (
             cantidad_total: cantidadBackUp.current.cantidad_total - evaluarCantidad
         }
 
-        setCantidadActual({ devoluciones_permitidas: devolucionesTotal, cantidad_total: retiroTotal,lote })
+        setCantidadActual(prev => {
+            return {
+                ...prev,
+                devoluciones_permitidas: devolucionesTotal,
+                cantidad_total: retiroTotal
+            }
+        })
 
         const text = evaluarCantidad < 0 ? "Devolviste" : "Retiraste"
 
@@ -54,7 +60,6 @@ export const envioCantidadHelper = (
         }
 
         generatePromise({ promesa })
-
 
     }
 

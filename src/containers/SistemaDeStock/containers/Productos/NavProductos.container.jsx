@@ -30,7 +30,7 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
     const [search, setSearch] = useSearchParams()
 
     const cancelToken = axios.CancelToken.source()
-    
+
     const categoria = search.get("categoria")
 
     useEffect(() => {
@@ -38,6 +38,7 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
         const promesa = { method: "GET", url: `stock/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
 
         generatePromise({ promesa })
+
         return () => {
             cancelToken.cancel()
         }

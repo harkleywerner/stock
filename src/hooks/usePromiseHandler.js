@@ -1,21 +1,40 @@
 import axios from "axios";
 import { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import shortUUID from "short-uuid";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const usePromiseHandler = ({ establecerAlerta }) => {
 
+    const nav = useNavigate()
+
     const [apiData, setApiData] = useState({});
 
     const [loader, setLoader] = useState(false);
 
-    const id = useMemo(() => {
+    const shortId = useMemo(() => {
         return shortUUID.generate()
     }, [])
 
+    const establecerApiData = ({ response, promesa }) => {
+
+        const { concatenate, id } = promesa
+
+        setApiData(prev => {
+
+            const idActual = prev[id]
+
+            const { data = [] } = response?.data //=> Esto es la data total que llega desde el back.
+
+            const nuevaData = concatenate ? [...(idActual?.data || []), ...data] : data
+
+            return { ...prev, [id]: { ...(response?.data || {}), data: nuevaData } };
+        })
+    }
 
     const generatePromise = useCallback(
+
         async ({ promesa, intentos } = {}) => {
 
             setLoader(true)
@@ -35,18 +54,8 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                         withCredentials: true
                     });
 
-                setApiData(prev => {
 
-                    const idActual = prev[id]
-
-                    const concatenacion = promesa?.concatenate //=> Sirve para indicar si quiero concatenar la data anterior con la nueva
-
-                    const { data = [] } = response?.data //=> Esto es la data total que llega desde el back.
-
-                    const nuevaData = concatenacion ? [...(idActual?.data || []), ...data] : data
-
-                    return { ...prev, [id]: { ...response.data, data: nuevaData } };
-                })
+                establecerApiData({ promesa, response })
 
                 setLoader(false)
 
@@ -59,9 +68,11 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 const request = error?.request?.status ?? 200
 
                 if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
+                    
                     const res = error?.response?.data
+
                     establecerAlerta({
-                        id: id,
+                        id: shortId,
                         data: res || { message: error.message, code: error.code },
                         url: error.config.url,
                         method: error.config.method,
@@ -70,6 +81,12 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 }
 
                 setLoader(false)
+
+                const redirect = error?.response?.data?.redirect
+
+                if (redirect) {
+                    nav(`/${redirect}`)
+                }
 
                 return {
                     status: "failed"

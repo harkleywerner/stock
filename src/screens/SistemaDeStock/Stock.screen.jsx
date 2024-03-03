@@ -20,9 +20,6 @@ const OuletContainer = () => {
 
 const StockScreen = () => {
 
-
-
-
     return (
         <Container
             style={{ maxHeight: "100vh" }}

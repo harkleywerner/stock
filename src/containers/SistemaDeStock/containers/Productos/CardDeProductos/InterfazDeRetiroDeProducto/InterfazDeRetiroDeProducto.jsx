@@ -16,14 +16,14 @@ const InterfazDeRetiroDeProducto = memo((
         cantidadActual,
         nombre,
         generatePromise,
-        apiData, //Falta agregar para indicar si sale un error
+        apiData, 
         loader,
         id_producto,
         cantidadBackUp
     }
 ) => {
 
-    const { devoluciones_permitidas, cantidad_total, id_stock, lote } = cantidadActual
+    const { devoluciones_permitidas, cantidad_total, lote } = cantidadActual
 
     const { changeForm, form, restablecerFormulario } = useForm({ cantidad: 0 })
 
@@ -33,18 +33,18 @@ const InterfazDeRetiroDeProducto = memo((
 
     const { evaluarCantidad } = verificarCantidadesHelper({ cantidadActual, cantidadEnt })
 
+    const { tipo } = apiData["trassaciones"] || {}
+
     const enviar = envioCantidadHelper({
-        devoluciones_permitidas,
         loader,
         evaluarCantidad,
-        cantidad_total,
         cantidadBackUp,
         generatePromise,
         setCantidadActual,
         restablecerFormulario,
-        id_stock,
         id_producto,
-        lote
+        cantidadActual,
+        tipo
     })
 
     return (
@@ -87,7 +87,7 @@ const InterfazDeRetiroDeProducto = memo((
                 />
                 <small
                     style={{ fontSize: "12px" }}
-                    className=" text-danger fw-normal  mx-1 ">Puedes devolver {Math.abs(devoluciones_permitidas)} unidade/s</small>
+                    className=" text-danger fw-normal  mx-1 ">Puedes devolver {-devoluciones_permitidas} unidade/s</small>
             </Modal.Body>
 
             <Modal.Footer>

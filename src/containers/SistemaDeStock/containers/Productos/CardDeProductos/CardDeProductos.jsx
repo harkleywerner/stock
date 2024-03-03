@@ -10,17 +10,24 @@ const CardDeProductos = ({ item }) => {
 
     const { nombre, cantidad_total, devoluciones_permitidas, id_producto } = item
 
-    const cantidadBackUp = useRef(item) // => Sirve para guardar el total de todos los lotes sin tener que volver hacer una llamada.
-
-    const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total, id_stock: null })
-
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const verificarCantidad = cantidadActual.cantidad_total > 100 ? "99+" : cantidadActual.cantidad_total
+    const cantidadBackUp = useRef() // => Sirve para guardar el total de todos los lotes sin tener que volver hacer una llamada.
 
-    const setCantidad  = useCallback((data)=>{
+    const onClick = () => {
+        if (!cantidadBackUp.current) {
+            cantidadBackUp.current = item
+        }
+        alternarMostrar()
+    }
+
+    const [cantidadActual, setCantidadActual] = useState({ devoluciones_permitidas, cantidad_total, id_stock: null, lote: null })
+
+    const verificarCantidad = cantidad_total > 99 ? "99+" : cantidad_total
+
+    const setCantidad = useCallback((data) => {
         setCantidadActual(data)
-    },[])
+    }, [])
 
 
     return (
@@ -35,7 +42,7 @@ const CardDeProductos = ({ item }) => {
                 </Card.Title>
                 <Card.Body className="d-flex justify-content-between  align-items-center">
                     <Button
-                        onClick={alternarMostrar}
+                        onClick={onClick}
                         className={cardButton}
                         variant="none">Retirar</Button>
                     <span

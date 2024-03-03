@@ -1,5 +1,5 @@
 import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.js"
 import { Suspense, lazy } from 'react';
@@ -44,18 +44,18 @@ const router = createBrowserRouter([
     path: "sucursales",
     element: <SuspenseLoadingComponent ><Sucursales /></SuspenseLoadingComponent>,
     loader: async () => {
+      
       const response = axios.get(`${BACK_END_URL}/sucursales`)
+      
 
       return defer({
         lista_de_sucursales: response
       })
     }
-  },
+  }
 ])
 
-
 axiosInterceptor()
-
 
 function App() {
 

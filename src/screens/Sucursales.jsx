@@ -35,8 +35,7 @@ const ContenedorCard = ({ nombre, id_sucursal }) => {
 
 const Sucursales = () => {
 
-    const { lista_de_sucursales } = useLoaderData()
-
+    const { lista_de_sucursales = {} } = useLoaderData()
 
     return (
         <SuspenseLoadingComponent>

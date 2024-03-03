@@ -4,11 +4,10 @@ import { useForm } from "@/hooks//useForm";
 import { memo, useRef } from "react";
 import { Form } from "react-bootstrap";
 import ScrollingInfinite from "../../../../components/ScrollingInfinite";
-import { scrollingHelper } from "../helper/scrolling.helper";
 import ListaDeLotes from "./ListaDeLotes";
+import { scrollingHelper } from "./helpers/scrolling.helper";
 
 const BuscadorDeLote = ({ lote, changeForm }) => {
-
 
     return (
         <Form.Control
@@ -18,7 +17,6 @@ const BuscadorDeLote = ({ lote, changeForm }) => {
             type="text"
             autoComplete="off"
         >
-
         </Form.Control>
     )
 }

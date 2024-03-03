@@ -1,4 +1,5 @@
 export const verificarCantidadesHelper = ({cantidadEnt,cantidadActual}) => {
+    
     const { devoluciones_permitidas, cantidad_total } = cantidadActual
 
     const verificarDevoluciones = cantidadEnt > devoluciones_permitidas ? cantidadEnt : devoluciones_permitidas
