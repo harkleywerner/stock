@@ -15,58 +15,69 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
     }, [])
 
 
-    const generatePromise = useCallback(async ({ promesa, intentos } = {}) => {
+    const generatePromise = useCallback(
+        async ({ promesa, intentos } = {}) => {
 
-        setLoader(true)
-        try {
+            setLoader(true)
 
-            const response = await
-                axios({
-                    ...promesa,
-                    baseURL: BACK_END_URL,
-                    withCredentials : true
-                });
+            const { method, url, data = {}, cancelToken, params = {}, cocatenate } = promesa
 
+            try {
 
-            setApiData(prev => {
+                const response = await
+                    axios({
+                        url,
+                        method,
+                        data,
+                        cancelToken,
+                        params,
+                        baseURL: BACK_END_URL,
+                        withCredentials: true
+                    });
 
-                const idActual = prev[promesa.id]
+                    console.log(response)
 
-                const concatenacion = promesa?.concatenate //=> Sirve para indicar si quiero concatenar la data anterior con la nueva
+                setApiData(prev => {
 
-                const { data = [] } = response.data //=> Esto es la data total que llega desde el back.
+                    const idActual = prev[promesa.id]
 
-                const nuevaData = concatenacion ? [...(idActual?.data || []), ...data] : data
+                    const concatenacion = promesa?.concatenate //=> Sirve para indicar si quiero concatenar la data anterior con la nueva
 
-                return { ...prev, [promesa.id]: { ...response.data, data: nuevaData } };
-            })
+                    const { data = [] } = response.data //=> Esto es la data total que llega desde el back.
 
-            setLoader(false)
+                    const nuevaData = concatenacion ? [...(idActual?.data || []), ...data] : data
 
-            return {
-                status: "success"
-            }
-
-        } catch (error) {
-
-            console.log(error)
-            const request = error?.request?.status ?? 200
-
-            if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
-                const res = error?.response?.data
-                establecerAlerta({
-                    id: id,
-                    data: res || { message: error.message, code: error.code },
-                    url: error.config.url,
-                    method: error.config.method,
-                    generatePromise: ({ intentos }) => generatePromise({ promesa, intentos })
+                    return { ...prev, [promesa.id]: { ...response.data, data: nuevaData } };
                 })
+
+                setLoader(false)
+
+                return {
+                    status: "success"
+                }
+
+            } catch (error) {
+
+                const request = error?.request?.status ?? 200
+
+                if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
+                    const res = error?.response?.data
+                    establecerAlerta({
+                        id: id,
+                        data: res || { message: error.message, code: error.code },
+                        url: error.config.url,
+                        method: error.config.method,
+                        generatePromise: ({ intentos }) => generatePromise({ promesa, intentos })
+                    })
+                }
+
+                setLoader(false)
+                
+                return {
+                    status: "failed"
+                }
             }
-            return {
-                status: "failed"
-            }
-        }
-    }, [])
+        }, [])
 
     const removerApiData = useCallback(({ id }) => {
         setLoader(true)

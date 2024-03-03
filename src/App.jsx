@@ -56,8 +56,8 @@ const router = createBrowserRouter([
 
 axiosInterceptor()
 
-function App() {
 
+function App() {
 
   return (
     <Suspense fallback="HOLAAA">
