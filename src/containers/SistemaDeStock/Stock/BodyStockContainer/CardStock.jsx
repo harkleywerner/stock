@@ -20,8 +20,11 @@ export const CardStock = ({
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const { sync_pendientes, cambios_pendientes } = stock_info
+    const { cambios_pendientes } = stock_info
 
+
+    console.log(cambios_pendientes)
+    
     const fechaDate = new Date(fecha)
 
     const dispatch = useDispatch()
@@ -40,7 +43,7 @@ export const CardStock = ({
     }
 
     const onClick = () => {
-        if (sync_pendientes > 0 || cambios_pendientes > 0 && id_stock != stock_info.id_stock) {
+        if ( cambios_pendientes > 0 && id_stock != stock_info.id_stock) {
             alternarMostrar()
         } else {
             redirectStock()

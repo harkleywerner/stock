@@ -20,6 +20,7 @@ const scrollingStockHelper = ({
         }
 
         generatePromise({ promesa })
+        
     }
 
     useEffect(() => {

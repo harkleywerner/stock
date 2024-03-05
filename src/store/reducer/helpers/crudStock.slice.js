@@ -23,7 +23,7 @@ const crud_stock_slice = {
 
         state.stock = state.stock.map(item => {
             if (item.id_producto == id_actual) {
-                return { ...item, cantidad, id_producto: id_actual }
+                return { ...item, cantidad, id_producto: id_actual, sincronizacion: "none" }
             }
             return item
         })

@@ -86,7 +86,7 @@ const SubirNuevoStockItem = wrapperNotificacionesServidor(memo(({ loader, genera
         else {
             dispatch(changeInicializado())
             const promesa = { method: "POST", url: "stock/nuevo", data: { listaDeNuevoStock: stock }, id: "stock/nuevo", cancelToken: cancelToken.token }
-            generatePromise(promesa)
+            generatePromise({promesa})
         }
     }
 

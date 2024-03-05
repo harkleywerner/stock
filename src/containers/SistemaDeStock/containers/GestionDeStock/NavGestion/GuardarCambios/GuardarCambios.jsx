@@ -1,13 +1,13 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
-import { Suspense, lazy } from "react";
-import { Nav } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { Guardar } from "./Guadar";
-import { stockEntranteHelper } from "./helper/stockEntrante.helper";
+import { Badge, Nav } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { calcularStockSalienteHelper } from "./helper/calcularStockSaliente.helper";
 import { subirStockHelper } from "./helper/subirStock.helper";
-
-const Sincronizar = lazy(() => import("./Sincronizar"))
+import { calcularStockEntranteHelper } from "./helper/calculalStockEntrante.helper";
+import { sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { cambiosPendientesHelper } from "./helper/cambiosPendientes.helper";
+import { useEffect } from "react";
 
 const GuardarCambios = (
     {
@@ -17,15 +17,35 @@ const GuardarCambios = (
     }
 
 ) => {
+    
+    const dispatch = useDispatch()
+
     const { stock, inicializado, stock_data_base = [], stock_info } = useSelector(state => state.gestion_stock)
 
-    const { lote, id_stock, sync_pendientes = 0, cambios_pendientes = 0 } = stock_info
+    const { id_stock = 0, cambios_pendientes } = stock_info
 
-    const stockGestion = apiData["stock/gestion"] || {}
+    const { tipo, data = {} } = apiData["stock/gestion"] || {}
 
-    stockEntranteHelper({ loader, stockGestion, stock_data_base, lote,stock})
+    const { contador_de_cambios, cambios, } = calcularStockSalienteHelper({ stock, stock_data_base })
 
-    const subirStock = subirStockHelper({ inicializado, generatePromise, stock, stock_data_base, id_stock,cambios_pendientes })
+    const subirStock = subirStockHelper({
+        inicializado,
+        generatePromise,
+        id_stock,
+        contador_de_cambios,
+        cambios,
+    })
+
+    cambiosPendientesHelper({ cambios_pendientes, contador_de_cambios })
+
+    useEffect(() => {
+
+        if (tipo == "success" && !loader) {
+            const { nuevoStock } = calcularStockEntranteHelper({ stock, stock_data_base, data })
+            dispatch(sincronizarStock(nuevoStock))
+        }
+
+    }, [loader])
 
     return (
         <>
@@ -39,10 +59,14 @@ const GuardarCambios = (
                         className={`
                       ${inicializado ? " transition cursor-pointer" : "opacity-50 cursor-block"}
                       fs-5  p-1 justify-content-center  d-flex align-items-center `}>
-                        {
-                            sync_pendientes > 0 ? <Suspense><Sincronizar sync_pendientes={sync_pendientes} /> </Suspense> : <Guardar cambios_pendientes={cambios_pendientes} />
-                        }
-
+                        <div className="d-flex align-items-center">
+                            <Badge
+                                style={{ minWidth: "25px", maxWidth: "25px" }}
+                                bg="info"
+                                className="fs-5 p-1">{contador_de_cambios}</Badge>
+                            <p className="m-0 fw-normal mx-1">Guardar Cambios</p>
+                            <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
+                        </div>
                     </Nav.Item>
             }
         </>

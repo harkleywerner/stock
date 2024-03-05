@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components/SpinnerLoader"
-import { forwardRef, useEffect, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 
 const scrollObserver = ({ ApiCall, validationLength, setLoading }) => {
     const config = {
@@ -10,7 +10,10 @@ const scrollObserver = ({ ApiCall, validationLength, setLoading }) => {
 
     return new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
-            if (entry.intersectionRatio >= 0.5 && !entry.target.hasVisited && validationLength == 0) {
+
+            const hasVisited = entry.target.hasVisited
+
+            if (entry.intersectionRatio >= 0.5 && !hasVisited && validationLength == 0) {
                 ApiCall();
                 entry.target.hasVisited = true;
                 setLoading(true)
@@ -32,6 +35,20 @@ const ScrollingInfinite = forwardRef(({
 
     const [isLoading, setLoading] = useState(false)
 
+
+    const countApiCall = useRef({})
+    //=> Sirve para detectar cuando se llama apiCall pero retorna el mismo largo.
+
+    useEffect(() => {
+
+        if(!isLoading) return
+        
+        countApiCall.current[dataLength] = (countApiCall.current[dataLength] || 0) + 1
+            if (countApiCall.current[dataLength] >= 3) {
+                setLoading(false)
+            }
+    })
+
     useEffect(() => {
 
         dataLength > 0 && setLoading(false)
@@ -40,15 +57,16 @@ const ScrollingInfinite = forwardRef(({
 
         const observer = scrollObserver({ ApiCall, validationLength: dataLength % step, setLoading })
 
-
         if (items && dataLength !== 0) {
-
+            
             const largo = items.children.length - 4
             const child = items.children[largo < 0 ? 0 : largo]
+
             if (!child) return
 
             observer.observe(child)
         }
+
 
         return () => {
             observer.disconnect()
@@ -61,7 +79,7 @@ const ScrollingInfinite = forwardRef(({
             {children}
             {
                 isLoading && dataLength > 0 &&
-                (loaderComponent ? loaderComponent : <SpinnerLoader position = "centered" />)
+                (loaderComponent ? loaderComponent : <SpinnerLoader position="centered" />)
 
             }
         </div>

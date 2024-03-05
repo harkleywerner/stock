@@ -1,5 +1,5 @@
 export const calcularStockEntranteHelper = ({
-    data = {},
+    data,
     stock_data_base = [],
     stock = []
 }) => {//Calcula lo que viene del servidor.
@@ -8,8 +8,6 @@ export const calcularStockEntranteHelper = ({
         success_commit = {},
         failed_commit = {},
     } = data
-
-    let contador_sync_pendientes = 0;
 
     const { s_patch, s_delete, s_post } = success_commit
 
@@ -21,24 +19,22 @@ export const calcularStockEntranteHelper = ({
 
         const faildPatch = f_patch[item.id_producto]
 
+        const faildDelete = f_delete[item.id_producto]
+
         const successPatch = s_patch[item.id_producto]
 
         if (successPatch) {
             return { ...item, ...successPatch, sincronizacion: "success" }
         }
         else if (faildPatch) {
-            const faildCantidad = faildPatch.cantidad
-
-            const verificarSincronizacion =  item.cantidad == faildCantidad ? "warning" : "expecting"
-            
-            verificarSincronizacion == "expecting" &&  contador_sync_pendientes++;
 
             return {
-                ...item, cantidad: faildCantidad,
-                sincronizacion: verificarSincronizacion
+                ...item,
+                ...faildPatch,
+                sincronizacion: "expecting"
             }
-        } else if (f_delete.includes(item.id_producto)) {
-            return { ...item, sincronizacion: "denied" }
+        } else if (faildDelete) {
+            return { ...item, ...faildDelete, sincronizacion: "denied" }
         }
 
         return item
@@ -53,6 +49,5 @@ export const calcularStockEntranteHelper = ({
 
     return {
         nuevoStock,
-        contador_sync_pendientes
     }
 }

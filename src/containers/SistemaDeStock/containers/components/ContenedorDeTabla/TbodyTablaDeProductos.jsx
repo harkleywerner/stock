@@ -1,9 +1,9 @@
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice"
 import { PrimeraLetraMayusculaUtils } from "@/utils/PrimeraLetraMayuscula.utils"
-import { Suspense, lazy, memo } from "react"
+import { memo } from "react"
 import { useDispatch } from "react-redux"
 
-const SincronizacionItems = lazy(() => import("./SincronizacionesItem"))
+
 
 const TbodyTablaDeProductos = memo(({
     nombre,
@@ -13,11 +13,9 @@ const TbodyTablaDeProductos = memo(({
     deleteProducto,
     id_producto,
     inicializado,
-    sincronizacion
 }) => {
 
-
-
+    
     const dispatch = useDispatch()
 
     const onRemoveItem = () => {
@@ -42,13 +40,6 @@ const TbodyTablaDeProductos = memo(({
             </td>
             <td className="text-center d-flex  justify-content-center ">
                 <div className="position-relative">
-                    {
-                        sincronizacion && <Suspense>
-                            <SincronizacionItems tipo={sincronizacion} />
-                        </Suspense>
-                    }
-
-
                     <p
                         className="m-0 rounded-5 text-dark">{cantidad}</p>
                 </div>

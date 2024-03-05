@@ -54,7 +54,9 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                         withCredentials: true
                     });
 
-
+// await new Promise((res) => setTimeout(() => {
+//     res()
+// }, 3000))
                 establecerApiData({ promesa, response })
 
                 setLoader(false)
