@@ -19,25 +19,25 @@ const OuletContainer = () => {
 }
 
 const StockScreen = () => {
-
+    
     return (
-        <Container
-            style={{ maxHeight: "100vh" }}
-            fluid
-            className='p-0  d-flex flex-column vh-100'>
+            <Container
+                style={{ maxHeight: "100vh" }}
+                fluid
+                className='p-0  d-flex flex-column vh-100'>
 
-            <Row
-                id="nav"
-                className='m-0 flex-grow-0 '>
-                <NavStockContainer />
-            </Row>
+                <Row
+                    id="nav"
+                    className='m-0 flex-grow-0 '>
+                    <NavStockContainer />
+                </Row>
 
-            <Row
-                as={"main"}
-                className='h-100 scrollbar m-0  '>
-                <OuletContainer />
-            </Row>
-        </Container >
+                <Row
+                    as={"main"}
+                    className='h-100 scrollbar m-0  '>
+                    <OuletContainer />
+                </Row>
+            </Container >
     );
 }
 

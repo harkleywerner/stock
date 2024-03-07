@@ -18,24 +18,22 @@ const InterfazDeGestionDeProductos = (
 
     const { insertarParametros, parametros } = useEstablecerParametros()
 
+    const keys = Object.keys(productoSeleccionado).length
+
     useEffect(() => {
-        if (Object.keys(productoSeleccionado).length == 0) return
+        if (keys == 0) return
         insertarParametros({ ...productoSeleccionado })
     }, [productoSeleccionado])
 
     const refImperative = useRef()
 
-    const verificacion = verificacionStock({ parametros, productoSeleccionado, stock, addProducto, editProducto })
+    const verificacion = verificacionStock({ parametros, productoSeleccionado, stock, addProducto, editProducto, keys })
 
     const onClick = () => {
 
-        const refCantidad = parseInt(refImperative.current.cantidad)
+        const refCantidad = parseInt(refImperative.current)
 
-        const validacion = verificacion({ refCantidad })
-
-        if (!validacion) return
-
-        alternarMostrar()
+        verificacion({ refCantidad })
     }
 
     return (
@@ -44,8 +42,11 @@ const InterfazDeGestionDeProductos = (
             show={mostrar}
             backdrop="static"
             onHide={alternarMostrar}>
-            <Modal.Header className="d-flex justify-content-center h-100 w-100 px-0" >
-                <BuscadorDeProductos insertarParametros={insertarParametros} />
+            <Modal.Header className={`d-flex justify-content-center h-100 ${keys > 0 ? "border-0" : ""} w-100 px-0`} >
+                {
+                    keys == 0 &&
+                    <BuscadorDeProductos insertarParametros={insertarParametros} />
+                }
             </Modal.Header>
             <Modal.Body style={{ height: "350px" }}>
                 <ModalBody

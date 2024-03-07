@@ -1,11 +1,11 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { NavProductoContenedor } from "@/styles/SistemaStock.module.css"
 import { memo, useCallback, useEffect } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { NavLink, useSearchParams } from "react-router-dom"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
 import axios from "axios"
+import { DropDownSucursal } from "../../components/DropDownSucursal"
 
 const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
 

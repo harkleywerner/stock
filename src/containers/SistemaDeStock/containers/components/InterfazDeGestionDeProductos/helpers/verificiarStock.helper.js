@@ -6,34 +6,31 @@ const verificacionStock = ({
     parametros,
     productoSeleccionado,
     addProducto,
-    editProducto
+    editProducto,
+    keys
 }) => {
 
     const dispatch = useDispatch()
 
-    const verificacion = ({ refCantidad }) => {
-
+    return ({ refCantidad }) => {
         const verificaSiSeEncuentra = stock.find(item => item.id_producto == parametros.id_producto)
 
         if (Object.keys(parametros).length == 0) {
-            const text = { texto: "Debes agregar un item para continuar", tipo: "warning" }
+            const text = { texto: "Debes agregar un producto para continuar", tipo: "warning" }
             dispatch(generarToast(text))
         }
-
-        else if (verificaSiSeEncuentra && verificaSiSeEncuentra.id_producto == productoSeleccionado.id_producto) {
+        else if ( verificaSiSeEncuentra && verificaSiSeEncuentra.id_producto == productoSeleccionado.id_producto) {
             dispatch(editProducto({
-                ...parametros,
-                id_producto: productoSeleccionado.id_producto,
-                id_actual: parametros.id_producto,
+                ...verificaSiSeEncuentra,
                 cantidad: refCantidad
             }))
-
-            return true
+            const text = { texto: "El producto se edito exitosamente", tipo: "success" }
+            dispatch(generarToast(text))
         }
-        else if (Object.keys(productoSeleccionado).length == 0 && !verificaSiSeEncuentra) {
+        else if (keys == 0 && !verificaSiSeEncuentra) {
             dispatch(addProducto({ ...parametros, cantidad: refCantidad }))
-
-            return true
+            const text = { texto: "El producto se agrego exitosamente", tipo: "success" }
+            dispatch(generarToast(text))
 
         } else {
             const text = { texto: "El item ya se encuentra en la tabla para cambiar su valor presione en editar en la tabla", tipo: "warning" }
@@ -42,7 +39,6 @@ const verificacionStock = ({
 
     }
 
-    return verificacion
 }
 
 export default verificacionStock

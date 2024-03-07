@@ -1,11 +1,11 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import axios from "axios"
-import { memo, useEffect, useRef } from "react"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { memo, useRef } from "react"
 import { Col } from "react-bootstrap"
 import { useSearchParams } from "react-router-dom"
 import ScrollingInfinite from "../Components/ScrollingInfinite"
 import CardDeProductos from "./CardDeProductos/CardDeProductos"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { scrollProductosHelper } from "./hooks/scrollProductos.helper"
 
 const Message = memo(({ getBuscador }) => {
     return (
@@ -20,47 +20,24 @@ const ProductosContainer = memo(({
     removerApiData
 }) => {
 
+    const { data = [], tipo } = apiData["productos"] || {}
+    
     const [search] = useSearchParams()
-
-    const elementToObserve = useRef(null)
 
     const getBuscador = search.get("search") || ""
 
     const getCategoria = search.get("categoria")
+    
+    const apiCall = scrollProductosHelper({
+        dataLength : data.length,
+        generatePromise,
+        getBuscador,
+        getCategoria,
+        removerApiData
+    })
 
-    const cancelSource = axios.CancelToken.source()
 
-    const { data = [], tipo } = apiData["productos"] || {}
-
-    const apiCall = (reset) => {
-
-        const promesa =
-        {
-            method: "GET", url: `/stock/productos`, id: "productos",
-            params: { search: getBuscador, categoria: getCategoria, offset: reset ?? data.length },
-            cancelToken: cancelSource.token,
-            concatenate: true
-        }
-
-        generatePromise({ promesa: promesa })
-    }
-
-    useEffect(() => {
-
-        removerApiData({ id: "productos" })
-
-        const timeOut = setTimeout(() => {
-
-            apiCall(0)
-
-        }, 600);
-
-        return () => {
-            clearTimeout(timeOut)
-            cancelSource.cancel()
-        }
-
-    }, [getBuscador, getCategoria])
+    const elementToObserve = useRef(null)
 
 
     return (

@@ -1,16 +1,14 @@
 import { useForm } from "@/hooks//useForm"
-import { forwardRef, memo, useEffect, useImperativeHandle } from "react"
+import { memo, useEffect } from "react"
 import { Form, Stack } from "react-bootstrap"
 
-const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => {
+const ModalBodyFormulario = memo(({ parametroCantidad = 0, refImperative }) => {
 
     const { changeForm, form } = useForm({ cantidad: Math.abs(parametroCantidad) })
 
     const verificarCantidad = form.cantidad <= 0 ? 0 : parseInt(Math.abs(form.cantidad))
 
-    useImperativeHandle(ref, () => ({
-        cantidad: verificarCantidad
-    }))
+    refImperative.current = verificarCantidad
 
     useEffect(() => {
         changeForm({ target: { name: "cantidad", value: Math.abs(parametroCantidad) } })
@@ -40,7 +38,7 @@ const ModalBodyFormulario = memo(forwardRef(({ parametroCantidad = 0 }, ref) => 
                 className="fa-regular mx-2 fs-3 cursor-pointer  zoom fa-square-plus"></i>
         </div>
     )
-}))
+})
 
 export const ModalBody = memo(({ parametros, refImperative }) => {
 
@@ -62,7 +60,9 @@ export const ModalBody = memo(({ parametros, refImperative }) => {
             </div>
             <div className="">
                 <p className="m-0 fs-3 text-center">Cantidad</p>
-                <ModalBodyFormulario parametroCantidad={parametros.cantidad} ref={refImperative} />
+                <ModalBodyFormulario
+                    parametroCantidad={parametros.cantidad}
+                    refImperative={refImperative} />
             </div>
         </Stack>
 

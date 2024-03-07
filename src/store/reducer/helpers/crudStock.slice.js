@@ -19,11 +19,11 @@ const crud_stock_slice = {
 
         if (!state.inicializado) return
 
-        const { id_actual, cantidad } = action.payload
+        const { id_producto, cantidad } = action.payload
 
         state.stock = state.stock.map(item => {
-            if (item.id_producto == id_actual) {
-                return { ...item, cantidad, id_producto: id_actual, sincronizacion: "none" }
+            if (item.id_producto == id_producto) {
+                return { ...item, cantidad }
             }
             return item
         })

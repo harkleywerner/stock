@@ -1,10 +1,16 @@
+import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider"
+import { useContext } from "react"
 import { Container, Nav, Navbar, Stack } from "react-bootstrap"
-import { DropwDownUsuario } from "./DropwDownUsuario"
-import { DropDownSucursal } from "@/components/DropDownSucursal"
 import { NavLink } from "react-router-dom"
+import { DropDownSucursal } from "../../components/DropDownSucursal"
 import { BuscadorResponsive } from "./BuscadorResponsive"
+import { ListaDeUsuarios } from "./ListaDeUsuarios"
 
- const NavStockContainer = () => {
+const NavStockContainer = () => {
+
+  const { sucursal_info } = useContext(informacionInicialContext)
+
+  const { loggeado } = sucursal_info
 
   return (
     <header
@@ -23,7 +29,7 @@ import { BuscadorResponsive } from "./BuscadorResponsive"
 
             <Stack
               direction="horizontal"
-              className="flex-fill justify-content-center"
+              className="flex-fill justify-content-center  "
               gap={3}>
               <NavLink to={"/stock"}>
                 <i className="fa-solid fa-warehouse text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
@@ -31,9 +37,11 @@ import { BuscadorResponsive } from "./BuscadorResponsive"
               <NavLink to="/stock/productos">
                 <i className="fa-solid fa-ice-cream text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
               </NavLink>
-              <NavLink to={"/stock/nuevo"}>
-                <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-3 fa-boxes-packing"></i>
-              </NavLink>
+              {
+                loggeado && <NavLink to={"/stock/nuevo"}>
+                  <i className="fa-solid hover-rosa cursor-pointer transition text-white fs-3 fa-boxes-packing"></i>
+                </NavLink>
+              }
               <NavLink to={"/stock/gestion"}>
                 <i className="fa-solid fa-boxes-stacked text-white fs-3 m-0 cursor-pointer hover-rosa transition"></i>
               </NavLink>
@@ -41,10 +49,12 @@ import { BuscadorResponsive } from "./BuscadorResponsive"
               <span className="d-none d-lg-inline">
                 <DropDownSucursal />
               </span>
-              <DropwDownUsuario />
+              {
+                loggeado && <ListaDeUsuarios />
+              }
             </Stack>
 
-            <BuscadorResponsive/>
+            <BuscadorResponsive />
           </Nav>
 
         </Container>

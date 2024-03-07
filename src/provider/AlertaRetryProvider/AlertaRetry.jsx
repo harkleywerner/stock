@@ -53,7 +53,6 @@ const AlertaRetry = (
       const datos = await generatePromise({ intentos })
 
       if (datos?.status == "success") {
-
         setShow(false)
         removerAlerta(id)
       }

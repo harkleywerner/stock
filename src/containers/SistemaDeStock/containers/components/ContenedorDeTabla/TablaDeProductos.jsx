@@ -5,7 +5,8 @@ import TbodyTablaDeProductos from "./TbodyTablaDeProductos";
 import TheadTablaDeProductos from "./TheadTablaDeProductos";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import { memo } from "react";
+import { memo, useContext } from "react";
+import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
 
 
 const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editProducto, inicializado }) => {
@@ -13,6 +14,10 @@ const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editPr
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
     const { insertarParametros, parametros } = useEstablecerParametros()
+
+    const { sucursal_info } = useContext(informacionInicialContext)
+
+    const { loggeado } = sucursal_info
 
     return (
         <div
@@ -23,11 +28,12 @@ const TablaDeProductos = memo(({ stock = [], addProducto, deleteProducto, editPr
                 striped
                 hover
                 className=" shadow p-0 my-0  " >
-                <TheadTablaDeProductos />
+                <TheadTablaDeProductos loggeado={loggeado} />
                 <tbody >
                     {
                         stock.map((item, index) =>
                             <TbodyTablaDeProductos
+                                loggeado={loggeado}
                                 deleteProducto={deleteProducto}
                                 inicializado={inicializado}
                                 insertarParametros={() => { insertarParametros(item), alternarMostrar() }}

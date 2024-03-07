@@ -33,7 +33,7 @@ const ContenedorCard = ({ nombre, id_sucursal }) => {
 }
 
 
-const Sucursales = () => {
+const SucursalesScreen = () => {
 
     const { lista_de_sucursales = {} } = useLoaderData()
 
@@ -56,4 +56,4 @@ const Sucursales = () => {
     );
 }
 
-export default Sucursales
+export default SucursalesScreen

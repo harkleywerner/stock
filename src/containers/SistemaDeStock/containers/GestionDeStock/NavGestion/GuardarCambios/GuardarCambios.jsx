@@ -1,13 +1,12 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { establecerPendientes, sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
+import { useEffect } from "react";
 import { Badge, Nav } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { calcularStockEntranteHelper } from "./helper/calculalStockEntrante.helper";
 import { calcularStockSalienteHelper } from "./helper/calcularStockSaliente.helper";
 import { subirStockHelper } from "./helper/subirStock.helper";
-import { calcularStockEntranteHelper } from "./helper/calculalStockEntrante.helper";
-import { sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
-import { cambiosPendientesHelper } from "./helper/cambiosPendientes.helper";
-import { useEffect } from "react";
 
 const GuardarCambios = (
     {
@@ -17,7 +16,7 @@ const GuardarCambios = (
     }
 
 ) => {
-    
+
     const dispatch = useDispatch()
 
     const { stock, inicializado, stock_data_base = [], stock_info } = useSelector(state => state.gestion_stock)
@@ -36,7 +35,15 @@ const GuardarCambios = (
         cambios,
     })
 
-    cambiosPendientesHelper({ cambios_pendientes, contador_de_cambios })
+    useEffect(() => {
+
+        return () => {
+            if (contador_de_cambios != cambios_pendientes) {
+                dispatch(establecerPendientes({ cambios_pendientes: contador_de_cambios }))
+            }
+        }
+
+    }, [contador_de_cambios])
 
     useEffect(() => {
 

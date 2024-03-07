@@ -1,12 +1,19 @@
-import { DropDownSucursal } from "@/components//DropDownSucursal";
+import { DropDownSucursal } from "@/containers//SistemaDeStock/components/DropDownSucursal";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "../../components/DropDownFilterCategoria";
 import { AgregarItem } from "./AgregarItem";
 import GuardarCambios from "./GuardarCambios/GuardarCambios";
 import { Lote } from "./Lote";
+import { ResumenDeGuardado } from "./Resumen/Resumen";
+import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
+import { useContext } from "react";
 
 
 const NavDeGestionContainer = () => {
+    const { sucursal_info } = useContext(informacionInicialContext)
+
+    const { loggeado } = sucursal_info
+
     return (
         <Navbar
             expand="lg"
@@ -29,14 +36,20 @@ const NavDeGestionContainer = () => {
 
                         <Lote />
 
-                        <AgregarItem />
-
                         <Nav.Item>
                             <DropDownFilterCategoria />
                         </Nav.Item>
 
-                        <GuardarCambios />
-                  
+                        {
+                            loggeado && (
+                                <>
+                                    <AgregarItem />
+                                    <ResumenDeGuardado />
+                                    <GuardarCambios />
+
+                                </>
+                            )
+                        }
                     </Nav>
 
                 </Navbar.Collapse>

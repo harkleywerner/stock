@@ -22,14 +22,3 @@
         width: 50% !important;
     }
 }
-
-.cardButton {
-    color: #814937;
-    border: 1px solid #814937;
-}
-
-.cardButton:hover {
-    background-color: #814937;
-    color: white;
-}
-

@@ -1,4 +1,4 @@
-import { DropDownSucursal } from "@/components//DropDownSucursal";
+import { DropDownSucursal } from "@/containers//SistemaDeStock/components/DropDownSucursal";
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";

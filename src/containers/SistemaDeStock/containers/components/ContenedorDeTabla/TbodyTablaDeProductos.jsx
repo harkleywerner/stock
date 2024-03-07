@@ -13,9 +13,9 @@ const TbodyTablaDeProductos = memo(({
     deleteProducto,
     id_producto,
     inicializado,
+    loggeado
 }) => {
 
-    
     const dispatch = useDispatch()
 
     const onRemoveItem = () => {
@@ -44,17 +44,20 @@ const TbodyTablaDeProductos = memo(({
                         className="m-0 rounded-5 text-dark">{cantidad}</p>
                 </div>
             </td>
-            <td>
-                <div className="d-flex justify-content-center">
-                    <i
-                        onClick={insertarParametros}
-                        style={{ color: "#57BDC6" }}
-                        className="fa-solid cursor-pointer transition bg-hoverdark fs-4 mx-1 fa-pen"></i>
-                    <i
-                        onClick={onRemoveItem}
-                        className="fa-solid cursor-pointer color-rosa bg-hoverdark transition fs-4 mx-1 fa-trash-can"></i>
-                </div>
-            </td>
+            {
+                loggeado &&
+                <td>
+                    <div className="d-flex justify-content-center">
+                        <i
+                            onClick={insertarParametros}
+                            style={{ color: "#57BDC6" }}
+                            className="fa-solid cursor-pointer transition bg-hoverdark fs-4 mx-1 fa-pen"></i>
+                        <i
+                            onClick={onRemoveItem}
+                            className="fa-solid cursor-pointer color-rosa bg-hoverdark transition fs-4 mx-1 fa-trash-can"></i>
+                    </div>
+                </td>
+            }
         </tr>
     )
 })

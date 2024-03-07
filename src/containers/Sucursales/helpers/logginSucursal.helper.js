@@ -7,7 +7,10 @@ const logginSucursalHelper = ({
     tipo,
     loader,
     data,
+    establecerInformacion,
+    nombre
 }) => {
+
 
     const cancelToken = axios.CancelToken.source()
 
@@ -15,8 +18,9 @@ const logginSucursalHelper = ({
 
     useEffect(() => {
 
-        if(!loader && tipo == "success"){
-           nav("/stock")
+        if (!loader && tipo == "success") {
+            establecerInformacion({ sucursal_info: { id_sucursal: data.id_sucursal, nombre, loggeado: true } })
+            nav("/usuarios")
         }
 
         return () => {
@@ -28,6 +32,9 @@ const logginSucursalHelper = ({
 
 
     return () => {
+        
+        if(data.contraseña.length == 0) return
+
         const promesa = {
             method: "POST",
             data,

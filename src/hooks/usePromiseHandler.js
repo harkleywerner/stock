@@ -25,7 +25,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
             const idActual = prev[id]
 
-            const { data = [] } = response?.data //=> Esto es la data total que llega desde el back.
+            const { data = [] } = response?.data || {} //=> Esto es la data total que llega desde el back.
 
             const nuevaData = concatenate ? [...(idActual?.data || []), ...data] : data
 
@@ -54,9 +54,6 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                         withCredentials: true
                     });
 
-// await new Promise((res) => setTimeout(() => {
-//     res()
-// }, 3000))
                 establecerApiData({ promesa, response })
 
                 setLoader(false)
@@ -70,7 +67,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                 const request = error?.request?.status ?? 200
 
                 if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
-                    
+
                     const res = error?.response?.data
 
                     establecerAlerta({
@@ -90,6 +87,8 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
                     nav(`/${redirect}`)
                 }
 
+                establecerApiData({ promesa, response: error?.response })
+                
                 return {
                     status: "failed"
                 }

@@ -8,7 +8,7 @@ const AlertaDePendientes = ({
     redirectStock
 }) => {
 
-    const { lote, cambios_pendientes = 0, sync_pendientes = 0 } = stock_info
+    const { lote, cambios_pendientes = 0 } = stock_info
 
     return (
         <Modal
@@ -34,13 +34,6 @@ const AlertaDePendientes = ({
                         className="py-2 fs-6"
                         bg="info">{cambios_pendientes}</Badge>
                     <p className="m-0">Cambios pendientes.</p>
-               
-                </div>
-                <div className="d-flex align-items-center gap-2">
-                    <Badge
-                        style={{ minWidth: "40px", maxWidth: "40px" }}
-                        className="py-2 fs-6 ">{sync_pendientes}</Badge>
-                    <p className="m-0">Sincronizaciones pendientes.</p>
                
                 </div>
                 <div className="m-auto">

@@ -1,4 +1,5 @@
-import { Badge, NavItem } from "react-bootstrap";
+import { ButtonSombreado } from "@/components//ButtonSombreado";
+import { NavItem } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 export const Lote = () => {
@@ -7,12 +8,12 @@ export const Lote = () => {
     return (
         <NavItem
             className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center">
-            <Badge
-                style={{ backgroundColor: "#814937" }}
-                bg="none"
-                className="shadow">
-                Lote #{stock_info.lote}
-            </Badge>
+            <ButtonSombreado
+                background={"b36843"}
+                border={"cc966b"}
+            >
+                <small>  Lote #{stock_info.lote}</small>
+            </ButtonSombreado>
         </NavItem>
 
     )

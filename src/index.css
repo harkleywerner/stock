@@ -32,10 +32,6 @@ body {
     background-color: #f1f0f0
 }
 
-.font {
-    font-family: brother2 !important;
-}
-
 .zoom:active {
     transform: scale(1.1);
 }
@@ -53,7 +49,7 @@ img {
 }
 
 .hover-rosa:hover {
-    color: rgb(238, 44, 130) !important;
+    color: #DE4E75 !important;
 }
 
 body {
@@ -67,7 +63,7 @@ li {
 }
 
 .color-rosa {
-    color: #E84A7A;
+    color: #DE4E75;
 }
 
 
@@ -76,16 +72,15 @@ li {
 }
 
 .transition:hover {
-    transform: translateY(-5%);
+    transform: translateY(-3%);
     opacity: 1 !important;
 }
 
 /*SCROLLBAR*/
 
-.scrollbar {
+.scrollbar,.scrollbar-sm {
     overflow-y: overlay;
 }
-
 
 .scrollbar::-webkit-scrollbar {
     width: 0.5em;
@@ -129,6 +124,12 @@ li {
 
 .scrollbar::-webkit-scrollbar-track {
     border-radius: 10px;
+}
+
+.remover-bordes {
+    border-top: 0px !important;
+    border-left: 0px !important;
+    border-right: 0px !important;
 }
 
 /*INPUT GLOBALES*/

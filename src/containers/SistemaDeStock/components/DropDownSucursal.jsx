@@ -1,31 +1,39 @@
+import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
+import { useContext } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export const DropDownSucursal = () => {
+
+    const { sucursal_info } = useContext(informacionInicialContext)
+
+    const { nombre } = sucursal_info 
+
     return (
         <Dropdown className="position-relative">
             <Dropdown.Toggle
-            style={{maxWidth : "300px"}}
+                style={{ maxWidth: "300px" }}
                 variant="none"
                 className="border-0 text-truncate text-white px-1 fs-5  cursor-pointer hover-rosa transition">
-                <p  className="m-0 fs-5 d-inline ">
-                   25 de mayo 226
+                <p className="m-0 fs-5 d-inline ">
+                    {nombre}
                 </p>
             </Dropdown.Toggle>
 
             <Dropdown.Menu
-                style={{left : "-20%"}}
-                className="border-0 shadow position-absolute">
+                style={{ left: "-20%" }}
+                className="border-0  p-1 position-absolute">
                 <Link
                     className="text-decoration-none"
                     to={"/sucursales"}>
                     <Dropdown.ItemText
-                        style={{ background: "#E84A7A" }}
-                        className="text-white border-0 text-nowrap  mx-2  transition m-auto"
+                        style={{ background: "#de4e75", borderBottom: "3px solid #b12540" }}
+                        className="text-white border-end border-top border-start text-nowrap m-auto"
                         as={Button}>
                         Cambiar de Sucursal
                     </Dropdown.ItemText>
                 </Link>
+
             </Dropdown.Menu>
         </Dropdown>
     );
