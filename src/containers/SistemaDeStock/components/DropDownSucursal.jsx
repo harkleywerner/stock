@@ -14,7 +14,7 @@ export const DropDownSucursal = () => {
             <Dropdown.Toggle
                 style={{ maxWidth: "300px" }}
                 variant="none"
-                className="border-0 text-truncate text-white px-1 fs-5  cursor-pointer hover-rosa transition">
+                className="border-0 text-truncate text-white px-1 fs-5  cursor-pointer  transition">
                 <p className="m-0 fs-5 d-inline ">
                     {nombre}
                 </p>

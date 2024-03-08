@@ -1,5 +1,5 @@
 import { useForm } from "@/hooks//useForm"
-import { memo, useEffect } from "react"
+import { memo, useEffect, useRef } from "react"
 import { Badge, Button, Form, Stack } from "react-bootstrap"
 import { wrapperNotificacionesServidor } from "../wrapperNotificacionesServidor"
 import axios from "axios"
@@ -49,6 +49,8 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
 
     const { form, changeForm } = useForm({ contraseña: "" })
 
+    const ref = useRef()
+
     const { tipo } = apiData["usuario"] || {}
 
     const cancelToken = axios.CancelToken.source()
@@ -68,7 +70,11 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
         generatePromise({ promesa })
     }
 
+
     useEffect(() => {
+        
+        ref.current.focus()
+
         if (tipo == "success") {
             establecerLoggeado({ id_usuario })
         }
@@ -76,29 +82,30 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
     }, [tipo])
 
     return (
-        <>
-            <section className="mt-3">
-                <FormularioDeIngreso
-                    changeForm={changeForm}
-                    form={form}
-                    tipo={tipo}
-                />
+        <section
+            tabIndex={0}
+            ref={ref}
+            className="mt-3">
+            <FormularioDeIngreso
+                changeForm={changeForm}
+                form={form}
+                tipo={tipo}
+            />
 
-                <div
-                    onClick={apiCall}
-                    className=" d-flex mt-2">
-                    {
-                        loader ? <SpinnerLoader size="md" position="centered" /> :
-                            <Button
-                                style={{ backgroundColor: "#f1759e", borderBottom: "3px solid #d72b56" }}
-                                variant="none"
-                                className="text-center text-white fs-5 transition m-auto">
-                                Ingresar
-                            </Button>
-                    }
-                </div>
-            </section>
-        </>
+            <div
+                onClick={apiCall}
+                className=" d-flex mt-2">
+                {
+                    loader ? <SpinnerLoader size="md" position="centered" /> :
+                        <Button
+                            style={{ backgroundColor: "#f1759e", borderBottom: "3px solid #d72b56" }}
+                            variant="none"
+                            className="text-center text-white fs-5 transition m-auto">
+                            Ingresar
+                        </Button>
+                }
+            </div>
+        </section>
     )
 })
 
@@ -111,6 +118,7 @@ const Usuario = memo(({
     loggeado,
     establecerLoggeado
 }) => {
+
     const onClick = () => {
 
         if (loggeado) return
@@ -134,7 +142,9 @@ const Usuario = memo(({
                         className={`fa-solid  mt-1 fs-5 ${accordion ? "fa-chevron-up" : "fa-chevron-down"}`} />
                 }
                 {
-                    loggeado  &&  <i style={{color : "#86d4da"}}  className="fa-solid fs-5 mt-1 fa-unlock"></i>
+                    loggeado && <i
+                        style={{ color: "#86d4da" }}
+                        className="fa-solid fs-5 mt-1 fa-unlock"></i>
                 }
                 <p className="m-0 text-white fs-5">{nombre} {apellido}</p>
             </Stack>

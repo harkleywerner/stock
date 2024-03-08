@@ -5,7 +5,8 @@ const initialState = {
     stock: [],
     inicializado: false,
     stock_data_base: [],
-    stock_info: undefined
+    stock_info: undefined,
+    historial: []
 }
 
 const sliceStock = createSlice({
@@ -20,9 +21,10 @@ const sliceStock = createSlice({
             state.inicializado = true
         },
         sincronizarStock: (state, action) => {
-            const stock = action.payload
+            const { stock, historial } = action.payload
             state.stock = stock
             state.stock_data_base = stock
+            state.historial = [...state.historial, ...historial]
         },
         establecerStockInfo: (state, action) => {
             const stockInfo = action.payload

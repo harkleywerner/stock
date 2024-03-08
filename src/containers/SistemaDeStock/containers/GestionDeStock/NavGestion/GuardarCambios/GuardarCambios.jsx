@@ -48,8 +48,8 @@ const GuardarCambios = (
     useEffect(() => {
 
         if (tipo == "success" && !loader) {
-            const { nuevoStock } = calcularStockEntranteHelper({ stock, stock_data_base, data })
-            dispatch(sincronizarStock(nuevoStock))
+            const { nuevoStock, historial } = calcularStockEntranteHelper({ stock, stock_data_base, data })
+            dispatch(sincronizarStock({ stock: nuevoStock, historial }))
         }
 
     }, [loader])
