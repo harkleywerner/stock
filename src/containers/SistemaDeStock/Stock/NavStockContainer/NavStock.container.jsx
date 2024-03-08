@@ -6,6 +6,7 @@ import { DropDownSucursal } from "../../components/DropDownSucursal"
 import { BuscadorResponsive } from "./BuscadorResponsive"
 import { UsuariosItem } from "./UsuariosItem"
 import styles from "./styles/NavStock.module.css"
+import { ConnectionItem } from "./connectionItem"
 
 
 const NavStockContainer = () => {
@@ -29,7 +30,7 @@ const NavStockContainer = () => {
               src='https://www.pauletti.com.ar/wp-content/uploads/2022/08/Logo-SVG.svg' />
           </Navbar.Brand>
 
-          <Nav className="d-flex justify-content-between w-100 ">
+          <Nav className="d-flex justify-content-between w-100 scrollbar ">
 
             <Stack
               direction="horizontal"
@@ -38,27 +39,28 @@ const NavStockContainer = () => {
               <NavLink
                 className={styles.itemsDecorate}
                 to={"/stock"}>
-                <i className="fa-solid fa-warehouse text-white fs-3 m-0 cursor-pointer  transition"></i>
+                <i className="fa-solid fa-warehouse text-white fs-4 m-0 cursor-pointer  transition"></i>
               </NavLink>
               <NavLink
                 className={styles.itemsDecorate}
                 to="/stock/productos">
-                <i className={`fa-solid fa-ice-cream text-white fs-3 m-0 cursor-pointer  transition `}></i>
+                <i className={`fa-solid fa-ice-cream text-white fs-4 m-0 cursor-pointer  transition `}></i>
               </NavLink>
               {
                 loggeado &&
                 <NavLink
                   className={styles.itemsDecorate}
                   to={"/stock/nuevo"}>
-                  <i className="fa-solid  cursor-pointer transition text-white fs-3 fa-boxes-packing"></i>
+                  <i className="fa-solid  cursor-pointer transition text-white fs-4 fa-boxes-packing"></i>
                 </NavLink>
               }
               <NavLink
                 className={styles.itemsDecorate}
                 to={"/stock/gestion"}>
-                <i className="fa-solid fa-boxes-stacked text-white fs-3 m-0 cursor-pointer  transition"></i>
+                <i className="fa-solid fa-boxes-stacked text-white fs-4 m-0 cursor-pointer  transition"></i>
               </NavLink>
-              <i className="fa-solid fa-wifi text-white fs-3 m-0 cursor-pointer    transition"></i>
+              
+              <ConnectionItem />
 
               <Nav.Item
                 className="d-none d-lg-inline">

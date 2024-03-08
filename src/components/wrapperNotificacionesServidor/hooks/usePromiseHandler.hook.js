@@ -1,21 +1,17 @@
 import axios from "axios";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import shortUUID from "short-uuid";
+import { catchPromiseHandler } from "./catch";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const usePromiseHandler = ({ establecerAlerta }) => {
+export const usePromiseHandler = ({ establecerAlerta,shortId}) => {
 
     const nav = useNavigate()
 
     const [apiData, setApiData] = useState({});
 
     const [loader, setLoader] = useState(false);
-
-    const shortId = useMemo(() => {
-        return shortUUID.generate()
-    }, [])
 
     const establecerApiData = ({ response, promesa }) => {
 
@@ -39,7 +35,7 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
             setLoader(true)
 
-            const { method, url, data = {}, cancelToken, params = {}, cocatenate, id } = promesa
+            const { method, url, data = {}, cancelToken, params = {}, cocatenate, id, not_retry} = promesa
 
             try {
 
@@ -64,34 +60,18 @@ export const usePromiseHandler = ({ establecerAlerta }) => {
 
             } catch (error) {
 
-                const request = error?.request?.status ?? 200
+                return catchPromiseHandler({
+                    error,
+                    intentos,
+                    generatePromise,
+                    setLoader,
+                    establecerApiData,
+                    nav,
+                    shortId,
+                    promesa,
+                    establecerAlerta
+                })
 
-                if (intentos === undefined && [502, 503, 504, 500, 429, 500, 0, 400, 422, 404].includes(request)) {
-
-                    const res = error?.response?.data
-
-                    establecerAlerta({
-                        id: shortId,
-                        data: res || { message: error.message, code: error.code },
-                        url: error.config.url,
-                        method: error.config.method,
-                        generatePromise: ({ intentos }) => generatePromise({ promesa, intentos })
-                    })
-                }
-
-                setLoader(false)
-
-                const redirect = error?.response?.data?.redirect
-
-                if (redirect) {
-                    nav(`/${redirect}`)
-                }
-
-                establecerApiData({ promesa, response: error?.response })
-                
-                return {
-                    status: "failed"
-                }
             }
         }, [])
 

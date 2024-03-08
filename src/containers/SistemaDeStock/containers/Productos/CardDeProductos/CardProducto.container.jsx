@@ -1,0 +1,74 @@
+import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
+import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
+import { lazy, memo, useCallback, useState } from "react";
+import { envioCantidadHelper } from "./envioCantidad.helper";
+import { CardProducto } from "./CardProducto";
+
+const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto/InterfazDeRetiroDeProducto"))
+
+
+const CardProductoContainer = ({
+    item,
+    generatePromise,
+    loader,
+    apiData
+}) => {
+
+    const { nombre, cantidad_total, devoluciones_permitidas, id_producto } = item
+
+    const { alternarMostrar, mostrar } = useAlternarComponentes()
+
+    const parseDevoluciones = parseFloat(devoluciones_permitidas)
+    const paserCantidadTotal = parseFloat(cantidad_total)
+
+    const [cantidadActual, setCantidadActual] = useState({
+        devoluciones_permitidas: parseDevoluciones, cantidad_total: paserCantidadTotal, id_stock: null, lote: null,
+        copia: { devoluciones_permitidas: parseDevoluciones, cantidad_total: paserCantidadTotal } //=> Sirve para guardar una copia del cantidad original.
+    })
+
+    const setCantidad = useCallback((data) => {
+        setCantidadActual(data)
+    }, [])
+
+    const verificarCantidad = cantidadActual.cantidad_total > 99 ? "99+" : cantidadActual.cantidad_total
+
+    const { tipo, data = {} } = apiData["trassaciones"] || {}
+
+    const apiCall = envioCantidadHelper({
+        id_producto,
+        id_stock: cantidadActual.id_stock,
+        generatePromise,
+        loader,
+        setCantidadActual,
+        tipo,
+        data
+    })
+
+
+    return (
+        <>
+            <CardProducto
+                alternarMostrar={alternarMostrar}
+                verificarCantidad={verificarCantidad}
+                nombre={nombre}
+                loader={loader}
+            />
+            <SuspenseLoadingComponent>
+                {mostrar && <InterfazDeRetiroDeProducto
+                    id_producto={id_producto}
+                    setCantidadActual={setCantidad}
+                    loader={loader}
+                    tipo={tipo}
+                    apiCall={apiCall}
+                    cantidadActual={cantidadActual}
+                    nombre={nombre}
+                    alternarMostrar={alternarMostrar}
+                    mostrar={mostrar} />}
+            </SuspenseLoadingComponent>
+        </>
+    );
+}
+
+
+export default wrapperNotificacionesServidor(memo(CardProductoContainer))

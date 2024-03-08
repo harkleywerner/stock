@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { useForm } from "@/hooks//useForm";
 import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
 import { memo, useContext } from "react";
@@ -49,11 +49,11 @@ const InterfazDeLogeo = ({
             show={mostrar}
             onHide={alternarMostrar}>
             <Modal.Header
-                className="border-3"
+                className="border-0 "
                 closeButton={!loader}>
-                <Modal.Title className="text-secondary fw-bold">{nombre}</Modal.Title>
+                <Modal.Title className="text-secondary text-center pb-2 border-bottom w-100 fw-bold">{nombre}</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="py-4">
+            <Modal.Body className="py-3">
                 <Form.Control
                     onChange={(e) => !loader && changeForm(e)}
                     placeholder={"Ingresa la contraseña"}
@@ -66,10 +66,10 @@ const InterfazDeLogeo = ({
                 />
                 <p
                     style={{ visibility: `${!loader && tipo == "denied" ? "visible" : "hidden"}` }}
-                    className="m-0 text-danger pt-2 ms-1  fw-normal ">Contraseña/usuario incorrecto...</p>
+                    className="m-0 text-danger fw-normal ">Contraseña/usuario incorrecto...</p>
             </Modal.Body>
 
-            <Modal.Footer className="d-flex justify-content-center border-3">
+            <Modal.Footer className="d-flex justify-content-center border-0">
 
                 {
                     loader ?

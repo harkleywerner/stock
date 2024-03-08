@@ -1,6 +1,6 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
-import { memo, useCallback, useContext, useState } from "react"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
+import { memo, useCallback, useContext, useEffect, useState } from "react"
 import ProductoContext from "../context/Producto.context"
 import { listaDeLotesHelper } from "./helpers/listaDeLotes.helper"
 
@@ -31,18 +31,21 @@ const Items = memo(({
     return (
         <li
             onClick={onClick}
-            className="dropdown-item bg-white position-relative transition  bg-hoverdark text-center border-bottom">
+            style={{ backgroundColor: "#7CDAFD", borderBottom: "3px solid #0cb1eb" }}
+            className="dropdown-item mt-1 w-75 transition mx-auto position-relative bg-hoverdark  rounded-3 text-center">
             {
                 loader ? <SpinnerLoader
                     size="sm"
                     position="centered"
                     color="dark" /> :
-                    <span>
-                        #{lote}
+                    <span
+                        className="text-white rounded-3  py-1 "  >
+                        <span style={{ color: "#0cb1eb" }}>#</span>
+                        {lote}
                         {
                             loteActual && <i
-                                style={{ right: "20px" }}
-                                className=" position-absolute fa-solid fa-check fs-5 text-success" />
+                                style={{ right: "5px", color: "#0271a2", top: "5px" }}
+                                className=" position-absolute  fa-solid fa-check fs-5" />
                         }
                     </span>
             }
@@ -71,6 +74,7 @@ const ListaDeLotes = ({
     const establecerLote = useCallback((numero) => setLote(numero), [])
 
     listaDeLotesHelper({ generatePromise, loteSeleccionado, setCantidadActual, data, id_stock, id_producto })
+
 
     const sortBy = (array) => {
         return array.sort((a) => {

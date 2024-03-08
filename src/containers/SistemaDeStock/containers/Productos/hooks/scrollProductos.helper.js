@@ -29,7 +29,6 @@ export const scrollProductosHelper = ({
         removerApiData({ id: "productos" })
 
         const timeOut = setTimeout(() => {
-
             apiCall(0)
 
         }, 600);

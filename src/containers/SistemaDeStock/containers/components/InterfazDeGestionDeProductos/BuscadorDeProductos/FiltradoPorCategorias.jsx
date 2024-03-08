@@ -19,19 +19,12 @@ const DropdownItems = memo(({
 
     return (
         <Dropdown.Item
+            as={"li"}
             id="item-categorias"
             onClick={() => establecerCategoria(id)}
-            className="fs-5 pe-5  d-flex align-items-center  py-1  bg-white bg-hoverdark position-relative ">
-            <div className="position-relative d-flex align-items-center">
-                <p className="m-0 fw-normal text-secondary ">{PrimeraLetraMayusculaUtils(nombre)}</p>
-
-                {
-                    verificarCategoriaSeleccionada &&
-                    <i
-                        style={{ right: "-30px" }}
-                        className="fa-solid z-1 fa-check color-rosa position-absolute text-end  mx-2" />
-                }
-            </div>
+            style={{ background: verificarCategoriaSeleccionada ? "#0cb1eb" : "#7CDAFD", borderBottom: "3px solid #0cb1eb" }}
+            className=" d-flex p-1 rounded-4 my-1 px-2 shadow cursor-pointer transition">
+            <p className="m-0 n text-white m-auto ">{PrimeraLetraMayusculaUtils(nombre)}</p>
         </Dropdown.Item>
     )
 })
@@ -42,15 +35,19 @@ export const FiltradoPorCategorias = ({
 }) => {
     return (
         <Dropdown
-            style={{ backgroundColor: "#57BDC6" }}
-            className="mx-1 h-100 rounded-2">
+            autoClose="inside"
+            className="mx-1 h-100 rounded-3">
             <Dropdown.Toggle
+                style={{ backgroundColor: "#DE4E75", borderBottom: "3px solid #b12540" }}
                 id="dropwdown-categorias"
                 variant="none"
-                className="d-flex  py-2 text-white h-100 ">
+                className="d-flex py-2 text-white h-100 ">
                 <i className="fa-solid fs-5 fa-filter"></i>
             </Dropdown.Toggle>
-            <Dropdown.Menu>
+            <Dropdown.Menu
+                style={{ backgroundColor: "transparent" }}
+                as="ul"
+                className=" border-0 px-1">
                 {
                     categoriasss.map(i =>
                         <DropdownItems key={i.id}

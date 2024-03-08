@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import { memo, useRef } from "react"
 import ScrollingInfinite from "../../../ScrollingInfinite"
 import { scrollBusquedaHelper } from "./helpers/scrollBusqueda.helper"

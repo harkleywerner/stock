@@ -3,19 +3,19 @@ import { pipeUtils } from "@/utils/pipe.utils"
 import FiltradoSincronizaciones from "./FiltradoSincronizaciones"
 import Items from "./Items"
 import OrdenItems from "./OrdenItems"
-import { useChanderOrder } from "./hooks/useChanderOrder.hook"
+import { useChangeOrder } from "./hooks/useChangeOrder.hook"
 import { useFiltradoSincronizacion } from "./hooks/useFiltradoSincronizacion.hook"
 
 
-const ListadoDeItems = ({ historial }) => {
+const ListadoDeItems = ({ resumen }) => {
 
-    const { onChangeOrder, order, orderByListaDeCambios } = useChanderOrder()
+    const { onChangeOrder, order, orderByListaDeCambios } = useChangeOrder()
 
     const { accordion, establecerAccordion } = useAcordion()
 
     const { onHandleSincronizacion, sincronizacion, filterByListaDeCambios } = useFiltradoSincronizacion()
 
-    const pipe = pipeUtils(orderByListaDeCambios, filterByListaDeCambios)([...historial])
+    const pipe = pipeUtils(orderByListaDeCambios, filterByListaDeCambios)([...resumen])
 
     return (
         <section className="h-100">
@@ -29,10 +29,14 @@ const ListadoDeItems = ({ historial }) => {
                     onChangeOrder={onChangeOrder} />
             </div>
             {
-                pipe.map(i =>
-                    <Items establecerAccordion={establecerAccordion}
-                        openAccordion={accordion.includes(i.id_producto)}
-                        key={i.id_detalle_de_stock} {...i} />)
+                pipe.map((i, index) =>
+                    <Items
+                        id_producto={index}
+                        establecerAccordion={establecerAccordion}
+                        openAccordion={accordion.includes(index)}
+                        key={index}
+                        {...i}
+                    />)
             }
         </section>
     )

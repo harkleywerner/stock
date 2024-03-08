@@ -6,7 +6,7 @@ import ListadoDeItems from "./ListaDeItems/ListaDeItems";
 
 const InterfazDeResumen = ({ mostrar, alternarMostrar }) => {
 
-    const { historial } = useSelector(state => state.gestion_stock)
+    const { resumen } = useSelector(state => state.gestion_stock)
 
     return (
         <Modal
@@ -19,9 +19,9 @@ const InterfazDeResumen = ({ mostrar, alternarMostrar }) => {
                 className="scrollbar d-flex flex-column"
                 style={{ maxHeight: "300px", minHeight: "300px" }}
             >
-                <ListadoDeItems historial={historial}/>
+                <ListadoDeItems resumen={resumen}/>
                 {
-                    historial.length == 0 &&
+                    resumen.length == 0 &&
 
                     <h3 className="m-auto text-secondary fs-4 text-center">No hay cambios realizados...</h3>
 

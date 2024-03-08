@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import { establecerStockInfo } from "@/store//reducer/gestionDeStock/gestionDeStock.slice"
 import axios from "axios"
 import { memo, useEffect } from "react"

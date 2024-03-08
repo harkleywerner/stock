@@ -33,8 +33,8 @@ const InterfazDeIngresoDeUsuario = memo(({ //La persistencia de quien loggeo es 
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body
-            style = {{maxHeight : "400px",minHeight : "400px"}}
-            className="scrollbar ">
+                style={{ maxHeight: "400px" }}
+                className="scrollbar ">
                 {
                     orderByLoggeado([...lista_de_usuarios]).map(item =>
                         <Usuario

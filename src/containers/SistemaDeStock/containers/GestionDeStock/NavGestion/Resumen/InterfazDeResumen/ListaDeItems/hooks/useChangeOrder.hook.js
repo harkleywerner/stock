@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 
-export const useChanderOrder = () => {
+export const useChangeOrder = () => {
 
-    const [order, setOrder] = useState(false) //=> False asc, true desc
+    const [order, setOrder] = useState(true) //=> False asc, true desc
 
     const onChangeOrder = useCallback((valor) => {
         setOrder(valor)

@@ -7,7 +7,7 @@ import { Container, Nav, Navbar } from "react-bootstrap";
 import { DropDownFilterCategoria } from "../components/DropDownFilterCategoria";
 import { addProducto, changeInicializado, editProducto, removerStock } from "@/store//reducer/nuevoStock/nuevoStock.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { memo } from "react";
 import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 import axios from "axios";

@@ -5,50 +5,46 @@ import { useDispatch } from "react-redux"
 export const envioCantidadHelper = (
     {
         loader,
-        evaluarCantidad,
+        id_stock,
+        id_producto,
         generatePromise,
         setCantidadActual,
-        restablecerFormulario,
-        id_producto,
-        cantidadActual,
-        tipo
+        tipo,
+        data
     }
 ) => {
 
-    const dispatch = useDispatch()
+    const { cantidad = 0 } = data
 
-    const { devoluciones_permitidas, cantidad_total, id_stock } = cantidadActual
+    const dispatch = useDispatch()
 
     useEffect(() => {
 
         if (tipo != "success" || loader) return
 
-        const devolucionesTotal = devoluciones_permitidas - evaluarCantidad
-
-        const retiroTotal = cantidad_total - evaluarCantidad
+        console.log(cantidad)
 
         setCantidadActual(prev => {
             return {
                 ...prev,
-                devoluciones_permitidas: devolucionesTotal,
-                cantidad_total: retiroTotal,
+                devoluciones_permitidas: prev.devoluciones_permitidas + cantidad,
+                cantidad_total: prev.cantidad_total + cantidad,
                 copia: {
-                    devoluciones_permitidas: prev.copia.devoluciones_permitidas - evaluarCantidad,
-                    cantidad_total: prev.copia.cantidad_total - evaluarCantidad,
+                    devoluciones_permitidas: prev.copia.devoluciones_permitidas + cantidad,
+                    cantidad_total: prev.copia.cantidad_total + cantidad,
                 }
             }
         })
 
-        const text = evaluarCantidad < 0 ? "Devolviste" : "Retiraste"
+        const text = cantidad < 0 ? "Devolviste" : "Retiraste"
 
-        const toast = { texto: `${text} ${Math.abs(evaluarCantidad)} unidade/s`, tipo: "success" }
+        const toast = { texto: `${text} ${Math.abs(cantidad)} unidade/s`, tipo: "success" }
 
         dispatch(generarToast({ ...toast }))
 
-        restablecerFormulario()
     }, [loader, tipo])
 
-    return () => {
+    return ({ evaluarCantidad }) => {
 
         if (evaluarCantidad == 0 || loader) return
 

@@ -9,11 +9,11 @@ export const calcularStockEntranteHelper = ({
         failed_commit = {},
     } = data
 
-    const historial = []
+    const resumen = []
 
     const hora_de_cambios = Date.now()
 
-    const historialPush = (data) => historial.push({ hora_de_cambios, ...data })
+    const resumenPush = (data) => resumen.push({ hora_de_cambios, ...data })
 
     const { s_patch, s_delete, s_post } = success_commit
 
@@ -21,6 +21,7 @@ export const calcularStockEntranteHelper = ({
 
     const nuevoStock = stock_data_base.map(item => {
 
+        const { cantidad, nombre, categoria } = item
         const successDelete = s_delete.includes(item.id_producto)
 
         const successPatch = s_patch[item.id_producto]
@@ -32,20 +33,19 @@ export const calcularStockEntranteHelper = ({
         const failedPost = f_post.includes(item.id_producto)
 
         if (successPatch) {
-            historialPush({ ...item, sincronizacion: "success" })
+            resumenPush({ ...successPatch, nombre, sincronizacion: "success", categoria })
             return { ...item, ...successPatch }
         }
         else if (successDelete) {
-            historialPush({ ...item, sincronizacion: "success_delete" })
+            resumenPush({ cantidad, nombre, sincronizacion: "success_delete", categoria })
             return null
         }
         else if (faildPatch) {
-            historialPush({ ...item,...faildPatch ,sincronizacion: "expecting" })
+            resumenPush({ nombre, ...faildPatch, sincronizacion: "expecting", categoria })
         } else if (faildDelete) {
-            historialPush({ ...item,...faildDelete ,sincronizacion: "failed_delete" })
-    
+            resumenPush({ nombre, ...faildDelete, sincronizacion: "failed_delete", categoria })
         } else if (failedPost) {
-            historialPush({ ...item, sincronizacion: "failed_post" })
+            resumenPush({ nombre, sincronizacion: "failed_post", categoria })
             return null
         }
 
@@ -54,8 +54,9 @@ export const calcularStockEntranteHelper = ({
 
     stock.forEach(i => {
         const producto = s_post[i.id_producto]
+        const { cantidad, nombre, categoria } = i
         if (producto) {
-            historialPush({ ...i, sincronizacion: "success_post" })
+            resumenPush({ cantidad, nombre, sincronizacion: "success_post", categoria })
             nuevoStock.push({
                 ...i,
                 ...producto,
@@ -65,6 +66,6 @@ export const calcularStockEntranteHelper = ({
 
     return {
         nuevoStock,
-        historial
+        resumen
     }
 }

@@ -3,7 +3,7 @@ import { NavProductoContenedor } from "@/styles/SistemaStock.module.css"
 import { memo, useCallback, useEffect } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { NavLink, useSearchParams } from "react-router-dom"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import axios from "axios"
 import { DropDownSucursal } from "../../components/DropDownSucursal"
 
@@ -80,17 +80,16 @@ const NavProductosContainer = () => {
             <Container
                 id={NavProductoContenedor}
                 fluid
-                className="m-0 shadow  fondo-verde  py-3">
-                <div className="d-flex justify-content-between d-lg-none w-100">
+                className="m-0 shadow  fondo-verde position-relative py-3">
+                <div className="d-flex justify-content-between d-lg-none w-100 ">
                     <Navbar.Toggle
-                        aria-controls="basic-navbar-nav"
+                        aria-controls="-navbar-nav"
                         className="bg-none z-1 border-0 bg-white" />
-
-                    <DropDownSucursal />
+                        <DropDownSucursal />
                 </div>
                 <Navbar.Collapse
                     className="mt-1 w-100"
-                    id="basic-navbar-nav">
+                    id="navbar-nav">
                     <NavItems />
                 </Navbar.Collapse>
 

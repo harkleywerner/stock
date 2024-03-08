@@ -1,4 +1,4 @@
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { memo, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TablaDeProductos from "../components/ContenedorDeTabla/TablaDeProductos";

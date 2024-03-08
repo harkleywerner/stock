@@ -21,8 +21,6 @@ body {
     overflow: hidden;
 }
 
-
-
 .bg-hoverdark:hover {
     filter: brightness(0.9);
 
@@ -72,13 +70,14 @@ li {
 }
 
 .transition:hover {
-    transform: translateY(-3%);
+    transform: translateY(-5%);
     opacity: 1 !important;
 }
 
 /*SCROLLBAR*/
 
-.scrollbar,.scrollbar-sm {
+.scrollbar,
+.scrollbar-sm {
     overflow-y: overlay;
 }
 

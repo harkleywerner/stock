@@ -40,7 +40,8 @@ const Items = ({
     cantidad,
     openAccordion,
     establecerAccordion,
-    id_producto
+    id_producto,
+    categoria
 }) => {
 
     const { color, background, badge, texto } = configSincronizaciones[sincronizacion] || {}
@@ -66,8 +67,12 @@ const Items = ({
     return (
         <div
             style={{ backgroundColor: `#${background}`, borderBottom: `3px solid #${badge}` }}
-            className="rounded-2 my-1">
-                {TIEMPO_ACTUAL < TIEMPO_MAXIMO && <small>Nuevo</small>} 
+            className="rounded-2 my-2 position-relative">
+            {TIEMPO_ACTUAL < TIEMPO_MAXIMO &&
+                <small
+                    style={{ fontSize: "10px", zIndex: "1000" }}
+                    className={`bg-dark start-0 translate-middle rounded-2  position-absolute   opacity-50 text-white px-1`}>N</small>
+            }
             <div
                 onClick={onClick}
                 className="d-flex cursor-pointer  justify-content-between position-relative   align-items-center">
@@ -89,12 +94,13 @@ const Items = ({
             {
                 openAccordion &&
                 <section style={{ minHeight: "40px", top: "110%" }}
-                    className=" w-100 text-white d-flex justify-content-center aling-items-center">
+                    className=" w-100 text-white  justify-content-center aling-items-center">
                     <small className="m-0 p-2 text-center">
                         {splitTexto[0]}
                         {splitTexto.length > 1 && <span style={{ color: `#${color}`, fontSize: "18px" }}>{cantidad_sincronizacion ?? cantidad}</span>}
                         {splitTexto[1]}
                     </small>
+                    <small style={{ color: `#${color}` }} className="d-block me-1 text-end">{categoria}</small>
                 </section>
             }
         </div >

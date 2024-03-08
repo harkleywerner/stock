@@ -20,9 +20,9 @@ export const UsuariosItem = (() => {
             <Button
                 onClick={alternarMostrar}
                 variant="none"
-                className={`${styles.itemsDecorate} text-white fs-5 p-0 cursor-pointer transition`} 
+                className={`${styles.itemsDecorate} text-white fs-5 p-0 cursor-pointer `} 
                 style={{ backgroundColor: "#86d4da", width: "40px", height: "40px" }}>
-                <i className="fa-solid fa-user-tie  fs-4 m-0 "></i>
+                <i className="fa-solid fa-user-tie transition fs-4 m-0 "></i>
             </Button>
             <SuspenseLoadingComponent>
                 {

@@ -23,7 +23,6 @@ export const scrollingHelper = (
             data: { offset: reset ?? data.length, id_producto, lote },
             cancelToken: cancelToken.token,
         }
-
         generatePromise({ promesa })
     }
 

@@ -7,7 +7,6 @@ const listaDeUsuariosHelper = ({
     data
 }) => {
 
-
     const { id_sucursal, loggeado } = sucursal_info
 
     const verificarIdData = data.some(i => i.id_sucursal == id_sucursal)

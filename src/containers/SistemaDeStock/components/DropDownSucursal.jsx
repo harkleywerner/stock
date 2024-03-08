@@ -7,34 +7,33 @@ export const DropDownSucursal = () => {
 
     const { sucursal_info } = useContext(informacionInicialContext)
 
-    const { nombre } = sucursal_info 
+    const { nombre } = sucursal_info
 
     return (
-        <Dropdown className="position-relative">
+        <Dropdown
+            drop="start"
+            className="position-relative transition">
             <Dropdown.Toggle
                 style={{ maxWidth: "300px" }}
                 variant="none"
-                className="border-0 text-truncate text-white px-1 fs-5  cursor-pointer  transition">
-                <p className="m-0 fs-5 d-inline ">
-                    {nombre}
-                </p>
+                className="border-0 text-truncate text-white px-1 fs-5  cursor-pointer  ">
+                {nombre}
             </Dropdown.Toggle>
 
             <Dropdown.Menu
-                style={{ left: "-20%" }}
-                className="border-0  p-1 position-absolute">
+                className="border-0 p-0 transition ">
                 <Link
-                    className="text-decoration-none"
+                    className="text-decoration-none "
                     to={"/sucursales"}>
                     <Dropdown.ItemText
                         style={{ background: "#de4e75", borderBottom: "3px solid #b12540" }}
-                        className="text-white border-end border-top border-start text-nowrap m-auto"
+                        className="text-white fs-6 w-100 border-end-0 shadow p-2 border-top-0 border-start-0 text-nowrap m-auto"
                         as={Button}>
-                        Cambiar de Sucursal
+                        Cerrar session
                     </Dropdown.ItemText>
                 </Link>
-
             </Dropdown.Menu>
         </Dropdown>
     );
 }
+

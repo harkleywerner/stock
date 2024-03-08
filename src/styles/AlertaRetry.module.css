@@ -9,6 +9,10 @@
       opacity: 0.7;
     }
   }
+
+  #miniAlerta {
+    animation: parpadeoRealista 2s ease-in-out infinite;
+  }
   
   .AlertAnimacion {
     animation: parpadeoRealista 2s ease-in-out infinite;

@@ -1,11 +1,11 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor"
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import { memo, useRef } from "react"
 import { Col } from "react-bootstrap"
 import { useSearchParams } from "react-router-dom"
 import ScrollingInfinite from "../Components/ScrollingInfinite"
-import CardDeProductos from "./CardDeProductos/CardDeProductos"
 import { scrollProductosHelper } from "./hooks/scrollProductos.helper"
+import CardProductoContainer from "./CardDeProductos/CardProducto.container"
 
 const Message = memo(({ getBuscador }) => {
     return (
@@ -36,9 +36,7 @@ const ProductosContainer = memo(({
         removerApiData
     })
 
-
     const elementToObserve = useRef(null)
-
 
     return (
         <Col className="p-0 h-100 d-flex">
@@ -56,7 +54,7 @@ const ProductosContainer = memo(({
                             className="justify-content-center px-1 align-content-start align-items-center flex-wrap d-flex"
                             ref={elementToObserve}>
                             {
-                                data.map(item => <CardDeProductos key={item.id_producto} item={item} />)
+                                data.map(item => <CardProductoContainer key={item.id_producto} item={item} />)
                             }
                         </section>
                     </ScrollingInfinite>

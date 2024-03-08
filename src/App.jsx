@@ -8,16 +8,16 @@ import { Outlet, RouterProvider, createBrowserRouter, defer } from 'react-router
 import './App.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { axiosInterceptor } from './helpers/axios.interceptor';
-import { AlertaRertyProvider } from './provider/AlertaRetryProvider/AlertaRerty.provider';
 import { InformacionInicialProvider } from './provider/informacionInicialProvider/informacionInicial.provider';
 import { store } from './store/store.';
+import { AlertaPromisesProvider } from './provider/AlertaRetryProvider/AlertaPromises.provider';
 
 const SucursalesScreen = lazy(() => import('./screens/Sucursales.screen'))
 const StockScreen = lazy(() => import("./screens/SistemaDeStock/Stock.screen"))
 const NuevoStockScreen = lazy(() => import("./screens/SistemaDeStock/screens/NuevoStock.screen"))
 const ProductosScreen = lazy(() => import("@/screens/SistemaDeStock/screens/Productos.screen"))
 const GestionStockScreen = lazy(() => import("./screens/SistemaDeStock/screens/GestionStock.screen"))
-const UsuariosScreen = lazy(()=> import("./screens/Usuarios.screen"))
+const UsuariosScreen = lazy(() => import("./screens/Usuarios.screen"))
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL
 
@@ -25,9 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/",
     element:
-      <InformacionInicialProvider>
-        <Outlet />
-      </InformacionInicialProvider>,
+      <AlertaPromisesProvider>
+        <InformacionInicialProvider>
+          <Outlet />
+        </InformacionInicialProvider>
+      </AlertaPromisesProvider>,
     children: [
       {
         path: "/stock",
@@ -60,7 +62,7 @@ const router = createBrowserRouter([
       },
       {
         path: "usuarios",
-        element: <UsuariosScreen/>
+        element: <UsuariosScreen />
       }
     ]
   }
@@ -74,10 +76,8 @@ function App() {
   return (
     <Suspense>
       <Provider store={store}>
-        <AlertaRertyProvider>
-          <ContenedorDeToast />
-          <RouterProvider router={router} />
-        </AlertaRertyProvider>
+        <ContenedorDeToast />
+        <RouterProvider router={router} />
       </Provider>
     </Suspense>
   )

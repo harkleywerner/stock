@@ -4,6 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 import { BuscadorDeProductos } from "./BuscadorDeProductos/BuscadorDeProductos";
 import { ModalBody } from "./ModalBody";
 import verificacionStock from "./helpers/verificiarStock.helper";
+import { ButtonSombreado } from "@/components//ButtonSombreado";
 
 const InterfazDeGestionDeProductos = (
     {
@@ -53,21 +54,26 @@ const InterfazDeGestionDeProductos = (
                     refImperative={refImperative}
                     parametros={parametros} />
             </Modal.Body>
-            <Modal.Footer className="d-flex p-1 justify-content-center">
-                <Button
+            <Modal.Footer className="d-flex p-1 border-0 justify-content-center">
+                <ButtonSombreado
                     onClick={onClick}
-                    style={{ background: "#57BDC6" }}
-                    className="p-2 fs-5 w-50 border-0 transition">
+                    background={"86d4da"}
+                    border={"2c808e"}
+                    className="fs-5 transition"
+                >
                     {
                         productoSeleccionado ? "Guardar cambios" : "Agregar item"
                     }
-                </Button>
-                <Button
+                </ButtonSombreado>
+
+                <ButtonSombreado
                     onClick={alternarMostrar}
-                    variant="secondary"
-                    className="p-2 fs-5 w-50  border-0 transition">
+                    background={"808990"}
+                    border={"5c636a"}
+                    className="fs-5 px-5 transition"
+                >
                     Cerrar
-                </Button>
+                </ButtonSombreado>
             </Modal.Footer>
         </Modal>
     );

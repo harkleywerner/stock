@@ -1,7 +1,7 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { useForm } from "@/hooks//useForm";
-import { memo, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { Form } from "react-bootstrap";
 import ScrollingInfinite from "../../../../components/ScrollingInfinite";
 import ListaDeLotes from "./ListaDeLotes";
@@ -16,6 +16,7 @@ const BuscadorDeLote = ({ lote, changeForm }) => {
             onChange={changeForm}
             type="text"
             autoComplete="off"
+            className="text-secondary"
         >
         </Form.Control>
     )
@@ -27,7 +28,6 @@ const ScrollingLote = ({
     generatePromise,
     removerApiData,
     id_producto,
-
 }) => {
 
     const { changeForm, form } = useForm({ lote: "" })
@@ -39,7 +39,6 @@ const ScrollingLote = ({
     const { tipo, data = [] } = apiData["stock/lote"] || {}
 
     const apiCall = scrollingHelper({ data, generatePromise, lote, removerApiData, id_producto })
-
 
     const loaderCustom =
         <SpinnerLoader size="sm"
@@ -57,7 +56,7 @@ const ScrollingLote = ({
             <ul
                 ref={elementoToObserver}
                 style={{ maxHeight: "200px", minHeight: "60px" }}
-                className="dropdown-menu  scrollbar">
+                className="dropdown-menu  scrollbar ">
                 <li className="dropdown-item bg-white">
                     <BuscadorDeLote
                         changeForm={changeForm}
@@ -65,7 +64,9 @@ const ScrollingLote = ({
                 </li>
                 {
                     data.length == 0 && tipo == "success" && !loader &&
-                    <li className="text-center dropwdown-item">No hay hay ningun lote</li>
+                    <li className="text-center text-secondary dropwdown-item">
+                        <small>No hay hay ningun lote</small>
+                    </li>
 
                 }
                 {

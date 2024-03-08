@@ -5,7 +5,7 @@ import { Stack } from "react-bootstrap";
 
 const circles = [
     { background: "92e3a6", color: "5ace77", id: "success" },
-    { background: "ff9998", color: "ff5e5d", id: "denied" },
+    { background: "ff9998", color: "ff5e5d", id: "failed" },
     { background: "7cdafd", color: "36c9fa", id: "expecting" }
 ]
 

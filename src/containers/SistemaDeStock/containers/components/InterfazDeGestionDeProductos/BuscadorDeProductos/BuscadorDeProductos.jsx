@@ -63,9 +63,8 @@ export const BuscadorDeProductos = memo(({ insertarParametros }) => {
             </div>
             <i
                 onClick={onBlur}
-                style={{ right: "-30px" }}
-                className="fa-regular ms-1 cursor-pointer fs-3 transition text-danger fa-rectangle-xmark"></i>
-
+                style={{ right: "-30px",color : "#DE4E75"}}
+                className="fa-solid fa-square-xmark cursor-pointer transition ms-1 fs-3"></i>
         </section>
     )
 })

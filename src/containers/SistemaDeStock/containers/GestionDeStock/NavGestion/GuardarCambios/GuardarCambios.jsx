@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { establecerPendientes, sincronizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { useEffect } from "react";
 import { Badge, Nav } from "react-bootstrap";
@@ -48,35 +48,37 @@ const GuardarCambios = (
     useEffect(() => {
 
         if (tipo == "success" && !loader) {
-            const { nuevoStock, historial } = calcularStockEntranteHelper({ stock, stock_data_base, data })
-            dispatch(sincronizarStock({ stock: nuevoStock, historial }))
+            const { nuevoStock, resumen } = calcularStockEntranteHelper({ stock, stock_data_base, data })
+            dispatch(sincronizarStock({ stock: nuevoStock, resumen }))
         }
 
     }, [loader])
 
-    return (
-        <>
-            {
-                loader ? <SpinnerLoader
-                    size="sm"
-                    position="y" /> :
 
-                    <Nav.Item
-                        onClick={subirStock}
-                        className={`
-                      ${inicializado ? " transition cursor-pointer" : "opacity-50 cursor-block"}
+    const analizarContador = () => {
+        if (contador_de_cambios <= 5) return "86d4da"
+        else if (contador_de_cambios <= 10) return "329da8"
+        return "2c808e"
+    }
+
+    return (
+        <Nav.Item
+            onClick={() => tipo != "failed" && subirStock()}
+            className={`
+                      ${inicializado ? "  cursor-pointer" : "opacity-50 cursor-block"}
                       fs-5  p-1 justify-content-center  d-flex align-items-center `}>
-                        <div className="d-flex align-items-center">
-                            <Badge
-                                style={{ minWidth: "25px", maxWidth: "25px" }}
-                                bg="info"
-                                className="fs-5 p-1">{contador_de_cambios}</Badge>
-                            <p className="m-0 fw-normal mx-1">Guardar Cambios</p>
-                            <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
-                        </div>
-                    </Nav.Item>
-            }
-        </>
+            <div className="d-flex transition align-items-center">
+                <Badge
+                    bg="none"
+                    style={{ minWidth: "26px", maxWidth: "30px", backgroundColor: `#${analizarContador()}` }}
+                    className="fs-5 rounded-3 p-1">{contador_de_cambios}</Badge>
+                <p className="m-0 fw-normal mx-1">Guardar Cambios</p>
+
+                {
+                    loader ? <SpinnerLoader size="sm" /> : <i className="fa-solid fs-4 fa-cloud-arrow-down"></i>
+                }
+            </div>
+        </Nav.Item>
     )
 };
 

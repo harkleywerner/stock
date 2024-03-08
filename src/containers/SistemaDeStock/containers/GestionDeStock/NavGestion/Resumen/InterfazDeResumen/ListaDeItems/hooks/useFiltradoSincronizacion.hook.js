@@ -10,7 +10,7 @@ export const useFiltradoSincronizacion = () => {
     const filterByListaDeCambios = (listadoDeCambios) => {
         if (!sincronizacion) return listadoDeCambios
         else {
-           return listadoDeCambios.filter(item => item.sincronizacion == sincronizacion)
+            return listadoDeCambios.filter(item => !item.sincronizacion.indexOf(sincronizacion))
         }
     }
 

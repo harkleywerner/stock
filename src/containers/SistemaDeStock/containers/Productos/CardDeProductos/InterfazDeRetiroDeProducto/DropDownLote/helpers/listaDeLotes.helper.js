@@ -14,12 +14,11 @@ export const listaDeLotesHelper = ({
 
     useEffect(() => {
 
-        if (Object.keys(loteSeleccionado).length == 0) return
 
         const promesa = {
             method: "post", url: "stock/detalleDeStock/producto", id: "detalleDeStock",
             data: { id_producto, id_stock },
-            cancelToken: cancelToken.token
+            cancelToken: cancelToken.token,
         }
         generatePromise({ promesa })
 

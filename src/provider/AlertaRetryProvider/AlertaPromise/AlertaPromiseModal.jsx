@@ -1,7 +1,7 @@
-import styles from "@/styles/AlertaRetry.module.css";
-import { memo, useEffect, useState } from "react";
-import { Badge, Button, Modal } from "react-bootstrap";
 
+import styles from "@/styles/AlertaRetry.module.css";
+import { memo, useState } from "react";
+import { Badge, Button, Modal } from "react-bootstrap";
 
 const RestoDelMensaje = memo(({ message }) => {
 
@@ -30,56 +30,32 @@ const RestoDelMensaje = memo(({ message }) => {
   )
 })
 
-const AlertaRetry = (
-  {
-    removerAlerta,
-    data,
-    id,
-    intentos,
-    establecerIntentos,
-    generatePromise,
-  }) => {
+
+export const AlertaPromiseModal = ({
+  alternarMostrar,
+  data,
+  intentos
+}) => {
 
   const { code, message } = data || {}
-
-  const [show, setShow] = useState(true)
-
-  useEffect(() => {
-    setShow(true)
-    const timeOUT = setTimeout(async () => {
-
-      if (intentos <= 0 || !intentos) return
-
-      const datos = await generatePromise({ intentos })
-
-      if (datos?.status == "success") {
-        setShow(false)
-        removerAlerta(id)
-      }
-      else {
-        establecerIntentos(id)
-      }
-    }, 3000);
-
-    return () => clearTimeout(timeOUT)
-
-  }, [intentos, id])
 
   const reloadPage = () => {
     window.location.reload()
   }
 
+
   return (
     <Modal
+      style={{ zIndex: "3000000000000" }}
       backdrop={false}
-      show={show}
-      onHide={() => setShow(!show)}
+      show={true}
+      onHide={alternarMostrar}
       animation={true}>
       <Modal.Header
         style={{ right: "0%" }}
         className="border-0 fs-5 w-100 position-absolute z-1"
-        closeButton={intentos > 0}>
-        <Badge bg="none" style={{ background: "#E84A7A" }} >#{code}</Badge>
+        closeButton>
+        <Badge bg="none" style={{ background: "#E84A7A" }} ># {code}</Badge>
       </Modal.Header>
       <Modal.Body
         className={`shadow d-flex flex-column justify-content-center align-items-center `}>
@@ -104,8 +80,5 @@ const AlertaRetry = (
         }
       </Modal.Body>
     </Modal>
-
   );
-}
-
-export default AlertaRetry
+};

@@ -1,5 +1,5 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { memo, useRef } from "react";
 import { Col } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";

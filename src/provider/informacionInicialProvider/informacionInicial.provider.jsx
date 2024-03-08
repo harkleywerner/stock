@@ -1,5 +1,5 @@
 import { createContext, useCallback, useState } from "react";
-import { wrapperNotificacionesServidor } from "../../components/wrapperNotificacionesServidor";
+import { wrapperNotificacionesServidor } from "../../components/wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import sessionHelper from "./helpers/session.helper";
 import SpinnerLoader from "@/components//SpinnerLoader";
 import listaDeUsuariosHelper from "./helpers/listaDeUsuarios.helper";
@@ -13,17 +13,17 @@ export const InformacionInicialProvider = wrapperNotificacionesServidor(memo(({
     generatePromise,
     apiData
 }) => {
-    const { usuarios = {},session = {} } = apiData
+    const { usuarios = {}, session = {} } = apiData
 
     const { data = [] } = usuarios
 
     const [informacion, setInformacion] = useState({})
 
-    const { sucursal_info = {}, usuario_info } = informacion
+    const { sucursal_info = {}, usuario_info = {} } = informacion
 
-    sessionHelper({ setInformacion,generatePromise,session }) //=> Su carga es unicamente al inicio recargar la page en cualquier lado.
+    sessionHelper({ setInformacion, generatePromise, session }) //=> Su carga es unicamente al inicio recargar la page en cualquier lado.
 
-    listaDeUsuariosHelper({ generatePromise, sucursal_info,data })
+    listaDeUsuariosHelper({ generatePromise, sucursal_info, data })
 
     const establecerInformacion = useCallback((nuevaInfo) => {
         setInformacion(prev => {
@@ -40,14 +40,16 @@ export const InformacionInicialProvider = wrapperNotificacionesServidor(memo(({
                 lista_de_usuarios: data,
                 usuario_info
             }}>
-            {
-                loader ?  //=> solo se renderiza el children si esta la lista de usuarios.
-                    <div
-                        className="vh-100 d-flex">
-                        <SpinnerLoader size="lg" position="centered" />
-                    </div>
-                    : children
-            }
+            <div className="w-100 position-relative">
+                {
+                    loader ?  //=> solo se renderiza el children si esta la lista de usuarios.
+                        <div
+                            className="vh-100 d-flex">
+                            <SpinnerLoader size="lg" position="centered" />
+                        </div>
+                        : children
+                }
+            </div>
         </informacionInicialContext.Provider>
     );
 }))

@@ -1,7 +1,7 @@
 import { useForm } from "@/hooks//useForm"
 import { memo, useEffect, useRef } from "react"
 import { Badge, Button, Form, Stack } from "react-bootstrap"
-import { wrapperNotificacionesServidor } from "../wrapperNotificacionesServidor"
+import { wrapperNotificacionesServidor } from "../wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import axios from "axios"
 import SpinnerLoader from "../SpinnerLoader"
 
@@ -72,7 +72,7 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
 
 
     useEffect(() => {
-        
+
         ref.current.focus()
 
         if (tipo == "success") {
@@ -83,6 +83,7 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
 
     return (
         <section
+            style={{ outline: "none" }}
             tabIndex={0}
             ref={ref}
             className="mt-3">
@@ -93,11 +94,11 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
             />
 
             <div
-                onClick={apiCall}
                 className=" d-flex mt-2">
                 {
                     loader ? <SpinnerLoader size="md" position="centered" /> :
                         <Button
+                            onClick={apiCall}
                             style={{ backgroundColor: "#f1759e", borderBottom: "3px solid #d72b56" }}
                             variant="none"
                             className="text-center text-white fs-5 transition m-auto">

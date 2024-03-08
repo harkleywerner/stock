@@ -1,21 +1,19 @@
-import { Badge } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 export const ButtonSombreado = ({
     children,
     border,
     background,
     className,
-    element = "span",
     onClick = () => { }
 }) => {
+
     return (
-        <Badge
-            as={element}
-            bg="none"
+        <Button
             onClick={onClick}
-            style={{ background: `#${background}`, borderBottom: `3px solid #${border}` }}
+            style={{ background: `#${background}`, borderBottom: `4px solid #${border}` }}
             className={`py-2 remover-bordes rounded-3 ${className}`}>
             {children}
-        </Badge>
+        </Button>
     );
 };

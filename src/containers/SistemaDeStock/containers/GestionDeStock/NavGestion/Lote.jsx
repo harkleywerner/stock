@@ -9,10 +9,10 @@ export const Lote = () => {
         <NavItem
             className="text-decoration-none text-white  fs-3 p-1 justify-content-center  d-flex align-items-center">
             <ButtonSombreado
-                background={"b36843"}
-                border={"cc966b"}
+                background={"CC966B"}
+                border={"b36843"}
             >
-                <small>  Lote #{stock_info.lote}</small>
+                <small className="fs-5">  Lote #{stock_info.lote}</small>
             </ButtonSombreado>
         </NavItem>
 

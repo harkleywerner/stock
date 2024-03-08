@@ -1,11 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
-const analizarIntentos = ({ code, method }) => {
+const analizarIntentos = ({ code, method, not_retry }) => {
 
-    if ([422, 400, 401,403,429].includes(code)) {
-        return 0
-    } else {
+    if (!not_retry && code >= 500 || code == "ERR_NETWORK" || method == "get") {
         return 5
+    } else {
+        return 0
     }
 }
 
@@ -14,41 +15,33 @@ export const useAlerta = () => {
 
     const establecerAlerta = (nuevaAlerta) => {
 
-        const { data = {}, method } = nuevaAlerta
+        const { data = {}, not_retry } = nuevaAlerta
 
-        const intentos = analizarIntentos({ method, code: data?.code })
+        const { code, method } = data
+        const intentos_iniciales = analizarIntentos({ code, method, not_retry })
 
         setAlertas(prev => {
-            const busqueda = prev.some(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos }]
+            const busqueda = prev.some(i => i.id == nuevaAlerta.id) ? prev : [...prev, { ...nuevaAlerta, intentos_iniciales }]
             return busqueda
         })
     }
 
     const removerAlerta = useCallback((id) => {
-
         setAlertas(prev => {
             return prev.filter(i => i.id !== id)
         })
-    })
+    },[])
 
-    const establecerIntentos = (id) => {
+    const { pathname } = useLocation()
 
-        setAlertas(prev => {
-            return prev.map(i => {
-                if (i.id == id) {
-                    return { ...i, intentos: i.intentos - 1 }
-                }
-                return i
-            })
-        })
-    }
+    useEffect(() => {
+        setAlertas([])
+    }, [pathname])
 
-   
     return {
         establecerAlerta,
-        alertas: alertas[0],
+        alertas,
         removerAlerta,
-        establecerIntentos
     }
 
 
