@@ -4,68 +4,48 @@ export const calcularStockEntranteHelper = ({
     stock = []
 }) => {//Calcula lo que viene del servidor.
 
-    const {
-        success_commit = {},
-        failed_commit = {},
-    } = data
 
-    const resumen = []
+    const { resumen } = data || {}
+
+    let copiedResumen = JSON.parse(JSON.stringify(resumen))
 
     const hora_de_cambios = Date.now()
 
-    const resumenPush = (data) => resumen.push({ hora_de_cambios, ...data })
+    const setter = new Set(stock_data_base.map(item => item.id_producto));
 
-    const { s_patch, s_delete, s_post } = success_commit
+    const filtrado = stock.filter(i => !setter.has(i.id_producto))
 
-    const { f_patch, f_delete, f_post } = failed_commit
+    const nuevoStock = [...stock_data_base, ...filtrado].map(item => {
 
-    const nuevoStock = stock_data_base.map(item => {
+        const { id_producto, cantidad, nombre, categoria } = item
 
-        const { cantidad, nombre, categoria } = item
-        const successDelete = s_delete.includes(item.id_producto)
+        const item_entrante = resumen[id_producto] || {}
 
-        const successPatch = s_patch[item.id_producto]
+        const { sincronizacion } = item_entrante
 
-        const faildPatch = f_patch[item.id_producto]
-
-        const faildDelete = f_delete[item.id_producto]
-
-        const failedPost = f_post.includes(item.id_producto)
-
-        if (successPatch) {
-            resumenPush({ ...successPatch, nombre, sincronizacion: "success", categoria })
-            return { ...item, ...successPatch }
+        if (sincronizacion) {
+            copiedResumen[id_producto] = {
+                hora_de_cambios,
+                cantidad,
+                nombre,
+                categoria,
+                ...resumen[id_producto],
+            }
         }
-        else if (successDelete) {
-            resumenPush({ cantidad, nombre, sincronizacion: "success_delete", categoria })
+
+        if (["info_delete", "success_delete","info_patch"].includes(sincronizacion)) {
             return null
-        }
-        else if (faildPatch) {
-            resumenPush({ nombre, ...faildPatch, sincronizacion: "expecting", categoria })
-        } else if (faildDelete) {
-            resumenPush({ nombre, ...faildDelete, sincronizacion: "failed_delete", categoria })
-        } else if (failedPost) {
-            resumenPush({ nombre, sincronizacion: "failed_post", categoria })
-            return null
+        } else if (["success_post", "info_post", "success_patch"].includes(sincronizacion)) {
+            return { ...item, ...item_entrante }
         }
 
         return item
+
     }).filter(item => item != null)
 
-    stock.forEach(i => {
-        const producto = s_post[i.id_producto]
-        const { cantidad, nombre, categoria } = i
-        if (producto) {
-            resumenPush({ cantidad, nombre, sincronizacion: "success_post", categoria })
-            nuevoStock.push({
-                ...i,
-                ...producto,
-            })
-        }
-    });
 
     return {
         nuevoStock,
-        resumen
+        resumen: Object.values(copiedResumen)
     }
 }

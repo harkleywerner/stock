@@ -1,35 +1,7 @@
 import { numeroDeDosDigitosUtils } from "@/utils/numeroDeDosDigitos.utils"
 import { Stack } from "react-bootstrap"
-
-const success = { background: "92e3a6", color: "31a84f", badge: "5ace77", }
-const failed = { background: "ff9998", color: "cc0605", badge: "ff5e5d", }
-
-const configSincronizaciones = {
-    "success": {
-        ...success,
-        texto: "Se guardaron  ? producto/s exitosamente."
-    },
-    "success_delete": {
-        ...success,
-        texto: "El producto se borro exitosamente."
-    },
-    "success_post": {
-        ...success,
-        texto: "El producto se agrego exitosamente exitosamente."
-    },
-    "failed_delete": {
-        ...failed,
-        texto: "Este producto no puede ser removido debido a que hay ? transsacione/s."
-    },
-    "failed_post": {
-        ...failed,
-        texto: "El producto ya se encuentra el stock."
-    },
-    "expecting": {
-        background: "7cdafd", color: "0096d2", badge: "36c9fa",
-        texto: "La cantidad minima para modificar este producto es ?."
-    }
-}
+import texto_sincronizaciones_contants from "./constants/textosSincronizaciones.contants"
+import paleta_de_colores_contants from "./constants/paletaDeColores.contants"
 
 
 const Items = ({
@@ -40,11 +12,15 @@ const Items = ({
     cantidad,
     openAccordion,
     establecerAccordion,
-    id_producto,
+    id,
     categoria
 }) => {
 
-    const { color, background, badge, texto } = configSincronizaciones[sincronizacion] || {}
+    const { texto = "" } = texto_sincronizaciones_contants[sincronizacion]
+
+    const { color, background, badge } = paleta_de_colores_contants[sincronizacion.split("_")[0]]
+
+    const splitTexto = texto.split("?")
 
     const time = new Date(hora_de_cambios)
 
@@ -59,10 +35,8 @@ const Items = ({
     const segundos = time.getSeconds()
 
     const onClick = () => {
-        establecerAccordion(id_producto)
+        establecerAccordion(id)
     }
-
-    const splitTexto = texto.split("?")
 
     return (
         <div
@@ -94,13 +68,13 @@ const Items = ({
             {
                 openAccordion &&
                 <section style={{ minHeight: "40px", top: "110%" }}
-                    className=" w-100 text-white  justify-content-center aling-items-center">
-                    <small className="m-0 p-2 text-center">
+                    className=" w-100 text-white ms-1 justify-content-center aling-items-center">
+                    <small className="m-0 p-1   text-center">
                         {splitTexto[0]}
-                        {splitTexto.length > 1 && <span style={{ color: `#${color}`, fontSize: "18px" }}>{cantidad_sincronizacion ?? cantidad}</span>}
+                        {splitTexto.length > 1 && <span className="ms-1" style={{ color: `#${color}`, fontSize: "18px" }}>{cantidad_sincronizacion ?? cantidad}</span>}
                         {splitTexto[1]}
                     </small>
-                    <small style={{ color: `#${color}` }} className="d-block me-1 text-end">{categoria}</small>
+                    <small style={{ color: `#${color}` }} className="d-block me-2 text-end">{categoria}</small>
                 </section>
             }
         </div >

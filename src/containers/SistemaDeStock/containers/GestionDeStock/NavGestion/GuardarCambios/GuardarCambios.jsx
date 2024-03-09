@@ -54,13 +54,6 @@ const GuardarCambios = (
 
     }, [loader])
 
-
-    const analizarContador = () => {
-        if (contador_de_cambios <= 5) return "86d4da"
-        else if (contador_de_cambios <= 10) return "329da8"
-        return "2c808e"
-    }
-
     return (
         <Nav.Item
             onClick={() => tipo != "failed" && subirStock()}
@@ -70,7 +63,7 @@ const GuardarCambios = (
             <div className="d-flex transition align-items-center">
                 <Badge
                     bg="none"
-                    style={{ minWidth: "26px", maxWidth: "30px", backgroundColor: `#${analizarContador()}` }}
+                    style={{ minWidth: "26px", maxWidth: "30px", backgroundColor: `#86d4da` }}
                     className="fs-5 rounded-3 p-1">{contador_de_cambios}</Badge>
                 <p className="m-0 fw-normal mx-1">Guardar Cambios</p>
 

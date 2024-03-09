@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import ListadoDeItems from "./ListaDeItems/ListaDeItems";
 
 
-
 const InterfazDeResumen = ({ mostrar, alternarMostrar }) => {
 
     const { resumen } = useSelector(state => state.gestion_stock)
@@ -19,7 +18,7 @@ const InterfazDeResumen = ({ mostrar, alternarMostrar }) => {
                 className="scrollbar d-flex flex-column"
                 style={{ maxHeight: "300px", minHeight: "300px" }}
             >
-                <ListadoDeItems resumen={resumen}/>
+                <ListadoDeItems resumen={resumen} />
                 {
                     resumen.length == 0 &&
 

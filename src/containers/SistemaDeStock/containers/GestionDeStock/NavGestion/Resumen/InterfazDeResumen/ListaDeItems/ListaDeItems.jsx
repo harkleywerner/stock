@@ -1,7 +1,7 @@
 import { useAcordion } from "@/hooks//useAcordion.hook"
 import { pipeUtils } from "@/utils/pipe.utils"
 import FiltradoSincronizaciones from "./FiltradoSincronizaciones"
-import Items from "./Items"
+import Items from "./items/Items"
 import OrdenItems from "./OrdenItems"
 import { useChangeOrder } from "./hooks/useChangeOrder.hook"
 import { useFiltradoSincronizacion } from "./hooks/useFiltradoSincronizacion.hook"
@@ -31,7 +31,7 @@ const ListadoDeItems = ({ resumen }) => {
             {
                 pipe.map((i, index) =>
                     <Items
-                        id_producto={index}
+                        id={index}
                         establecerAccordion={establecerAccordion}
                         openAccordion={accordion.includes(index)}
                         key={index}
