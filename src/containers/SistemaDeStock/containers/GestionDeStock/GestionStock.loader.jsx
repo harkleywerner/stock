@@ -18,30 +18,23 @@ const GestionStockLoader = memo(({
 
     const { data } = apiData["stock/gestion"] || {}
 
-    const cancelToken = axios.CancelToken.source()
-
     useEffect(() => {
 
-        if (stock_info) return
+        if (stock_info?.id_stock) return
 
-        const promesa = { method: "GET", url: "stock/gestion", id: "stock/gestion", cancelToken: cancelToken.token }
+        const promesa = { method: "GET", url: "stock/gestion", id: "stock/gestion" }
 
         generatePromise({ promesa })
 
-        return () => {
-            cancelToken.cancel()
-        }
-
     }, [stock_info])
 
-
     useEffect(() => {
-
-        if (!data) return
+        
+        if (!data ) return
 
         dispatch(establecerStockInfo(data))
 
-    }, [data])
+    }, [data, stock_info?.id_stock])
 
 
     return (

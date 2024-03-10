@@ -51,19 +51,18 @@ export const CardStock = ({
         <>
             <Card
                 onClick={onClick}
-                className="m-4 transition cursor-pointer"
+                className="m-4 transition overflow-hidden cursor-pointer"
                 style={{ width: '17rem', height: "15rem" }}>
-                <Card.Body>
-                    <Card.Title
-                        className="text-center"
-                        style={{ color: "#814937" }}>Lote #{lote}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Ingreso : {day}/{mes}/{año}</Card.Subtitle>
-                    <Card.Text>
-                        Some quick example text to build on the card title and make up the
-                        bulk of the card's content.
-                    </Card.Text>
-                    <Card.Footer className="">
-                        <p className="m-0 text-end text-secondary">
+                       <Card.Header className="d-flex bg-white border-0 align-items-center justify-content-between">
+                        <Card.Title
+                            className="fs-2"
+                            style={{ color: "#814937" }}>#{lote}</Card.Title>
+                        <Card.Subtitle className=" text-muted">{day}/{mes}/{año}</Card.Subtitle>
+                    </Card.Header>
+                <Card.Body className="h-100 d-flex flex-column">
+
+                    <Card.Footer className="d-flex border-0 bg-white justify-content-end align-items-end h-100">
+                        <p className="m-0 fs-5 text-end text-secondary">
                             {total_relativo}/{total_absoluto} items
                         </p>
                     </Card.Footer>

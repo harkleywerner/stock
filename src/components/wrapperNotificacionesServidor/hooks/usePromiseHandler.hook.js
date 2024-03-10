@@ -1,17 +1,18 @@
 import axios from "axios";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { catchPromiseHandler } from "./catch";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const usePromiseHandler = ({ establecerAlerta,shortId}) => {
-
+export const usePromiseHandler = ({ establecerAlerta, shortId,cancelToken }) => {
     const nav = useNavigate()
 
     const [apiData, setApiData] = useState({});
 
     const [loader, setLoader] = useState(false);
+
+
 
     const establecerApiData = ({ response, promesa }) => {
 
@@ -35,7 +36,7 @@ export const usePromiseHandler = ({ establecerAlerta,shortId}) => {
 
             setLoader(true)
 
-            const { method, url, data = {}, cancelToken, params = {}, cocatenate, id, not_retry} = promesa
+            const { method, url, data = {}, params = {}, cocatenate, id, not_retry } = promesa
 
             try {
 
@@ -44,7 +45,7 @@ export const usePromiseHandler = ({ establecerAlerta,shortId}) => {
                         url,
                         method,
                         data,
-                        cancelToken,
+                        cancelToken: cancelToken.token,
                         params,
                         baseURL: BACK_END_URL,
                         withCredentials: true

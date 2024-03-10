@@ -16,13 +16,12 @@ const DropdownItems = memo(({
     establecerCategoria,
     id
 }) => {
-
     return (
         <Dropdown.Item
             as={"li"}
             id="item-categorias"
             onClick={() => establecerCategoria(id)}
-            style={{ background: verificarCategoriaSeleccionada ? "#0cb1eb" : "#7CDAFD", borderBottom: "3px solid #0cb1eb" }}
+            style={{ background: verificarCategoriaSeleccionada ? "#cd3557" : "#DE4E75", borderBottom: "4px solid #cd3557" }}
             className=" d-flex p-1 rounded-4 my-1 px-2 shadow cursor-pointer transition">
             <p className="m-0 n text-white m-auto ">{PrimeraLetraMayusculaUtils(nombre)}</p>
         </Dropdown.Item>

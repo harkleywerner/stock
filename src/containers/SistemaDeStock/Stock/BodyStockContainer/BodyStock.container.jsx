@@ -32,7 +32,7 @@ const StockContainer = ({
   const elementToObserve = useRef(null)
 
   return (
-    <Col className="p-0 h-100 d-flex">
+    <Col  className="p-0 h-100 d-flex">
       {
         data.length == 0 ?
 

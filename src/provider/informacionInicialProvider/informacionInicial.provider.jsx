@@ -4,6 +4,7 @@ import sessionHelper from "./helpers/session.helper";
 import SpinnerLoader from "@/components//SpinnerLoader";
 import listaDeUsuariosHelper from "./helpers/listaDeUsuarios.helper";
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 export const informacionInicialContext = createContext()
 
@@ -35,7 +36,7 @@ export const InformacionInicialProvider = wrapperNotificacionesServidor(memo(({
     return (
         <informacionInicialContext.Provider
             value={{
-                sucursal_info,
+                sucursal_info : {loggeado : true},
                 establecerInformacion,
                 lista_de_usuarios: data,
                 usuario_info

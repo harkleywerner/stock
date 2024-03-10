@@ -1,16 +1,15 @@
+import SpinnerLoader from "@/components//SpinnerLoader";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
+import { addProducto, deleteProducto, editProducto, inicilizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { memo, useEffect } from "react";
+import { Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import TablaDeProductos from "../components/ContenedorDeTabla/TablaDeProductos";
-import { Col } from "react-bootstrap";
-import SpinnerLoader from "@/components//SpinnerLoader";
-import { addProducto, deleteProducto, editProducto, inicilizarStock } from "@/store//reducer/gestionDeStock/gestionDeStock.slice";
 import { useFiltroProductosHook } from "../hooks/useFiltroTablas.hook";
-import axios from "axios";
 
 
 const Message = memo(() => (
-    <p className="text-white h-100  d-flex justify-content-center align-items-center  fs-5 m-auto text-center">No se encontraron  productos en la tabla...</p>
+    <p className="text-white h-100  d-flex justify-content-center align-items-center resaltador  fs-5 m-auto text-center">No se encontraron  productos en la tabla...</p>
 ))
 
 const Tabla = memo(({ stock, inicializado }) => {
@@ -44,21 +43,15 @@ const GestionStockContainer = memo(({
 
     const { data } = apiData["detalleStock"] || {}
 
-    const cancelToken = axios.CancelToken.source()
 
-    const promesa = 
-        {
-            method: "GET", url: "stock/detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
-            cancelToken : cancelToken.token
-        }
-
+    const promesa =
+    {
+        method: "GET", url: "stock/detalleDeStock", id: "detalleStock", params: { id_stock: stock_info.id_stock },
+    }
 
     useEffect(() => {
         if (!inicializado) {
-            generatePromise({ promesa})
-        }
-        return () => {
-            cancelToken.cancel()
+            generatePromise({ promesa })
         }
     }, [stock])
 

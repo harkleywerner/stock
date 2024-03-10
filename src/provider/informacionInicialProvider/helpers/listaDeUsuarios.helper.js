@@ -1,4 +1,3 @@
-import axios from "axios"
 import { useEffect } from "react"
 
 const listaDeUsuariosHelper = ({
@@ -11,14 +10,11 @@ const listaDeUsuariosHelper = ({
 
     const verificarIdData = data.some(i => i.id_sucursal == id_sucursal)
 
-    const cancelToken = axios.CancelToken.source()
-
     const apiCall = () => {
         const promesa = {
             method: "GET",
             url: "stock/usuarios",
             id: "usuarios",
-            cancelToken: cancelToken.token,
         }
         generatePromise({ promesa })
     }
@@ -32,10 +28,6 @@ const listaDeUsuariosHelper = ({
         ) return
 
         apiCall()
-
-        return () => {
-            cancelToken.cancel()
-        }
 
     }, [id_sucursal, loggeado]) //=> Si la id cambia se llama a lista de usuarios de esa sucursal.
 

@@ -13,7 +13,7 @@ export const ResumenDeGuardado = () => {
         <>
             <Nav.Item
                 onClick={alternarMostrar}
-                className="d-flex gap-2 align-items-center transition hover-rosa cursor-pointer">
+                className="d-flex gap-2 align-items-center resaltador transition hover-rosa cursor-pointer">
                 <i className="fa-regular fa-file-lines"></i>
                 <p className="m-0 fs-5">Resumen</p>
             </Nav.Item>

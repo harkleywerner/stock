@@ -22,8 +22,6 @@ export const envioCantidadHelper = (
 
         if (tipo != "success" || loader) return
 
-        console.log(cantidad)
-
         setCantidadActual(prev => {
             return {
                 ...prev,

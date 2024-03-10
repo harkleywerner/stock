@@ -17,8 +17,14 @@
     scroll-behavior: smooth;
 }
 
+
+
 body {
     overflow: hidden;
+}
+
+.resaltador {
+    text-shadow: 0px 3px 0px rgba(50,157,168,0.9);
 }
 
 .bg-hoverdark:hover {

@@ -9,7 +9,7 @@ import { informacionInicialContext } from "@/provider//informacionInicialProvide
 import { useNavigate } from "react-router-dom";
 
 const Message = memo(() => (
-    <p className="text-white h-100  d-flex justify-content-center align-items-center  fs-5 m-auto text-center">No se encontraron  productos en la tabla...</p>
+    <p className="text-white h-100  d-flex justify-content-center align-items-center resaltador  fs-5 m-auto text-center">No se encontraron  productos en la tabla...</p>
 ))
 
 const NuevoStockContainer = () => {

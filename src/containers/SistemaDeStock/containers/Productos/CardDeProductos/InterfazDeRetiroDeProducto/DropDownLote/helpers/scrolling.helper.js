@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 
 export const scrollingHelper = (
@@ -11,7 +10,6 @@ export const scrollingHelper = (
     }
 ) => {
 
-    const cancelToken = axios.CancelToken.source()
 
     const apiCall = (reset) => {
 
@@ -21,7 +19,6 @@ export const scrollingHelper = (
             id: "stock/lote",
             concatenate: true,
             data: { offset: reset ?? data.length, id_producto, lote },
-            cancelToken: cancelToken.token,
         }
         generatePromise({ promesa })
     }
@@ -36,10 +33,6 @@ export const scrollingHelper = (
             apiCall(0)
         }, 300);
 
-        return () => {
-            clearTimeout(timeOut)
-            cancelToken.cancel()
-        }
     }, [lote])
 
     return apiCall

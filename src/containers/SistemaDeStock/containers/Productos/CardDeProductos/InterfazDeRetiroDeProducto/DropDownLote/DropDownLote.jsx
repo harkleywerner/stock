@@ -18,7 +18,7 @@ const DropDownLote = memo(({
                 data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i className="fa-solid text-secondary text-white fs-4 fa-box-open"></i>
-                <span className="m-0 text-white  text-truncate">#{lote}</span>
+                <span className="m-0 text-white  text-truncate">{lote ? `#${lote}` : "Todos"}</span>
             </button>
 
             <ScrollingLote

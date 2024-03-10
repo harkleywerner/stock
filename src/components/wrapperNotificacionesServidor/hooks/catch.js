@@ -14,7 +14,7 @@ export const catchPromiseHandler = ({
 
     const request = error?.request?.status ?? 200
 
-    if (intentos === undefined && request != 401) {
+    if (intentos === undefined && request != 401 && error?.code == "ERR_CANCELED") {
 
         const res = error?.response?.data
         const message = res?.message

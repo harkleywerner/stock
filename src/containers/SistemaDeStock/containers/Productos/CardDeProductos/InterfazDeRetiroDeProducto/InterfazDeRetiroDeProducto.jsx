@@ -44,9 +44,8 @@ const InterfazDeRetiroDeProducto = memo((
     return (
         <Modal
             show={mostrar}
-            animation={true}
             onHide={alternarMostrar}>
-            <Modal.Header closeButton={!loader} className="border-0 pb-0">
+            <Modal.Header closeButton className="border-0 pb-0">
                 <Modal.Title className="d-flex flex-column align-items-start border-bottom mx-2 w-100">
                     <ProductoContext.Provider value={{ setCantidadActual, loteActual: lote }}>
                         <DropDownLote
@@ -71,8 +70,6 @@ const InterfazDeRetiroDeProducto = memo((
             </Modal.Header>
 
             <Modal.Body>
-
-
 
                 <Form.Control
                     type="number"

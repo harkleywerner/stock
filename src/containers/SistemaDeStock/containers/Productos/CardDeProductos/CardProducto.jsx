@@ -27,15 +27,16 @@ export const CardProducto = memo(({
                 {
 
                     loggeado &&
-                    <div style={{minWidth : "75px"}}>
+                    <div
+                        style={{ minWidth: "75px" }}>
                         <ButtonSombreado
                             background={"cc966b"}
                             border={"b36843"}
                             onClick={alternarMostrar}
                             element="button"
-                            className="w-100"
+                            className="w-100 d-flex"
                         >
-                            {loader ? <SpinnerLoader size="sm" position="centered" color="white" /> : <small className="fs-6">Retirar</small>}
+                            {loader ? <SpinnerLoader size="ss" position="centered" /> : <small className="fs-6">Retirar</small>}
                         </ButtonSombreado>
                     </div>
                 }

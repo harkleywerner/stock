@@ -4,7 +4,7 @@ import { memo, useRef } from "react"
 import { Col } from "react-bootstrap"
 import { useSearchParams } from "react-router-dom"
 import ScrollingInfinite from "../Components/ScrollingInfinite"
-import { scrollProductosHelper } from "./hooks/scrollProductos.helper"
+import { scrollProductosHelper } from "./helpers/scrollProductos.helper"
 import CardProductoContainer from "./CardDeProductos/CardProducto.container"
 
 const Message = memo(({ getBuscador }) => {

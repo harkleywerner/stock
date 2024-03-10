@@ -2,7 +2,7 @@ import { SuspenseLoadingComponent } from "@/components//SuspenseLoadingComponent
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { lazy, memo, useCallback, useState } from "react";
-import { envioCantidadHelper } from "./envioCantidad.helper";
+import { envioCantidadHelper } from "./helpers/envioCantidad.helper";
 import { CardProducto } from "./CardProducto";
 
 const InterfazDeRetiroDeProducto = lazy(() => import("./InterfazDeRetiroDeProducto/InterfazDeRetiroDeProducto"))
@@ -19,12 +19,9 @@ const CardProductoContainer = ({
 
     const { alternarMostrar, mostrar } = useAlternarComponentes()
 
-    const parseDevoluciones = parseFloat(devoluciones_permitidas)
-    const paserCantidadTotal = parseFloat(cantidad_total)
-
     const [cantidadActual, setCantidadActual] = useState({
-        devoluciones_permitidas: parseDevoluciones, cantidad_total: paserCantidadTotal, id_stock: null, lote: null,
-        copia: { devoluciones_permitidas: parseDevoluciones, cantidad_total: paserCantidadTotal } //=> Sirve para guardar una copia del cantidad original.
+        devoluciones_permitidas, cantidad_total, id_stock: null, lote: null,
+        copia: { devoluciones_permitidas, cantidad_total } //=> Sirve para guardar una copia del cantidad original.
     })
 
     const setCantidad = useCallback((data) => {

@@ -1,6 +1,6 @@
 
 
-import NavDeNuevoStockContainer from "@/containers//SistemaDeStock/containers/NuevoStock/NavNuevoStock.container";
+import NavDeNuevoStockContainer from "@/containers//SistemaDeStock/containers/NuevoStock/NavNuevoStock/NavNuevoStock.container";
 import NuevoStockContainer from "@/containers//SistemaDeStock/containers/NuevoStock/NuevoStock.container";
 import { Container, Row } from "react-bootstrap";
 

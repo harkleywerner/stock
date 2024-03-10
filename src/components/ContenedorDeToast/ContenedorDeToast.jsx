@@ -19,7 +19,7 @@ export const ContenedorDeToast = () => {
 
         const windowEsc = (e) => {
             if (e.key == "Escape") {
-                dispatch(limpiarToastAutomaticoThunks({}))
+                dispatch(limpiarToastAutomaticoThunks())
             }
         }
 
@@ -38,7 +38,8 @@ export const ContenedorDeToast = () => {
 
 
     return (
-        listaToast.length > 0 && <div
+        listaToast.length > 0 &&
+        <div
             id="contenedor-toast"
             className="position-fixed "
             style={{ zIndex: "5000", maxHeight: "h-100", left: "0.5%", top: "0%" }} >

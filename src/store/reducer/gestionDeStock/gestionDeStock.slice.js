@@ -35,9 +35,11 @@ const sliceStock = createSlice({
             const pendientes = action.payload
             state.stock_info = { ...state.stock_info, ...pendientes }
         },
-
+        resetGestionDeStock : (state) => {
+            Object.assign(state, initialState);
+        }
     }
 })
 
-export const { addProducto, deleteProducto, editProducto, inicilizarStock, establecerStockInfo, sincronizarStock, establecerPendientes } = sliceStock.actions
+export const { addProducto, deleteProducto, editProducto, inicilizarStock, establecerStockInfo, sincronizarStock, establecerPendientes,resetGestionDeStock } = sliceStock.actions
 export default sliceStock.reducer

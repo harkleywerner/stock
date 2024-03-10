@@ -1,4 +1,5 @@
-import { Badge, CloseButton, Modal } from "react-bootstrap";
+import { ButtonSombreado } from "@/components//ButtonSombreado";
+import { Badge, Button, CloseButton, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const AlertaDePendientes = ({
@@ -12,37 +13,44 @@ const AlertaDePendientes = ({
 
     return (
         <Modal
-            backdrop={true}
+            onHide={alternarMostrar}
             show={mostrar}>
             <Modal.Header
-                className="bg-dark text-white d-flex justify-content-between w-100"
-                onHide={alternarMostrar}>
-                <Modal.Title className="d-inline-flex gap-2">
-                    Lote {`#${lote}`}
+                className=" d-flex border-0 justify-content-between p-1 pe-3 w-100"
+            >
+                <Modal.Title className="text-secondary d-flex mx-4 align-items-center border-bottom w-100">
                     <Link
-                        className="badge bg-secondary my-auto transition"
+                        className="text-secondary transition fs-3 rounded-4 p-1 text-decoration-none my-auto transition"
                         to="/stock/gestion">
-                        <i className="fa-solid  fa-link text-white"></i>
+                        {`#${lote}`}
                     </Link>
                 </Modal.Title>
-                <CloseButton onClick={alternarMostrar} variant="white" />
+                <CloseButton onClick={alternarMostrar} />
             </Modal.Header>
             <Modal.Body className="shadow gap-4 d-flex flex-column ">
-                <div className="d-flex align-items-center gap-2">
+                <div className="d-flex ms-2 align-items-center gap-2">
                     <Badge
-                        style={{ minWidth: "40px", maxWidth: "40px" }}
+                        style={{ backgroundColor: "#86d4da", borderBottom: "3px solid #57BDC6", minWidth: "40px", maxWidth: "40px" }}
                         className="py-2 fs-6"
-                        bg="info">{cambios_pendientes}</Badge>
+                        bg="none"
+                    >{cambios_pendientes}
+                    </Badge>
                     <p className="m-0">Cambios pendientes.</p>
-               
+
                 </div>
-                <div className="m-auto">
+
+                <ButtonSombreado
+                    onClick={redirectStock}
+                    background={"DE4E75"}
+                    border={"b12540"}
+                    className={"mx-1 transition"}
+                >
                     <small
-                        onClick={redirectStock}
-                        className=" text-decoration-underline  text-center transition link-danger  cursor-pointer">
+                        style={{ fontSize: "14px" }}
+                        className="text-center transition text-white cursor-pointer">
                         ¿Seguro deseas continuar, perderas todo el progreso?
                     </small>
-                </div>
+                </ButtonSombreado>
             </Modal.Body>
         </Modal>
     );

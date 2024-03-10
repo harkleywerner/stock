@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 
 const sessionHelper = ({
@@ -6,7 +5,6 @@ const sessionHelper = ({
     generatePromise,
     session
 }) => {
-    const cancelToken = axios.CancelToken.source()
 
     const { data = {},tipo } = session || {}
 
@@ -15,7 +13,6 @@ const sessionHelper = ({
             method: "GET",
             url: "session",
             id: "session",
-            cancelToken: cancelToken.token,
         }
         generatePromise({ promesa })
     }
@@ -29,9 +26,6 @@ const sessionHelper = ({
 
     useEffect(() => {
         apiCall()
-        return () => {
-            cancelToken.cancel()
-        }
     }, [])
 };
 

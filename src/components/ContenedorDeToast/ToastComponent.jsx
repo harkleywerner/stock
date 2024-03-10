@@ -11,6 +11,8 @@ const icon = {
     success: "fa-solid fa-circle-check"
 }
 
+
+
 export const ToastComponent = memo((
     {
         texto,

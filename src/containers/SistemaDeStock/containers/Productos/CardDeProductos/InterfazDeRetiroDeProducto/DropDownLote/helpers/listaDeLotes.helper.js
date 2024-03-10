@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 
 export const listaDeLotesHelper = ({
@@ -10,23 +9,15 @@ export const listaDeLotesHelper = ({
     id_producto
 }) => {
 
-    const cancelToken = axios.CancelToken.source()
-
     useEffect(() => {
 
+        if (!("id_stock" in loteSeleccionado)) return
 
         const promesa = {
             method: "post", url: "stock/detalleDeStock/producto", id: "detalleDeStock",
             data: { id_producto, id_stock },
-            cancelToken: cancelToken.token,
         }
         generatePromise({ promesa })
-
-        return () => {
-            if (cancelToken) {
-                cancelToken.cancel()
-            }
-        }
 
     }, [JSON.stringify(loteSeleccionado)])
 
