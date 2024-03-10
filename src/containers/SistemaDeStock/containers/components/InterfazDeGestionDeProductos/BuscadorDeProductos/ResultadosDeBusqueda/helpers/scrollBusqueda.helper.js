@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect } from "react";
 
 export const scrollBusquedaHelper = (
@@ -11,8 +10,6 @@ export const scrollBusquedaHelper = (
     }
 ) => {
 
-    const cancelSource = axios.CancelToken.source()
-
     const apiCall = (reset) => {
         const promesa =
         {
@@ -20,7 +17,6 @@ export const scrollBusquedaHelper = (
             url: `stock/productos`,
             id: "productos",
             data: { buscador, categoria, offset: reset ?? data.length },
-            cancelToken: cancelSource.token,
             concatenate: true,
         }
         generatePromise({ promesa })
@@ -38,7 +34,6 @@ export const scrollBusquedaHelper = (
 
         return () => {
             clearTimeout(timeoutSearch)
-            cancelSource.cancel()
         }
     }, [buscador, categoria])
 

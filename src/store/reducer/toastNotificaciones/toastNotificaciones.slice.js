@@ -3,7 +3,7 @@ import shortUUID from "short-uuid"
 
 
 const initialState = {
-    listaToast: [],
+    listaToast: [], //=> {texto,tipo}
 }
 
 const sliceToast = createSlice({

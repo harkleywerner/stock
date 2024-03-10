@@ -38,8 +38,6 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
                 contador_de_cambios++;
             }
         }
-
-        
     })
 
 

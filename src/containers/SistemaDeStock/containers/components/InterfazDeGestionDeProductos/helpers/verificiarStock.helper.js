@@ -24,12 +24,10 @@ const verificacionStock = ({
                 ...verificaSiSeEncuentra,
                 cantidad: refCantidad
             }))
-            const text = { texto: "El producto se edito exitosamente", tipo: "success" }
-            dispatch(generarToast(text))
         }
         else if (keys == 0 && !verificaSiSeEncuentra) {
             dispatch(addProducto({ ...parametros, cantidad: refCantidad }))
-            const text = { texto: "El producto se agrego exitosamente", tipo: "success" }
+            const text = { texto: "El producto se agrego correctamente.", tipo: "success" }
             dispatch(generarToast(text))
 
         } else {

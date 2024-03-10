@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { calcularStockEntranteHelper } from "./helper/calculalStockEntrante.helper";
 import { calcularStockSalienteHelper } from "./helper/calcularStockSaliente.helper";
 import { subirStockHelper } from "./helper/subirStock.helper";
+import { generarToast } from "@/store//reducer/toastNotificaciones/toastNotificaciones.slice";
 
 const GuardarCambios = (
     {
@@ -45,6 +46,13 @@ const GuardarCambios = (
 
         if (tipo == "success" && !loader && id_stock) {
             const { nuevoStock, resumen } = calcularStockEntranteHelper({ stock, stock_data_base, data })
+
+            if (resumen.some(i => /info|delete/.test(i.sincronizacion))) {
+                dispatch(generarToast({ texto: "Algunos cambios no fueron almacenados, verifique el resumen.", tipo: "danger" }))
+            } else {
+                dispatch(generarToast({ texto: "Cambios guardados.", tipo: "success" }))
+            }
+
             dispatch(sincronizarStock({ stock: nuevoStock, resumen }))
         }
 
@@ -73,3 +81,4 @@ const GuardarCambios = (
 };
 
 export default wrapperNotificacionesServidor(GuardarCambios)
+

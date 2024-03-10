@@ -37,7 +37,7 @@ export const catchPromiseHandler = ({
     const redirect = error?.response?.data?.redirect
 
     if (redirect) {
-        nav(`/${redirect == "/" ? "sucursales" : redirect}`)
+        // nav(`/${redirect == "/" ? "sucursales" : redirect}`)
     }
 
     establecerApiData({ promesa, response: error?.response })

@@ -3,12 +3,10 @@ import { useEffect } from "react"
 const listaDeUsuariosHelper = ({
     sucursal_info,
     generatePromise,
-    data
 }) => {
 
     const { id_sucursal, loggeado } = sucursal_info
 
-    const verificarIdData = data.some(i => i.id_sucursal == id_sucursal)
 
     const apiCall = () => {
         const promesa = {
@@ -20,12 +18,6 @@ const listaDeUsuariosHelper = ({
     }
 
     useEffect(() => {
-
-        if (
-            id_sucursal == undefined ||
-            !loggeado ||
-            verificarIdData
-        ) return
 
         apiCall()
 

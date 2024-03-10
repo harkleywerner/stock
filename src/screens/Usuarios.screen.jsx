@@ -5,9 +5,6 @@ import { informacionInicialContext } from "../provider/informacionInicialProvide
 
 const UsuariosScreen = () => {
 
-    //Esta url solo esta permitida para las sucursales con loggeo en true.
-    //El redireccionamiento se trabaja desde el back y el usePromiseHandler.
-
     const n = useNavigate()
 
     const { lista_de_usuarios, establecerInformacion } = useContext(informacionInicialContext)

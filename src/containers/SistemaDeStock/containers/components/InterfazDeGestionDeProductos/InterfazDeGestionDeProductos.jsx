@@ -1,10 +1,10 @@
+import { ButtonSombreado } from "@/components//ButtonSombreado";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
 import { useEffect, useRef } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { BuscadorDeProductos } from "./BuscadorDeProductos/BuscadorDeProductos";
 import { ModalBody } from "./ModalBody";
 import verificacionStock from "./helpers/verificiarStock.helper";
-import { ButtonSombreado } from "@/components//ButtonSombreado";
 
 const InterfazDeGestionDeProductos = (
     {

@@ -71,7 +71,7 @@ const Items = ({
                     className=" w-100 text-white ms-1 justify-content-center aling-items-center">
                     <small className="m-0 p-1   text-center">
                         {splitTexto[0]}
-                        {splitTexto.length > 1 && <span className="ms-1" style={{ color: `#${color}`, fontSize: "18px" }}>{cantidad_sincronizacion ?? cantidad}</span>}
+                        {splitTexto.length > 1 && <span className="ms-2" style={{ color: `#${color}`, fontSize: "18px" }}>{cantidad_sincronizacion ?? cantidad}</span>}
                         {splitTexto[1]}
                     </small>
                     <small style={{ color: `#${color}` }} className="d-block me-2 text-end">{categoria}</small>

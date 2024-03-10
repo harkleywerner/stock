@@ -30,7 +30,7 @@ const CardProductoContainer = ({
 
     const verificarCantidad = cantidadActual.cantidad_total > 99 ? "99+" : cantidadActual.cantidad_total
 
-    const { tipo, data = {} } = apiData["trassaciones"] || {}
+    const { tipo, data = {} } = apiData["transsaciones"] || {}
 
     const apiCall = envioCantidadHelper({
         id_producto,

@@ -1,8 +1,8 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
-import { memo, useCallback, useContext, useEffect, useState } from "react"
+import { memo, useCallback, useContext, useState } from "react"
 import ProductoContext from "../context/Producto.context"
-import { listaDeLotesHelper } from "./helpers/listaDeLotes.helper"
+import { obtenerTranssacionHelper } from "./helpers/obtenerTranssacion.helper"
 
 const Items = memo(({
     lote,
@@ -67,13 +67,13 @@ const ListaDeLotes = ({
 
     const { lote, id_stock } = loteSeleccionado
 
-    const { detalleDeStock = {} } = apiData
+    const { transsaciones  = {} } = apiData
 
-    const { data = [] } = detalleDeStock
+    const { data = {} } = transsaciones
 
     const establecerLote = useCallback((numero) => setLote(numero), [])
 
-    listaDeLotesHelper({ generatePromise, loteSeleccionado, setCantidadActual, data, id_stock, id_producto })
+    obtenerTranssacionHelper({ generatePromise, loteSeleccionado, setCantidadActual, data, id_stock, id_producto })
 
 
     const sortBy = (array) => {

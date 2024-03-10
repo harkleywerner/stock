@@ -18,7 +18,7 @@ export const ContenedorDeToast = () => {
         if (listaToast.length == 0) return
 
         const windowEsc = (e) => {
-            if (e.key == "Escape") {
+            if (e.key == "Escape" && listaToast.length > 0) {
                 dispatch(limpiarToastAutomaticoThunks())
             }
         }

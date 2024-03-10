@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export const listaDeLotesHelper = ({
+export const obtenerTranssacionHelper = ({
     loteSeleccionado,
     generatePromise,
     setCantidadActual,
@@ -9,13 +9,14 @@ export const listaDeLotesHelper = ({
     id_producto
 }) => {
 
+
     useEffect(() => {
 
         if (!("id_stock" in loteSeleccionado)) return
 
         const promesa = {
-            method: "post", url: "stock/detalleDeStock/producto", id: "detalleDeStock",
-            data: { id_producto, id_stock },
+            method: "get", url: "stock/transsaciones", id: "transsaciones",
+            params: { id_producto, id_stock },
         }
         generatePromise({ promesa })
 
@@ -23,14 +24,14 @@ export const listaDeLotesHelper = ({
 
     useEffect(() => {
 
-        if (data.length > 0) {
+        if (Object.keys(data).length > 0) {
 
             setCantidadActual(prev => {
 
                 return {
                     ...prev,
                     ...loteSeleccionado,
-                    ...(data[0] || {})
+                    ...data
                 }
             })
         }
