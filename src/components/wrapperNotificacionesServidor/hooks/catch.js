@@ -10,11 +10,9 @@ export const catchPromiseHandler = ({
     establecerAlerta
 }) => {
 
-
-
     const request = error?.request?.status ?? 200
 
-    if (intentos === undefined && request != 401 && error?.code == "ERR_CANCELED") {
+    if (intentos === undefined && request != 401 && error?.code !== "ERR_CANCELED") {
 
         const res = error?.response?.data
         const message = res?.message
@@ -37,7 +35,7 @@ export const catchPromiseHandler = ({
     const redirect = error?.response?.data?.redirect
 
     if (redirect) {
-        // nav(`/${redirect == "/" ? "sucursales" : redirect}`)
+        nav(`/${redirect == "/" ? "sucursales" : redirect}`)
     }
 
     establecerApiData({ promesa, response: error?.response })

@@ -11,7 +11,7 @@ const listaDeUsuariosHelper = ({
     const apiCall = () => {
         const promesa = {
             method: "GET",
-            url: "stock/usuarios",
+            url: "usuarios",
             id: "usuarios",
         }
         generatePromise({ promesa })

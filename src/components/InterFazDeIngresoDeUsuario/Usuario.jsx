@@ -61,7 +61,7 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
 
         const promesa = {
             method: "POST",
-            url: "/stock/usuarios",
+            url: "usuarios",
             data: { id_usuario, contraseña: form.contraseña },
             id: "usuario",
             cancelToken: cancelToken.token
