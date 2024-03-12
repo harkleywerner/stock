@@ -34,7 +34,7 @@ export const envioCantidadHelper = (
             }
         })
 
-        const text = cantidad < 0 ? "Devolviste" : "Retiraste"
+        const text = cantidad > 0 ? "Devolviste" : "Retiraste"
 
         const toast = { texto: `${text} ${Math.abs(cantidad)} unidade/s`, tipo: "success" }
 

@@ -9,10 +9,10 @@ const texto_sincronizaciones_contants = {
         texto: "Se agregaron exitosamente ? producto/s."
     },
     "info_patch": {
-        texto: "El producto ya no se encuentra en el stock."
+        texto: "El producto editado, no se encuentra en el stock."
     },
     "failed_delete": {
-        texto: "Este producto no puede ser removido debido a que hay ? transsacione/s. "
+        texto: "Este producto no puede ser removido debido a que hay ? transsacion/es. "
     },
     "info_post": {
         texto: "El producto ya se encuentra el stock."

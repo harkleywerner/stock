@@ -47,7 +47,7 @@ const GuardarCambios = (
         if (tipo == "success" && !loader && id_stock) {
             const { nuevoStock, resumen } = calcularStockEntranteHelper({ stock, stock_data_base, data })
 
-            if (resumen.some(i => /info|delete/.test(i.sincronizacion))) {
+            if (resumen.some(i => /info|failed/.test(i.sincronizacion))) {
                 dispatch(generarToast({ texto: "Algunos cambios no fueron almacenados, verifique el resumen.", tipo: "danger" }))
             } else {
                 dispatch(generarToast({ texto: "Cambios guardados.", tipo: "success" }))

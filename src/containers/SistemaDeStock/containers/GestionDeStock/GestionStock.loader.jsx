@@ -18,6 +18,7 @@ const GestionStockLoader = memo(({
 
     const { data } = apiData["stock/gestion"] || {}
 
+
     useEffect(() => {
 
         if (stock_info?.id_stock) return
@@ -26,7 +27,7 @@ const GestionStockLoader = memo(({
 
         generatePromise({ promesa })
 
-    }, [stock_info])
+    }, [JSON.stringify(stock_info)])
 
     useEffect(() => {
         

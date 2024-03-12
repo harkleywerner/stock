@@ -67,7 +67,7 @@ const GestionStockContainer = memo(({
     return (
         <Col className="p-0 d-flex h-100 justify-content-center">
             {
-                loader || !inicializado && stock.length == 0 ?
+                loader && !inicializado && stock.length == 0 ?
                     <SpinnerLoader position="centered" /> :
                     <Tabla stock={stock} inicializado={inicializado} />
             }

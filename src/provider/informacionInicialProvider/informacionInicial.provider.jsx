@@ -34,7 +34,7 @@ export const InformacionInicialProvider = wrapperNotificacionesServidor(memo(({
     return (
         <informacionInicialContext.Provider
             value={{
-                sucursal_info : {loggeado : true},
+                sucursal_info,
                 establecerInformacion,
                 lista_de_usuarios: data,
                 usuario_info
