@@ -1,12 +1,10 @@
 import { useEffect } from "react"
 
 const listaDeUsuariosHelper = ({
-    sucursal_info,
+    sucursal_info = {},
     generatePromise,
 }) => {
-
-    const { id_sucursal, loggeado } = sucursal_info
-
+    const { loggeado } = sucursal_info
 
     const apiCall = () => {
         const promesa = {
@@ -17,11 +15,14 @@ const listaDeUsuariosHelper = ({
         generatePromise({ promesa })
     }
 
+
     useEffect(() => {
+
+        if (!loggeado) return
 
         apiCall()
 
-    }, [id_sucursal, loggeado]) //=> Si la id cambia se llama a lista de usuarios de esa sucursal.
+    }, [loggeado]) //=> Si la id cambia se llama a lista de usuarios de esa sucursal.
 
 }
 

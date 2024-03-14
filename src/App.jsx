@@ -1,16 +1,14 @@
 import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import { Suspense, lazy } from 'react';
 import { Provider } from 'react-redux';
-import { Outlet, RouterProvider, createBrowserRouter, defer } from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
 import { SuspenseLoadingComponent } from './components/SuspenseLoadingComponent';
 import { axiosInterceptor } from './helpers/axios.interceptor';
-import { InformacionInicialProvider } from './provider/informacionInicialProvider/informacionInicial.provider';
+import { AlertaPromisesProvider } from './provider/AlertaPromisesProvider/AlertaPromises.provider';
 import { store } from './store/store.';
-import { AlertaPromisesProvider } from './provider/AlertaRetryProvider/AlertaPromises.provider';
 
 const SucursalesScreen = lazy(() => import('./screens/Sucursales.screen'))
 const StockScreen = lazy(() => import("./screens/SistemaDeStock/Stock.screen"))
@@ -19,21 +17,20 @@ const ProductosScreen = lazy(() => import("@/screens/SistemaDeStock/screens/Prod
 const GestionStockScreen = lazy(() => import("./screens/SistemaDeStock/screens/GestionStock.screen"))
 const UsuariosScreen = lazy(() => import("./screens/Usuarios.screen"))
 
-const BACK_END_URL = import.meta.env.VITE_BACKEND_URL
-
 const router = createBrowserRouter([
   {
     path: "/",
     element:
       <AlertaPromisesProvider>
-        <InformacionInicialProvider>
-          <Outlet />
-        </InformacionInicialProvider>
-      </AlertaPromisesProvider>,
+        <Outlet />
+      </AlertaPromisesProvider >,
     children: [
       {
         path: "/stock",
-        element: <SuspenseLoadingComponent > <StockScreen /> </SuspenseLoadingComponent>,
+        element:
+          <SuspenseLoadingComponent >
+              <StockScreen />
+          </SuspenseLoadingComponent>,
         children: [
           {
             path: "productos",
@@ -53,12 +50,6 @@ const router = createBrowserRouter([
       {
         path: "sucursales",
         element: <SuspenseLoadingComponent ><SucursalesScreen /></SuspenseLoadingComponent>,
-        loader: async () => {
-          const response = axios.get(`${BACK_END_URL}/sucursales`)
-          return defer({
-            lista_de_sucursales: response
-          })
-        }
       },
       {
         path: "usuarios",
@@ -72,6 +63,8 @@ const router = createBrowserRouter([
 axiosInterceptor()
 
 function App() {
+
+
 
   return (
     <Suspense>

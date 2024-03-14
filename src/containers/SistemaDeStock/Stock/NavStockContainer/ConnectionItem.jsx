@@ -1,7 +1,7 @@
-import AlertaPromisesContext from "@/provider//AlertaRetryProvider/AlertaPromises.provider";
 import { useContext } from "react";
 import { Nav } from "react-bootstrap";
 import styles from "./styles/NavStock.module.css";
+import AlertaPromisesContext from "@/provider//AlertaPromisesProvider/AlertaPromises.provider";
 
 export const ConnectionItem = () => {
 

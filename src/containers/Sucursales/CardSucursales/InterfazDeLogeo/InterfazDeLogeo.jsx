@@ -1,11 +1,11 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor";
 import { useForm } from "@/hooks//useForm";
-import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
-import { memo, useContext } from "react";
+import { memo, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { invitadoSucursalHelper } from "./helpers/invitadoSucursal.helper";
 import logginSucursalHelper from "./helpers/logginSucursal.helper";
+import { useNavigate } from "react-router-dom";
 
 const InterfazDeLogeo = ({
     alternarMostrar,
@@ -17,31 +17,33 @@ const InterfazDeLogeo = ({
     loader
 }) => {
 
-    const { establecerInformacion } = useContext(informacionInicialContext)
 
     const { changeForm, form } = useForm({ contraseña: "" })
 
     const { contraseña } = form
 
-    const { tipo } = apiData["loggin"] || {}
+    const { invitado = {}, login = {} } = apiData
 
-    const dataInvitado = apiData["invitado"]
+    const nav = useNavigate()
+
 
     const envioLoggin = logginSucursalHelper(
         {
-            tipo, generatePromise, loader,
+            generatePromise, loader,
             data: { id_sucursal, contraseña },
-            establecerInformacion,
-            nombre
         }
     )
 
     const ingresarComoInvitado = invitadoSucursalHelper({
         generatePromise,
-        dataInvitado,
         data: { id_sucursal, nombre, loggeado: false },
-        establecerInformacion
     })
+
+    useEffect(() => {
+        if (invitado?.tipo == "success" || login?.tipo == "success") {
+            nav("/stock")
+        }
+    }, [loader])
 
 
     return (
@@ -65,7 +67,7 @@ const InterfazDeLogeo = ({
                     maxLength={6}
                 />
                 <p
-                    style={{ visibility: `${!loader && tipo == "denied" ? "visible" : "hidden"}` }}
+                    style={{ visibility: `${!loader && login?.tipo == "denied" ? "visible" : "hidden"}` }}
                     className="m-0 text-danger fw-normal ">Contraseña/usuario incorrecto...</p>
             </Modal.Body>
 

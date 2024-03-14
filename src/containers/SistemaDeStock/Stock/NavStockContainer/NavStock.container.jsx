@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom"
 import { DropDownSucursal } from "../../components/DropDownSucursal"
 import { BuscadorResponsive } from "./BuscadorResponsive"
 import { UsuariosItem } from "./UsuariosItem"
-import styles from "./styles/NavStock.module.css"
 import { ConnectionItem } from "./connectionItem"
+import styles from "./styles/NavStock.module.css"
 
 
 const NavStockContainer = () => {

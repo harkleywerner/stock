@@ -1,5 +1,6 @@
 import StockContainer from "@/containers//SistemaDeStock/Stock/BodyStockContainer/BodyStock.container";
 import NavStockContainer from "@/containers/SistemaDeStock/Stock/NavStockContainer/NavStock.container";
+import { InformacionInicialProvider } from "@/provider//informacionInicialProvider/informacionInicial.provider";
 import { Container, Row } from "react-bootstrap";
 import { Outlet, useLocation } from "react-router-dom";
 
@@ -19,8 +20,9 @@ const OuletContainer = () => {
 }
 
 const StockScreen = () => {
-    
+
     return (
+        <InformacionInicialProvider>
             <Container
                 style={{ maxHeight: "100vh" }}
                 fluid
@@ -38,6 +40,7 @@ const StockScreen = () => {
                     <OuletContainer />
                 </Row>
             </Container >
+        </InformacionInicialProvider>
     );
 }
 

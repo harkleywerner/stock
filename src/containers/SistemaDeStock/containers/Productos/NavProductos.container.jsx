@@ -1,10 +1,8 @@
-import SpinnerLoader from "@/components//SpinnerLoader"
+import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider"
 import { NavProductoContenedor } from "@/styles/SistemaStock.module.css"
-import { memo, useCallback, useEffect } from "react"
+import { memo, useCallback, useContext } from "react"
 import { Container, Nav, Navbar } from "react-bootstrap"
 import { NavLink, useSearchParams } from "react-router-dom"
-import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
-import axios from "axios"
 import { DropDownSucursal } from "../../components/DropDownSucursal"
 
 const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
@@ -25,26 +23,13 @@ const NavItemImg = memo(({ img_url, id_categoria, rutaActual, onNavigate }) => {
     )
 })
 
-const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generatePromise }) => {
+const NavItems = () => {
+
+    const { lista_de_categorias } = useContext(informacionInicialContext)
 
     const [search, setSearch] = useSearchParams()
 
-    const cancelToken = axios.CancelToken.source()
-
     const categoria = search.get("categoria")
-
-    useEffect(() => {
-
-        const promesa = { method: "GET", url: `stock/productos/categorias`, id: "productos/categorias", cancelToken: cancelToken.token }
-
-        generatePromise({ promesa })
-
-        return () => {
-            cancelToken.cancel()
-        }
-    }, [])
-
-    const { data = [] } = apiData["productos/categorias"] || {}
 
     const onNavigate = useCallback((categoriaActual) => {
 
@@ -62,14 +47,17 @@ const NavItems = wrapperNotificacionesServidor(memo(({ apiData, loader, generate
 
         <Nav className="px-1 text-white fs-2  w-100 d-flex justify-content-between  align-items-center">
             {
-                loader ?
-                    <SpinnerLoader size="md" position="centered" />
-                    :
-                    data.map(item => <NavItemImg key={item.id_categoria} onNavigate={onNavigate} rutaActual={categoria == item.id_categoria} {...item} />)
+                lista_de_categorias.map(item =>
+                    <NavItemImg
+                        key={item.id_categoria}
+                        onNavigate={onNavigate}
+                        rutaActual={categoria == item.id_categoria}
+                        {...item}
+                    />)
             }
         </Nav>
     )
-}))
+}
 
 const NavProductosContainer = () => {
 
@@ -85,7 +73,7 @@ const NavProductosContainer = () => {
                     <Navbar.Toggle
                         aria-controls="-navbar-nav"
                         className="bg-none z-1 border-0 bg-white" />
-                        <DropDownSucursal />
+                    <DropDownSucursal />
                 </div>
                 <Navbar.Collapse
                     className="mt-1 w-100"

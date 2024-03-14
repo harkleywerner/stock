@@ -1,21 +1,23 @@
 import { useEffect } from "react";
 
-const sessionHelper = ({
+export const listaDeCategoriasHelper = ({
     generatePromise,
 }) => {
 
     const apiCall = () => {
+
         const promesa = {
             method: "GET",
-            url: "session",
-            id: "session",
+            url: "stock/productos/categorias",
+            id: "categorias"
         }
+
         generatePromise({ promesa })
     }
 
     useEffect(() => {
         apiCall()
     }, [])
-};
 
-export default sessionHelper
+
+};

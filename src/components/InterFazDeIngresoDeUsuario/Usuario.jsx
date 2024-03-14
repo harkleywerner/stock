@@ -4,6 +4,7 @@ import { Badge, Button, Form, Stack } from "react-bootstrap"
 import { wrapperNotificacionesServidor } from "../wrapperNotificacionesServidor/wrapperNotificacionesServidor"
 import axios from "axios"
 import SpinnerLoader from "../SpinnerLoader"
+import { logginUsuarioHelper } from "./helpers/logginUsuario.helper"
 
 const FormularioDeIngreso = ({
     form,
@@ -47,39 +48,21 @@ const AccordionIngreso = wrapperNotificacionesServidor(({
     establecerLoggeado
 }) => {
 
+
+    const { tipo } = apiData["usuario"] || {}
+
     const { form, changeForm } = useForm({ contraseña: "" })
 
     const ref = useRef()
 
-    const { tipo } = apiData["usuario"] || {}
+    const apiCall = logginUsuarioHelper({
+        establecerLoggeado,
+        ref,
+        data: { contraseña: form.contraseña, id_usuario },
+        tipo,
+        generatePromise
+    })
 
-    const cancelToken = axios.CancelToken.source()
-
-    const apiCall = () => {
-
-        if (form.contraseña.length >= 6) return
-
-        const promesa = {
-            method: "POST",
-            url: "usuarios",
-            data: { id_usuario, contraseña: form.contraseña },
-            id: "usuario",
-            cancelToken: cancelToken.token
-        }
-
-        generatePromise({ promesa })
-    }
-
-
-    useEffect(() => {
-
-        ref.current.focus()
-
-        if (tipo == "success") {
-            establecerLoggeado({ id_usuario })
-        }
-        return () => cancelToken.cancel()
-    }, [tipo])
 
     return (
         <section

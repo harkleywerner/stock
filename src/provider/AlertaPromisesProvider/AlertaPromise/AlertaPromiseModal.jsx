@@ -1,5 +1,5 @@
 
-import styles from "@/styles/AlertaRetry.module.css";
+import styles from "@/styles/AlertaPromises.module.css";
 import { memo, useState } from "react";
 import { Badge, Button, Modal } from "react-bootstrap";
 

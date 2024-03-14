@@ -1,9 +1,9 @@
 
-import AlertaPromisesContext from "@/provider//AlertaRetryProvider/AlertaPromises.provider";
 import { useContext, useEffect, useMemo } from "react";
 import shortUUID from "short-uuid";
 import { usePromiseHandler } from "./hooks/usePromiseHandler.hook";
 import axios from "axios";
+import AlertaPromisesContext from "@/provider//AlertaPromisesProvider/AlertaPromises.provider";
 
 
 export const wrapperNotificacionesServidor = (Component) => {

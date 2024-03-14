@@ -14,6 +14,12 @@ export const CardProducto = memo(({
 
     const { loggeado } = sucursal_info
 
+    const onClick = () => {
+        if(loggeado){
+            alternarMostrar()
+        }
+    }
+
     return (
         <Card
             className={`m-3 transition  cursor-pointer `}
@@ -21,7 +27,7 @@ export const CardProducto = memo(({
             <Card.Title className=" m-0 d-flex justify-content-center p-1 ">
                 <p
                     style={{ fontSize: "16px", minHeight: "40px", maxHeight: "40px", color: "#555" }}
-                    className="m-0 fs-6 text-truncate text-center text-wrap font d-flex align-items-center justify-content-center  fw-normal">{nombre}</p>
+                    className="m-0 fs-6 text-truncate text-center text-wrap  d-flex align-items-center justify-content-center  fw-normal">{nombre}</p>
             </Card.Title>
             <Card.Body className={`d-flex overflow-hidden justify-content-${!loggeado ? "end" : "between"}  align-items-center`} >
                 {
@@ -32,7 +38,7 @@ export const CardProducto = memo(({
                         <ButtonSombreado
                             background={"cc966b"}
                             border={"b36843"}
-                            onClick={alternarMostrar}
+                            onClick={onClick}
                             element="button"
                             className="w-100 d-flex"
                         >

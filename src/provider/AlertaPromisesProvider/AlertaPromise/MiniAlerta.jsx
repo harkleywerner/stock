@@ -1,5 +1,5 @@
 
-import styles from "@/styles/AlertaRetry.module.css";
+import styles from "@/styles/AlertaPromises.module.css";
 
 export const MiniAlerta = ({
     alternarMostrar,
