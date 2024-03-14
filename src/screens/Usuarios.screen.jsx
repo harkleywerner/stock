@@ -13,7 +13,7 @@ const UsuariosScreen = wrapperNotificacionesServidor(memo(
 
         const { usuarios = {} } = apiData
 
-        const { data = [], tipo } = usuarios
+        const { data = [] } = usuarios
 
         const n = useNavigate()
 
@@ -33,6 +33,7 @@ const UsuariosScreen = wrapperNotificacionesServidor(memo(
             }
             generatePromise({ promesa })
         }, [])
+
 
         return (
             <main className="d-flex vh-100 ">
