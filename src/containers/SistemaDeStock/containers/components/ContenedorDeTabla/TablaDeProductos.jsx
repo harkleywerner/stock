@@ -5,9 +5,8 @@ import TbodyTablaDeProductos from "./TbodyTablaDeProductos";
 import TheadTablaDeProductos from "./TheadTablaDeProductos";
 import { useAlternarComponentes } from "@/hooks//useAlternarComponentes";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import { memo, useContext, useState } from "react";
+import { memo, useContext } from "react";
 import { informacionInicialContext } from "@/provider//informacionInicialProvider/informacionInicial.provider";
-
 
 const TablaDeProductos = memo(({
     stock = [],
@@ -52,13 +51,14 @@ const TablaDeProductos = memo(({
             </Table>
 
             <SuspenseLoadingComponent>
+                
                 {mostrar && inicializado && <InterfazDeGestionDeProductos
                     stock={stock}
                     addProducto={addProducto}
                     editProducto={editProducto}
                     alternarMostrar={alternarMostrar}
                     mostrar={mostrar}
-                    productoSeleccionado={parametros} />
+                    producto_seleccionado={parametros} />
                 }
             </SuspenseLoadingComponent>
 

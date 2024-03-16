@@ -6,7 +6,8 @@ export const scrollBusquedaHelper = (
         categoria,
         generatePromise,
         removerApiData,
-        data
+        data,
+        listaDeIds
     }
 ) => {
 
@@ -16,7 +17,7 @@ export const scrollBusquedaHelper = (
             method: "POST",
             url: `stock/productos`,
             id: "productos",
-            data: { buscador, categoria, offset: reset ?? data.length },
+            data: { buscador, categoria, offset: reset ?? data.length, listaDeIds : listaDeIds.join(",") },
             concatenate: true,
         }
         generatePromise({ promesa })

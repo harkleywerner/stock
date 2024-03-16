@@ -1,7 +1,7 @@
 import { ContenedorDeToast } from '@/components//ContenedorDeToast/ContenedorDeToast';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.js";
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, memo, useCallback, useState } from 'react';
 import { Provider } from 'react-redux';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import './App.css';
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         path: "/stock",
         element:
           <SuspenseLoadingComponent >
-              <StockScreen />
+            <StockScreen />
           </SuspenseLoadingComponent>,
         children: [
           {
@@ -65,14 +65,11 @@ axiosInterceptor()
 function App() {
 
 
-
   return (
-    <Suspense>
       <Provider store={store}>
         <ContenedorDeToast />
         <RouterProvider router={router} />
       </Provider>
-    </Suspense>
   )
 }
 

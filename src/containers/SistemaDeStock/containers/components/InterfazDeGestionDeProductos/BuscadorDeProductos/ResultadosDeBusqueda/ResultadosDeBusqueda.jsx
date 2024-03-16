@@ -1,6 +1,6 @@
 import SpinnerLoader from "@/components//SpinnerLoader"
 import { wrapperNotificacionesServidor } from "@/components//wrapperNotificacionesServidor/wrapperNotificacionesServidor"
-import { memo, useRef } from "react"
+import { memo, useCallback, useRef } from "react"
 import ScrollingInfinite from "../../../ScrollingInfinite"
 import { scrollBusquedaHelper } from "./helpers/scrollBusqueda.helper"
 import ItemsBusqueda from "./ItemsBusqueda"
@@ -23,27 +23,44 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
     alternarMostrar,
     generatePromise,
     removerApiData,
+    stock,
+    mostrar
 }) => {
 
     const refListado = useRef(null)
 
     const { data = [], tipo } = apiData["productos"] || {}
 
-    const apiCall = scrollBusquedaHelper({ buscador, categoria, data, generatePromise, removerApiData })
+    const listaDeIds = stock.map(i => i.id_producto)
+
+    const apiCall = scrollBusquedaHelper({
+        buscador,
+        categoria,
+        data,
+        generatePromise,
+        removerApiData,
+        listaDeIds
+    })
+
+    const insertarParametroCb = useCallback((valor)=> insertarParametros(valor))
+
+
+    const filtrado = data.filter(item => !listaDeIds.includes(item.id_producto))
+    //Cuando no se ejecuta de nuevo la llamada, este filtro se encarga de filtrar en los elementos nuevos.
 
     const spinner = (<SpinnerLoader color="dark" position="centered" size="md" />)
 
     return (
         <div
-            style={{ minHeight: "200px", top: "100%", border: "1px solid #57BDC67F" }}
-            className="position-absolute z-1 d-flex  w-100 mt-1  rounded-4 overflow-hidden  h-100  bg-white shadow" >
+            style={{ minHeight: "200px", top: "100%", border: "1px solid #57BDC67F", display: mostrar ? "flex" : "none" }}
+            className="position-absolute z-1  w-100 mt-1  rounded-4 overflow-hidden  h-100  bg-white shadow" >
 
             {
-                data.length == 0 ?
+                filtrado.length == 0 ?
                     !loader && tipo == "success" ? <Message /> : spinner :
 
                     <ScrollingInfinite
-                        dataLength={data.length}
+                        dataLength={filtrado.length}
                         ref={refListado}
                         step={15}
                         loaderComponent={spinner}
@@ -52,10 +69,10 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                             ref={refListado}
                             className="m-0  p-0 d-block w-100 scrollbar  justify-content-start ">
                             {
-                                data.map(item =>
+                                filtrado.map(item =>
                                     <ItemsBusqueda
                                         alternarMostrar={alternarMostrar}
-                                        insertarParametros={insertarParametros}
+                                        insertarParametros={insertarParametroCb}
                                         key={item.id_producto}
                                         item={item}
                                     />)

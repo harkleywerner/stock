@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { catchPromiseHandler } from "./catch";
 
@@ -36,7 +36,7 @@ export const usePromiseHandler = ({ establecerAlerta, shortId,cancelToken }) => 
 
             setLoader(true)
 
-            const { method, url, data = {}, params = {}, cocatenate, id, not_retry } = promesa
+            const { method, url, data = {}, params = {}, cocatenate, id } = promesa
 
             try {
 

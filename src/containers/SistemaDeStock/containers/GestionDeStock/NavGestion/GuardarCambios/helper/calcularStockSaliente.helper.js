@@ -29,12 +29,14 @@ export const calcularStockSalienteHelper = ({ stock = [], stock_data_base = [] }
         }
 
         else {
-        
+
             delete groupBy[producto.id_producto] //Borramos directamente la propiedad de la memoria del objecto.  
             //Este enfoque sirve para indicarle luego cuales del productos stock con respecto al data base son los nuevos.
             if (producto.cantidad != item.cantidad) {
                 const patch = cambios.patch
-                cambios.patch = [...patch, propiedad_utiles(producto)] 
+                const id_detalle_de_stock = item.id_detalle_de_stock
+                cambios.patch = [...patch,
+                propiedad_utiles({ ...producto, id_detalle_de_stock }),]
                 contador_de_cambios++;
             }
         }

@@ -8,6 +8,7 @@ const ItemsBusqueda = ({
 
     const { nombre } = item
 
+    console.log("F")
     const onClick = () => {
         alternarMostrar(false)
         insertarParametros(item)

@@ -1,19 +1,17 @@
 
-import { useContext, useEffect, useMemo } from "react";
+import AlertaPromisesContext from "@/provider//AlertaPromisesProvider/AlertaPromises.provider";
+import axios from "axios";
+import { useContext, useEffect } from "react";
 import shortUUID from "short-uuid";
 import { usePromiseHandler } from "./hooks/usePromiseHandler.hook";
-import axios from "axios";
-import AlertaPromisesContext from "@/provider//AlertaPromisesProvider/AlertaPromises.provider";
 
 
 export const wrapperNotificacionesServidor = (Component) => {
 
     return (props) => {
 
-        const shortId = useMemo(() => {
-            return shortUUID.generate()
-        }, [])
-
+        const shortId =  shortUUID.generate()
+           
         const cancelToken = axios.CancelToken.source()
 
         const { establecerAlerta, removerAlerta } = useContext(AlertaPromisesContext) || {}
@@ -22,7 +20,7 @@ export const wrapperNotificacionesServidor = (Component) => {
 
         useEffect(() => {
 
-            return () => { //=> Este enfoque sirve para cuando querramos que se elimine la alerta cuando se desmonta el componente.
+            return () => { //=> Se borran tanto como las alertas y los tokens de llamadas.
                 removerAlerta(shortId)
                 cancelToken.cancel()
             }

@@ -1,40 +1,48 @@
 import { ButtonSombreado } from "@/components//ButtonSombreado";
 import { useEstablecerParametros } from "@/hooks//useEstablecerParametros";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Modal } from "react-bootstrap";
 import { BuscadorDeProductos } from "./BuscadorDeProductos/BuscadorDeProductos";
-import { ModalBody } from "./ModalBody";
+import { CantidadInput } from "./CantidadInput";
 import verificacionStock from "./helpers/verificiarStock.helper";
 
 const InterfazDeGestionDeProductos = (
     {
         alternarMostrar,
         mostrar,
-        productoSeleccionado = {},
+        producto_seleccionado = {},
         stock,
         editProducto,
         addProducto,
     }
 ) => {
 
-    const { insertarParametros, parametros } = useEstablecerParametros()
+    const cantidad_persistente = useRef() //=> Evita renderizados innecesarios.
 
-    const keys = Object.keys(productoSeleccionado).length
+    const { insertarParametros, parametros } = useEstablecerParametros(producto_seleccionado)
 
-    useEffect(() => {
-        if (keys == 0) return
-        insertarParametros({ ...productoSeleccionado })
-    }, [productoSeleccionado])
+    const keysSeleccionado = Object.keys(producto_seleccionado).length
 
-    const refImperative = useRef()
+    const keysParametros = Object.keys(parametros).length
 
-    const verificacion = verificacionStock({ parametros, productoSeleccionado, stock, addProducto, editProducto, keys })
+    const { nombre, categoria, cantidad } = parametros
+
+    const verificacion = verificacionStock({
+        parametros,
+        producto_seleccionado,
+        addProducto,
+        editProducto,
+    })
 
     const onClick = () => {
 
-        const refCantidad = parseInt(refImperative.current)
+        verificacion({ cantidad_persistente: cantidad_persistente.current })
 
-        verificacion({ refCantidad })
+        if (keysSeleccionado == 0) {
+            insertarParametros({})
+        } else {
+            alternarMostrar()
+        }
     }
 
     return (
@@ -43,16 +51,33 @@ const InterfazDeGestionDeProductos = (
             show={mostrar}
             backdrop="static"
             onHide={alternarMostrar}>
-            <Modal.Header className={`d-flex justify-content-center h-100 ${keys > 0 ? "border-0" : ""} w-100 px-0`} >
+            <Modal.Header className={`d-flex justify-content-center h-100 ${keysSeleccionado > 0 ? "border-0" : ""} w-100 px-0`} >
                 {
-                    keys == 0 &&
-                    <BuscadorDeProductos insertarParametros={insertarParametros} />
+                    keysSeleccionado == 0 &&
+                    <BuscadorDeProductos
+                        stock={stock}
+                        insertarParametros={insertarParametros}
+                    />
                 }
             </Modal.Header>
-            <Modal.Body style={{ height: "350px" }}>
-                <ModalBody
-                    refImperative={refImperative}
-                    parametros={parametros} />
+            <Modal.Body
+                className="gap-4 justify-content-center align-items-center d-flex flex-column  h-100"
+                style={{ height: "350px" }}>
+                <div className="">
+                    <p className="m-0 fs-3 text-center">Nombre</p>
+                    <p className="text-center fw-normal m-0 fs-3 text-secondary">{keysParametros == 0 ? "No definido" : nombre}</p>
+                </div>
+                <div className="">
+                    <p className="m-0 fs-3 text-center">Categoria</p>
+                    <p className="text-center fw-normal m-0 fs-3 text-secondary">{keysParametros == 0 ? "No definido" : categoria}</p>
+                </div>
+                <div className="">
+                    <p className="m-0 fs-3 text-center">Cantidad</p>
+                    <CantidadInput
+                        cantidad_inicial={cantidad}
+                        cantidad_persistente={cantidad_persistente}
+                    />
+                </div>
             </Modal.Body>
             <Modal.Footer className="d-flex p-1 border-0 justify-content-center">
                 <ButtonSombreado
@@ -62,7 +87,7 @@ const InterfazDeGestionDeProductos = (
                     className="fs-5 transition"
                 >
                     {
-                        productoSeleccionado ? "Guardar cambios" : "Agregar item"
+                        keysSeleccionado > 0 ? "Guardar cambios" : "Agregar producto"
                     }
                 </ButtonSombreado>
 

@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-export const useEstablecerParametros = () => {
-    const [parametros, setParametros] = useState({})
+export const useEstablecerParametros = (intial_state = {}) => {
+    const [parametros, setParametros] = useState(intial_state)
 
     const insertarParametros = useCallback((params) => {
         setParametros(params)

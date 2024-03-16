@@ -1,0 +1,39 @@
+@keyframes parpadeoRealista {
+
+    0%,
+    100% {
+      opacity: 1;
+    }
+  
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  #miniAlerta {
+    animation: parpadeoRealista 2s ease-in-out infinite;
+  }
+  
+  .AlertAnimacion {
+    animation: parpadeoRealista 2s ease-in-out infinite;
+  }
+  
+  #textoAnimado {
+    height: 150px;
+    overflow: hidden;
+    animation: expandAnimation 0.25s ease-out;
+  }
+  
+  @keyframes expandAnimation {
+    from {
+      padding: 0;
+      height: 0;
+      opacity: 0;
+      /* Agregamos la propiedad opacity para una transición de opacidad */
+    }
+  
+    to {
+      height: 150px;
+      opacity: 1;
+    }
+  }
