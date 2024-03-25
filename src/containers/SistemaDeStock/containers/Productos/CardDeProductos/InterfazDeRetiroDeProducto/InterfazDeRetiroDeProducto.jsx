@@ -1,7 +1,7 @@
 import SpinnerLoader from "@/components//SpinnerLoader";
 import { useForm } from "@/hooks/useForm";
 import { memo, useEffect } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import DropDownLote from "./DropDownLote/DropDownLote";
 import ProductoContext from "./context/Producto.context";
 import { verificarCantidadesHelper } from "./helper/verificarCantidades.helper";
@@ -31,15 +31,11 @@ const InterfazDeRetiroDeProducto = memo((
 
     const { evaluarCantidad } = verificarCantidadesHelper({ cantidadActual, cantidadEnt })
 
-
-    const enviar = () => {
+    const enviar = async () => {
         if (tipo == "failed") return
-        apiCall({ evaluarCantidad })
-    }
-
-    useEffect(() => {
+        await apiCall({ evaluarCantidad })
         restablecerFormulario()
-    }, [cantidad_total, devoluciones_permitidas])
+    }
 
     return (
         <Modal
@@ -47,7 +43,7 @@ const InterfazDeRetiroDeProducto = memo((
             onHide={alternarMostrar}>
             <Modal.Header closeButton className="border-0 pb-0">
                 <Modal.Title className="d-flex flex-column align-items-start border-bottom mx-2 w-100">
-                    <ProductoContext.Provider value={{ setCantidadActual, loteActual: lote }}>
+                    <ProductoContext.Provider value={{ setCantidadActual }}>
                         <DropDownLote
                             id_producto={id_producto}
                             lote={lote}

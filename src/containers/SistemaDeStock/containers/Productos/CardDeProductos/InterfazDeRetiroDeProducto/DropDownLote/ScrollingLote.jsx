@@ -65,12 +65,15 @@ const ScrollingLote = ({
                 {
                     data.length == 0 && tipo == "success" && !loader &&
                     <li className="text-center text-secondary dropwdown-item">
-                        <small>No se encontro ningun lote <span style={{color : "#DE4E75"}}>#{lote}</span></small>
+                        <small>No se encontro ningun lote
+                            <span style={{ color: "#DE4E75" }}>#{lote}</span>
+                        </small>
                     </li>
 
                 }
                 {
-                    loader ? <span className="my-3 d-flex">{loaderCustom}</span> :
+                    loader ?
+                        <span className="my-3 d-flex">{loaderCustom}</span> :
                         <ListaDeLotes
                             id_producto={id_producto}
                             data={data}

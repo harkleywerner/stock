@@ -17,7 +17,11 @@ export const scrollBusquedaHelper = (
             method: "POST",
             url: `stock/productos`,
             id: "productos",
-            data: { buscador, categoria, offset: reset ?? data.length, listaDeIds : listaDeIds.join(",") },
+            data: {
+                buscador, categoria,
+                offset: reset ?? data.length,
+                listaDeIds: listaDeIds.length == 0 ? [-1] : listaDeIds
+            },
             concatenate: true,
         }
         generatePromise({ promesa })

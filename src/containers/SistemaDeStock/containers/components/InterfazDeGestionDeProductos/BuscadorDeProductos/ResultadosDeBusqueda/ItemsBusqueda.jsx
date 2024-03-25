@@ -1,6 +1,7 @@
+import { memo } from "react"
 import { Stack } from "react-bootstrap"
 
-const ItemsBusqueda = ({
+const ItemsBusqueda = memo(({
     insertarParametros,
     item,
     alternarMostrar
@@ -8,7 +9,6 @@ const ItemsBusqueda = ({
 
     const { nombre } = item
 
-    console.log("F")
     const onClick = () => {
         alternarMostrar(false)
         insertarParametros(item)
@@ -24,6 +24,6 @@ const ItemsBusqueda = ({
             <p className="m-0 fw-normal w-100 p-2  text-truncate font">{nombre}</p>
         </Stack>
     )
-}
+})
 
 export default ItemsBusqueda

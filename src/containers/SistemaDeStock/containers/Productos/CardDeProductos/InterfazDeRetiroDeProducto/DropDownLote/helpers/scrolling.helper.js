@@ -33,6 +33,10 @@ export const scrollingHelper = (
             apiCall(0)
         }, 300);
 
+        return () => {
+            clearTimeout(timeOut)
+        }
+
     }, [lote])
 
     return apiCall

@@ -5,14 +5,13 @@ import { catchPromiseHandler } from "./catch";
 
 const BACK_END_URL = import.meta.env.VITE_BACKEND_URL;
 
-export const usePromiseHandler = ({ establecerAlerta, shortId,cancelToken }) => {
+export const usePromiseHandler = ({ establecerAlerta, shortId, cancelToken }) => {
+
     const nav = useNavigate()
 
     const [apiData, setApiData] = useState({});
 
     const [loader, setLoader] = useState(false);
-
-
 
     const establecerApiData = ({ response, promesa }) => {
 
@@ -36,7 +35,7 @@ export const usePromiseHandler = ({ establecerAlerta, shortId,cancelToken }) => 
 
             setLoader(true)
 
-            const { method, url, data = {}, params = {}, cocatenate, id } = promesa
+            const { method, url, data = {}, params = {}, cocatenate, id, not_retry } = promesa
 
             try {
 

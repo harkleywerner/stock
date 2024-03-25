@@ -7,25 +7,17 @@ import { obtenerTranssacionHelper } from "./helpers/obtenerTranssacion.helper"
 const Items = memo(({
     lote,
     loader,
-    loteActual,
+    isLoteActual,
     id_stock,
     establecerLote,
-    setCantidadActual
 }) => {
 
     const onClick = () => {
 
-        if (loteActual) {
-            establecerLote({}),
-                setCantidadActual(prev => {
-                    return {
-                        ...prev.copia,
-                        copia: prev.copia
-                    }
-                })
-        } else {
-            establecerLote({ lote, id_stock })
-        }
+        const send = !isLoteActual ? { id_stock, lote } : null
+
+        establecerLote(send)
+
     }
 
     return (
@@ -43,7 +35,7 @@ const Items = memo(({
                         <span style={{ color: "#0cb1eb" }}>#</span>
                         {lote}
                         {
-                            loteActual && <i
+                            isLoteActual && <i
                                 style={{ right: "5px", color: "#0271a2", top: "5px" }}
                                 className=" position-absolute  fa-solid fa-check fs-5" />
                         }
@@ -61,38 +53,59 @@ const ListaDeLotes = ({
     loader,
 }) => {
 
-    const { setCantidadActual, loteActual } = useContext(ProductoContext)
+    const { setCantidadActual } = useContext(ProductoContext)
 
     const [loteSeleccionado, setLote] = useState({})
 
-    const { lote, id_stock } = loteSeleccionado
+    const { lote } = loteSeleccionado
 
-    const { transsaciones  = {} } = apiData
+    const { transsaciones = {} } = apiData
 
     const { data = {} } = transsaciones
 
-    const establecerLote = useCallback((numero) => setLote(numero), [])
 
-    obtenerTranssacionHelper({ generatePromise, loteSeleccionado, setCantidadActual, data, id_stock, id_producto })
+    const apiCall = obtenerTranssacionHelper({
+        generatePromise,
+        loteSeleccionado,
+        setCantidadActual,
+        data,
+        id_producto
+    })
 
+    const onClick = useCallback((lote) => {
 
-    const sortBy = (array) => {
+        if (!lote) {
+            setLote({})
+            setCantidadActual(prev => {
+                return {
+                    ...prev.copia,
+                    copia: prev.copia
+                }
+            })
+        } else {
+            setLote(lote)
+            apiCall(lote)
+        }
+    }, [])
+
+    const sortLote = (array) => {
         return array.sort((a) => {
-            if (a.lote == loteActual) return -1
+            if (a.lote == lote) return -1
         })
     }
 
     return (
         <>
             {
-                sortBy([...lista]).map(item => <Items
-                    establecerLote={establecerLote}
-                    loader={loader && item.lote == lote}
-                    loteActual={loteActual == item.lote}
-                    id_producto={id_producto}
-                    setCantidadActual={setCantidadActual}
-                    key={item.id_stock}
-                    {...item} />)
+                sortLote([...lista])
+                    .map(item =>
+                        <Items
+                            establecerLote={onClick}
+                            loader={loader && item.lote == lote}
+                            isLoteActual={lote == item.lote}
+                            id_producto={id_producto}
+                            key={item.id_stock}
+                            {...item} />)
             }
         </>
     )

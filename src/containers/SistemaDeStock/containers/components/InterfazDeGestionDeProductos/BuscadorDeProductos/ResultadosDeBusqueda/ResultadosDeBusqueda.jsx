@@ -42,11 +42,11 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
         listaDeIds
     })
 
-    const insertarParametroCb = useCallback((valor)=> insertarParametros(valor))
-
+    const alternarMostrarCb = useCallback(() => alternarMostrar(), [])
 
     const filtrado = data.filter(item => !listaDeIds.includes(item.id_producto))
     //Cuando no se ejecuta de nuevo la llamada, este filtro se encarga de filtrar en los elementos nuevos.
+
 
     const spinner = (<SpinnerLoader color="dark" position="centered" size="md" />)
 
@@ -60,7 +60,7 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                     !loader && tipo == "success" ? <Message /> : spinner :
 
                     <ScrollingInfinite
-                        dataLength={filtrado.length}
+                        dataLength={data.length}
                         ref={refListado}
                         step={15}
                         loaderComponent={spinner}
@@ -71,8 +71,8 @@ export const ResultadosDeBusqueda = wrapperNotificacionesServidor(memo(({
                             {
                                 filtrado.map(item =>
                                     <ItemsBusqueda
-                                        alternarMostrar={alternarMostrar}
-                                        insertarParametros={insertarParametroCb}
+                                        alternarMostrar={alternarMostrarCb}
+                                        insertarParametros={insertarParametros}
                                         key={item.id_producto}
                                         item={item}
                                     />)
